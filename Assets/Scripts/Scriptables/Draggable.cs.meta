@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8a8374cbc214b64498027d5fea9d1816
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - parentToReturnTo: {instanceID: 0}
+  - placeholderParent: {instanceID: 0}
+  - cardDie: {instanceID: 0}
+  - Winnings: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
