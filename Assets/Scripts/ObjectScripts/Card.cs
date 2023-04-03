@@ -5,11 +5,9 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using static UnityEditor.Progress;
 
-
-[CreateAssetMenu(fileName = "Card", menuName = "Card Game/Card", order = 1)]
-public class Card : ScriptableObject
-{
+public class Card { 
     public string cardName;
     public string description;
     public Sprite image;
@@ -19,7 +17,7 @@ public class Card : ScriptableObject
 
     public static Card CreateInstance(string cardName, string description, Sprite image, List<Action<GameManager>> actions, int initialLevel, int manaCost)
     {
-        Card card = ScriptableObject.CreateInstance<Card>();
+        Card card = new Card();
 
         card.cardName = cardName;
         card.description = description;
@@ -31,6 +29,28 @@ public class Card : ScriptableObject
         Debug.Log("Card created. Actions count: " + card.Actions.Count);
 
         return card;
+    }
+
+    // Copy constructor
+    public Card(Card other)
+    {
+        this.cardName = other.cardName;
+        this.description = other.description;
+        this.image = other.image;
+        this.Actions = other.Actions ?? new List<Action<GameManager>>();
+        this.level = other.level;
+        this.mana = other.mana;
+    }
+
+    // Copy constructor
+    public Card()
+    {
+        this.cardName = "";
+        this.description ="";
+        this.image = null;
+        this.Actions = new List<Action<GameManager>>();
+        this.level = 0;
+        this.mana = 0;
     }
 
     public void OnDrop(GameManager gameManager)

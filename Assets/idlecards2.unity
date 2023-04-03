@@ -577,8 +577,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manaBarActions: {fileID: 0}
-  availableCards: []
-  ownedCards: []
   drawCard: {fileID: 0}
 --- !u!1 &647202656
 GameObject:
@@ -1112,10 +1110,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6e960ccd2b23cc439b96a4c969994cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cards: []
   cardPrefab: {fileID: 8380057377948268414, guid: 7bd932ddabfdb95469dc16fe971fde64,
     type: 3}
-  cardParent: {fileID: 0}
+  cardParent: {fileID: 940836250}
   baseCardManaCost: 10
   upgradeStrength: 1.5
   cardStrength: 1
