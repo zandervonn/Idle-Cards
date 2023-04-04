@@ -41,8 +41,8 @@ public class Card {
         this.level = other.level;
         this.mana = other.mana;
     }
-
-    // Copy constructor
+    
+    //new card setup
     public Card()
     {
         this.cardName = "";
@@ -53,9 +53,9 @@ public class Card {
         this.mana = 0;
     }
 
-    public void OnDrop(GameManager gameManager)
+    public void OnDrop(GameManager gameManager, Card cardInstance)
     {
-         Debug.Log("OnDrop called for card: " + cardName);
+        Debug.Log("OnDrop called for card: " + cardName);
         if (Actions != null)
         {
             Debug.Log("Actions count: " + Actions.Count);
@@ -65,7 +65,7 @@ public class Card {
                 if (action != null)
                 {
                     Debug.Log("Running action: " + action.Method.Name);
-                    action.Invoke(gameManager);
+                    action.Invoke(gameManager); // removed instance as second param
                 }
                 else
                 {

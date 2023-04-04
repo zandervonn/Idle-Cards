@@ -41,7 +41,7 @@ public class DeckManager : MonoBehaviour, IPointerClickHandler
         }
 
         // Display the cards
-        foreach (Card card in gameManager.cardManager.ownedCards)
+        foreach (Card card in gameManager.cardManager.ownedCards) // Use cardManager's ownedCards list
         {
             CardDisplay cardDisplay = Instantiate(gameManager.cardsList.cardPrefab, cardGrid);
             cardDisplay.Setup(card, true);

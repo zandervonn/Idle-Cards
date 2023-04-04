@@ -11,7 +11,7 @@ public class CardsList : MonoBehaviour
     public Transform cardParent;
     public int baseCardManaCost = 10;
     public float upgradeStrength = 1.5f;
-    public float cardStrength = 0.2f;
+    public float cardStrength = 1f;
     public int startingLevel = 1;
 
     public void Initialize()
@@ -64,7 +64,8 @@ public class CardsList : MonoBehaviour
             startingLevel,
             baseCardManaCost
         );
-        float strength = 1 + (0.3f * cardStrength * doubleCard.level * upgradeStrength);
+        //float strength = 1 + (0.3f * cardStrength * doubleCard.level * upgradeStrength);
+        float strength = 2;
         doubleCard.description = strength + "x your score, half your mana";
         doubleCard.Actions = new List<Action<GameManager>>
         {

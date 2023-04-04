@@ -15,6 +15,7 @@ public class CardDisplay : MonoBehaviour
     public Text cardMana;
     public GameObject upgradePanel;
     private Card _card;
+    public CardInstance cardInstance;
 
     public Card card
     {
@@ -24,28 +25,15 @@ public class CardDisplay : MonoBehaviour
         }
     }
 
-    public void Setup(Card card, bool showUpgradeButton)
+    public void Setup(Card cardInstance, bool showUpgradeButton)
     {
-        _card = card;
+        Card card = cardInstance;
 
-        if (cardImage != null && card.image != null)
-            cardImage.sprite = card.image;
+        cardName.text = card.cardName;
+        cardDescription.text = card.description;
+        cardImage.sprite = card.image;
+        cardLevel.text = "Lvl " + cardInstance.level;
 
-        if (cardName != null)
-            cardName.text = card.cardName;
-
-        if (cardDescription != null)
-            cardDescription.text = card.description;
-
-        if (cardLevel != null)
-            cardLevel.text = card.level.ToString();
-
-        if (cardMana != null)
-            cardMana.text = card.mana.ToString();
-
-        if (upgradePanel != null)
-            upgradePanel.SetActive(showUpgradeButton);
-
-        Debug.Log("Card display setup. name: " + card.cardName);
+        upgradePanel.gameObject.SetActive(showUpgradeButton);
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using System.Linq;
 
 public class GameManager : MonoBehaviour {
 
@@ -28,10 +29,14 @@ public class GameManager : MonoBehaviour {
     public List<Card> ownedCards;
     public DrawCard drawCard;
 
+    // public CardManager cardManager; 
     public CardManager cardManager;
 
 
     private void Awake() {
+
+        //cardManager = new CardManager(cardsList.cards.Select(card => new CardInstance(card, 1)).ToList());
+
         if (Instance != null && Instance != this) {
             Destroy(gameObject);
             return;
@@ -51,6 +56,8 @@ public class GameManager : MonoBehaviour {
         cardsList.Initialize();
 
         cardManager = new CardManager(cardsList.cards);
+
+        ownedCards = cardsList.cards;
 
     }
 

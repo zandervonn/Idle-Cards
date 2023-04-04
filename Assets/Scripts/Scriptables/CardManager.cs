@@ -9,6 +9,16 @@ public class CardManager
     public List<Card> availableCards;
     public List<Card> ownedCards;
 
+    void awake()
+    {
+        foreach (Card card in cardTypes)
+        {
+            Card newCard = new Card(card);
+            ownedCards.Add(newCard);
+            availableCards.Add(newCard);
+        }
+    }
+
     public CardManager(List<Card> cardsList)
     {
         cardTypes = cardsList;

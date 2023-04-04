@@ -119,7 +119,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
             if (card != null)
             {
-                card.OnDrop(GameManager.Instance);
+                card.OnDrop(GameManager.Instance, card);
             }
             else
             {
@@ -142,6 +142,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         StartCoroutine(ResetTilt());
     }
+
+
 
     private IEnumerator ResetTilt()
     {
