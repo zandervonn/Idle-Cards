@@ -6,41 +6,31 @@ using UnityEngine;
 public class CardManager
 {
     public List<Card> cardTypes;
-    public List<Card> availableCards;
-    public List<Card> ownedCards;
-
-    void awake()
-    {
-        foreach (Card card in cardTypes)
-        {
-            Card newCard = new Card(card);
-            ownedCards.Add(newCard);
-            availableCards.Add(newCard);
-        }
-    }
+    public List<CardInstance> availableCards;
+    public List<CardInstance> ownedCards;
 
     public CardManager(List<Card> cardsList)
     {
         cardTypes = cardsList;
-        ownedCards = new List<Card>();
-        availableCards = new List<Card>();
+        ownedCards = new List<CardInstance>();
+        availableCards = new List<CardInstance>();
 
         // Initialize the ownedCards and availableCards lists
         foreach (Card card in cardTypes)
         {
-            ownedCards.Add(card);
-            availableCards.Add(card);
+            AddNewOwnedCard(card);
         }
     }
 
     public void AddNewOwnedCard(Card card)
     {
-        ownedCards.Add(card);
-        availableCards.Add(card);
+        CardInstance cardInstance = new CardInstance(card);
+        ownedCards.Add(cardInstance);
+        availableCards.Add(cardInstance);
     }
 
     public void ResetAvailableCards()
     {
-        availableCards = new List<Card>(ownedCards);
+        availableCards = new List<CardInstance>(ownedCards);
     }
 }

@@ -41,10 +41,10 @@ public class DeckManager : MonoBehaviour, IPointerClickHandler
         }
 
         // Display the cards
-        foreach (Card card in gameManager.cardManager.ownedCards) // Use cardManager's ownedCards list
+        foreach (CardInstance cardInstance in gameManager.cardManager.ownedCards) // Use cardManager's ownedCards list of CardInstances
         {
             CardDisplay cardDisplay = Instantiate(gameManager.cardsList.cardPrefab, cardGrid);
-            cardDisplay.Setup(card, true);
+            cardDisplay.Setup(cardInstance, true); // Pass the CardInstance object instead of the Card object
         }
     }
 }

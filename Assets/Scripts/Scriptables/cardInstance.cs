@@ -9,13 +9,13 @@ public class CardInstance
     public Card card;
     public int level;
 
-    public CardInstance(Card card, int level)
+    public CardInstance(Card card, int level = 1)
     {
         this.card = card;
         this.level = level;
     }
 
-    public void Upgrade()
+public void Upgrade()
     {
         level++;
     }

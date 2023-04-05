@@ -12,7 +12,7 @@ public class DrawCardButton : MonoBehaviour, IPointerDownHandler {
 
       public void OnPointerDown(PointerEventData eventData) {
           GameManager gameManager = GameManager.Instance;
-          if(gameManager.availableCards.Count > 0){
+          if(gameManager.cardManager.availableCards.Count > 0){
                 if(gameManager.SpendRound(1 + gameManager.BuyCost) ){
                       DrawCard drawCardComponent = FindObjectOfType<DrawCard>();
                       drawCardComponent.DrawCards(1);

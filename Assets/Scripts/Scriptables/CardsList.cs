@@ -38,15 +38,12 @@ public class CardsList : MonoBehaviour
             baseCardManaCost
         );
 
-//        float strength = 1 + (cardStrength * basicCard.level * upgradeStrength);
-        float strength = basicCard.level;
-
-        basicCard.Actions = new List<Action<GameManager>>
+        basicCard.Actions = new List<Action<GameManager, CardInstance>>
         {
-            (gameManager) => {
-                gameManager.IncreaseScore((int) strength);
+            (gameManager, cardInstance) => {
+                gameManager.IncreaseScore((int) cardInstance.level); // Use cardInstance.level instead of basicCard.level
                 gameManager.DecreaseMana(10);
-                Debug.Log("basic card played");
+                Debug.Log("basic card played level: " + cardInstance.level);
             }
         };
 
@@ -64,15 +61,15 @@ public class CardsList : MonoBehaviour
             startingLevel,
             baseCardManaCost
         );
-        //float strength = 1 + (0.3f * cardStrength * doubleCard.level * upgradeStrength);
-        float strength = 2;
-        doubleCard.description = strength + "x your score, half your mana";
-        doubleCard.Actions = new List<Action<GameManager>>
+
+        doubleCard.description = "x your score, half your mana";
+        doubleCard.Actions = new List<Action<GameManager, CardInstance>>
         {
-            (gameManager) => {
+            (gameManager, cardInstance) => {
                 int startScore = gameManager.fieldScore;
-                gameManager.IncreaseScore((int) (startScore * strength) - startScore);
+                gameManager.IncreaseScore((int) (startScore * cardInstance.level) - startScore); // Use cardInstance.level instead of doubleCard.level
                 gameManager.DecreaseMana(gameManager.mana * 0.5f);
+                Debug.Log("double card played level: " + cardInstance.level);
             }
         };
 

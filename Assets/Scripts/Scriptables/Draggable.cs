@@ -24,6 +24,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private Quaternion targetTiltRotation;
 
     private DeckManager deckManager;
+    public CardInstance cardInstance;
 
     public Card CardComponent
 
@@ -39,13 +40,16 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         transform.localRotation = Quaternion.Lerp(transform.localRotation, targetTiltRotation, smoothTime);
     }
 
-    void Awake() {
+    void Awake()
+    {
         cardDisplay = GetComponent<CardDisplay>();
-        if (cardDisplay == null) {
+        if (cardDisplay == null)
+        {
             Debug.LogError("CardDisplay component not found on the same GameObject as Draggable.");
         }
         drawCard = FindObjectOfType<DrawCard>();
-        if (drawCard == null) {
+        if (drawCard == null)
+        {
             Debug.LogError("DrawCard not found in the scene.");
         }
         cardShadow = transform.Find("cardShadow").gameObject;
@@ -59,10 +63,20 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             Debug.LogError("DeckManager not found in the scene.");
         }
+
+        // Set CardComponent to the Card object of the CardInstance
+        cardInstance = cardDisplay.cardInstance;
+        CardComponent = cardInstance.card;
+
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+
+    if (cardInstance == null)
+
+        Debug.Log("Draggable OnStartDrag - Card Name: " + CardComponent.cardName + ", Level: " + cardInstance.level); // Add this line
+
         // Check if the deck is open before allowing the card to be dragged
         if (deckManager.isDeckVisible){return;}
         parentToReturnTo = this.transform.parent;
@@ -119,7 +133,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
             if (card != null)
             {
-                card.OnDrop(GameManager.Instance, card);
+                card.OnDrop(GameManager.Instance, cardInstance);
             }
             else
             {

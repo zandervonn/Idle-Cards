@@ -25,8 +25,8 @@ public class GameManager : MonoBehaviour {
     public int BankValue { get; private set; }
     public int BuyCost { get; set; }
     public CardsList cardsList{ get; private set; }
-    public List<Card> availableCards;
-    public List<Card> ownedCards;
+    //public List<CardInstance> availableCards;
+    //public List<CardInstance> ownedCards;
     public DrawCard drawCard;
 
     // public CardManager cardManager; 
@@ -57,11 +57,9 @@ public class GameManager : MonoBehaviour {
 
         cardManager = new CardManager(cardsList.cards);
 
-        ownedCards = cardsList.cards;
-
     }
 
-        public void UpdateHighScore(int newScore)
+    public void UpdateHighScore(int newScore)
         {
             if (newScore > HighScore)
             {

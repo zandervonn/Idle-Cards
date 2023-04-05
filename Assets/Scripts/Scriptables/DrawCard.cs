@@ -50,7 +50,8 @@ public class DrawCard : MonoBehaviour
         }
     }
 
-    public void DrawNewCard() {
+    public void DrawNewCard()
+    {
         GameManager gameManager = GameManager.Instance;
         cardsList = gameManager.cardsList;
 
@@ -63,15 +64,15 @@ public class DrawCard : MonoBehaviour
 
         // Get a random card from the list of available cards
         int cardIndex = Random.Range(0, gameManager.cardManager.availableCards.Count);
-        Card card = gameManager.cardManager.availableCards[cardIndex];
+        CardInstance cardInstance = gameManager.cardManager.availableCards[cardIndex];
 
         // Remove the drawn card from the available cards list
         gameManager.cardManager.availableCards.RemoveAt(cardIndex);
 
         // Instantiate a new CardDisplay instance
         CardDisplay newCardDisplay = Instantiate(cardDisplay, new Vector2(0, 0), Quaternion.identity);
-        newCardDisplay.Setup(card, false);
-        Debug.Log("Card drawn: " + card.cardName + ". Actions count: " + card.Actions.Count);
+        newCardDisplay.Setup(cardInstance, false);
+        Debug.Log("Card drawn: " + cardInstance.card.cardName + ". Actions count: " + cardInstance.card.Actions.Count);
 
         // Set the card's parent and adjust spacing
         newCardDisplay.transform.SetParent(newParent.transform);
@@ -79,16 +80,16 @@ public class DrawCard : MonoBehaviour
         // Set the card field of the Draggable component
         Draggable draggable = newCardDisplay.GetComponent<Draggable>();
         if (draggable != null)
-          {
-            draggable.CardComponent = card; // Set the CardComponent property in Draggable
-            Debug.Log("Card component set in Draggable");
+        {
+            draggable.CardComponent = cardInstance.card; // Set the CardComponent property in Draggable
+            draggable.cardInstance = cardInstance; // Add this line
+            Debug.Log("Card component and cardInstance set in Draggable");
         }
 
         UpdateSpacing();
-
     }
 
-public void UpdateSpacing() {
+    public void UpdateSpacing() {
       int cardCount = newParent.transform.childCount;
       float handWidth = newParent.GetComponent<RectTransform>().rect.width - 100;
       float cardWidth = cardDisplay.GetComponent<RectTransform>().rect.width + 8f;

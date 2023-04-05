@@ -37,10 +37,7 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
             Card card = cardsList.cards[cardIndex];
 
             // Add the random card to the ownedCards list
-            gameManager.cardManager.ownedCards.Add(card);
-
-            // Add the random card to the availableCards list
-            gameManager.cardManager.availableCards.Add(card);
+            gameManager.cardManager.AddNewOwnedCard(card);
         }
         else
         {
