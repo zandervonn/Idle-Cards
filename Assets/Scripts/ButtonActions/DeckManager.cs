@@ -32,7 +32,7 @@ public class DeckManager : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    private void DisplayCards()
+    public void DisplayCards()
     {
         // Clear any previous cards
         foreach (Transform child in cardGrid)

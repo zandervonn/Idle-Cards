@@ -32,5 +32,12 @@ public class UpgradeCardButton : MonoBehaviour, IPointerDownHandler
             upgradeCost += (int) (upgradeCost * upgradeCardMultiplier);
             upgradeCardPrice.text = "$" + upgradeCost;
         }
+
+        // Update the deck display
+        DeckManager deckManager = FindObjectOfType<DeckManager>();
+        if (deckManager != null && deckManager.isDeckVisible)
+        {
+            deckManager.DisplayCards();
+        }
     }
 }

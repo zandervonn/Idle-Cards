@@ -44,6 +44,13 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
             gameManager.cardManager.AddNewOwnedCard(card);
             cardCost *= cardCostMultiplier;
             cardCostText.text = "$" + cardCost;
+
+            // Update the deck display
+            DeckManager deckManager = FindObjectOfType<DeckManager>();
+            if (deckManager != null && deckManager.isDeckVisible)
+            {
+                deckManager.DisplayCards();
+            }
         }
         else
         {
