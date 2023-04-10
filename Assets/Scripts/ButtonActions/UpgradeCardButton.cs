@@ -12,25 +12,23 @@ public class UpgradeCardButton : MonoBehaviour, IPointerDownHandler
     private CardDisplay cardDisplay;
     private Button upgradeButton;
     public Text upgradeCardPrice;
-    public float upgradeCardMultiplier;
 
     private void Start()
     {
         gameManager = GameManager.Instance;
         cardDisplay = GetComponentInParent<CardDisplay>();
-        upgradeCardMultiplier = 1.8f;
+        UpdateUpgradeCardPrice();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         GameManager gameManager = GameManager.Instance;
-        int upgradeCost = cardDisplay.cardInstance.level;
+        int upgradeCost = cardDisplay.cardInstance.UpgradeCost;
         Debug.Log("upgrade card for $" + upgradeCost);
         if (gameManager.SpendBank(upgradeCost))
         {
             cardDisplay.cardInstance.Upgrade();
-            upgradeCost += (int) (upgradeCost * upgradeCardMultiplier);
-            upgradeCardPrice.text = "$" + upgradeCost;
+            UpdateUpgradeCardPrice();
         }
 
         // Update the deck display
@@ -39,5 +37,13 @@ public class UpgradeCardButton : MonoBehaviour, IPointerDownHandler
         {
             deckManager.DisplayCards();
         }
+    }
+
+    private void UpdateUpgradeCardPrice()
+    {
+        int upgradeCost = cardDisplay.cardInstance.UpgradeCost;
+        Debug.Log("upgrade card price set as" + upgradeCost);
+
+        upgradeCardPrice.text = "$" + upgradeCost;
     }
 }
