@@ -12,14 +12,17 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
 
     public CardsList cardsList;
     public int cardCost = 1;
+    public Text cardCostText;
     public Button buyButton;
     public GameManager gameManager;
+    public int cardCostMultiplier;
 
     private void Start()
     {
         cardsList = FindObjectOfType<CardsList>();
         gameManager = FindObjectOfType<GameManager>();
-    }
+        cardCostMultiplier = 3;
+}
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -28,6 +31,7 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
 
     public void BuyCard()
     {
+        
         gameManager = FindObjectOfType<GameManager>();
         cardsList = FindObjectOfType<CardsList>();
         if (gameManager.SpendBank(cardCost))
@@ -38,6 +42,8 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
 
             // Add the random card to the ownedCards list
             gameManager.cardManager.AddNewOwnedCard(card);
+            cardCost *= cardCostMultiplier;
+            cardCostText.text = "$" + cardCost;
         }
         else
         {

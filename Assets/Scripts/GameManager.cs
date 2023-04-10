@@ -25,17 +25,12 @@ public class GameManager : MonoBehaviour {
     public int BankValue { get; private set; }
     public int BuyCost { get; set; }
     public CardsList cardsList{ get; private set; }
-    //public List<CardInstance> availableCards;
-    //public List<CardInstance> ownedCards;
     public DrawCard drawCard;
-
-    // public CardManager cardManager; 
     public CardManager cardManager;
+    public DrawCardButton drawCardButton;
 
 
     private void Awake() {
-
-        //cardManager = new CardManager(cardsList.cards.Select(card => new CardInstance(card, 1)).ToList());
 
         if (Instance != null && Instance != this) {
             Destroy(gameObject);
@@ -49,7 +44,7 @@ public class GameManager : MonoBehaviour {
         HighScore = 0;
         LastScore = 0;
         BankValue = 100; /// testing
-        BuyCost = 0;
+        BuyCost = 1;
 
         // Initialize the cardsList variable
         cardsList = FindObjectOfType<CardsList>();
@@ -60,27 +55,27 @@ public class GameManager : MonoBehaviour {
     }
 
     public void UpdateHighScore(int newScore)
+    {
+        if (newScore > HighScore)
         {
-            if (newScore > HighScore)
-            {
-                HighScore = newScore;
-                PlayerPrefs.SetInt("HighScore", HighScore);
-            }
+            HighScore = newScore;
+            PlayerPrefs.SetInt("HighScore", HighScore);
         }
+    }
 
-        public void UpdateLastScore(int newScore)
-        {
-            LastScore = newScore;
+    public void UpdateLastScore(int newScore)
+    {
+        LastScore = newScore;
+    }
+
+    public void UpdateBankValue(bool high, bool last)
+    {
+        if (high){
+            BankValue += HighScore;
         }
-
-        public void UpdateBankValue(bool high, bool last)
-        {
-            if (high){
-                BankValue += HighScore;
-            }
-            if (last){
-                BankValue += LastScore;
-            }
+        if (last){
+            BankValue += LastScore;
+        }
         }
 
     public void IncreaseScore(int amount) {
@@ -99,11 +94,26 @@ public class GameManager : MonoBehaviour {
     }
 
     public void IncreaseMana(float amount) {
-        mana += amount;
+        if( mana + amount < maxMana)
+        {
+            mana += amount;
+        }
+        else
+        {
+            mana = maxMana;
+        }
+        
     }
 
     public void DecreaseMana(float amount) {
-        mana -= amount;
+        if (mana - amount > 0)
+        {
+            mana -= amount;
+        }
+        else
+        {
+            mana = 0;
+        }
     }
 
     public bool SpendBank(int cost) {
@@ -145,15 +155,22 @@ public class GameManager : MonoBehaviour {
 //        availableCards = new List<Card>(ownedCards);
         cardManager.ResetAvailableCards();
         drawCardComponent.DrawCards(4);
-        manaBarActions.ResetElapsedTimeSinceRoundStart();
-        BuyCost = 0;
+        manaBarActions.ResetElapsedTimeSinceRoundStart(); 
         ResetScore();
         ResetMana();
+        ResetDrawCost();
     }
 
     public void ResetScore()
     {
         fieldScore = 0;
+    }
+
+    public void ResetDrawCost()
+    {
+        BuyCost = 1;
+        DrawCardButton drawCardButton = FindObjectOfType<DrawCardButton>();
+        drawCardButton.UpdateDrawPriceText();
     }
 
     public void updateScoreRecords()

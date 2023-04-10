@@ -4,9 +4,9 @@ using UnityEngine.UI;
 
 public class ManaBarActions : MonoBehaviour
 {
-    public float maxMana = 100f;
-    public float manaLossRate = 0.1f;
-    public float manaAcceleration = 3f;
+    private float maxMana = 100f; //should be game manager value
+    private float manaLossRate = 0.05f;
+    private float manaAcceleration = 3f;
     private float elapsedTimeSinceRoundStart = 0f;
 
     private GameManager gameManager;
@@ -23,7 +23,11 @@ public class ManaBarActions : MonoBehaviour
         slider = GetComponent<Slider>();
         slider.maxValue = maxMana;
         slider.value = gameManager.mana;
-    }
+
+        maxMana = 100f;
+        manaLossRate = 0.05f;
+        manaAcceleration = 3f;
+}
 
     private void Update()
     {

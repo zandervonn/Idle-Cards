@@ -11,34 +11,26 @@ public class UpgradeCardButton : MonoBehaviour, IPointerDownHandler
     private GameManager gameManager;
     private CardDisplay cardDisplay;
     private Button upgradeButton;
+    public Text upgradeCardPrice;
+    public float upgradeCardMultiplier;
 
     private void Start()
     {
         gameManager = GameManager.Instance;
         cardDisplay = GetComponentInParent<CardDisplay>();
+        upgradeCardMultiplier = 1.8f;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         GameManager gameManager = GameManager.Instance;
-        //int upgradeCost = 1 * cardDisplay.card.level; //todo fix  
-        int upgradeCost = 1 ;
+        int upgradeCost = cardDisplay.cardInstance.level;
         Debug.Log("upgrade card for $" + upgradeCost);
         if (gameManager.SpendBank(upgradeCost))
         {
-            Upgrade();
+            cardDisplay.cardInstance.Upgrade();
+            upgradeCost += (int) (upgradeCost * upgradeCardMultiplier);
+            upgradeCardPrice.text = "$" + upgradeCost;
         }
-    }
-
-    private void Upgrade()
-    {
-        Debug.Log("upgrade card clicked ");
-        cardDisplay.cardInstance.Upgrade();
-        UpdateUpgradeButton();
-    }
-
-    private void UpdateUpgradeButton()
-    {
-//        upgradeButton.GetComponentInChildren<Text>().text = "Upgrade (Level " + cardDisplay.card.level + ")";
     }
 }

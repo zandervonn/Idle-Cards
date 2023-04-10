@@ -27,15 +27,13 @@ public class CardDisplay : MonoBehaviour
 
     public void Setup(CardInstance cardInstance, bool showUpgradeButton)
     {
-        this.cardInstance = cardInstance; // Add this line to set the cardInstance field
+        this.cardInstance = cardInstance;
         Card card = cardInstance.card;
 
         cardName.text = card.cardName;
         cardDescription.text = card.description;
         cardImage.sprite = card.image;
         cardLevel.text = "" + cardInstance.level; //fix to build string
-
-        Debug.Log("CardDisplay Setup - Card Name: " + card.cardName + ", Level: " + cardInstance.level); // Add this line
 
         upgradePanel.gameObject.SetActive(showUpgradeButton);
     }
