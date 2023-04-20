@@ -10,7 +10,6 @@ public class UpgradeCardButton : MonoBehaviour, IPointerDownHandler
 {
     private GameManager gameManager;
     private CardDisplay cardDisplay;
-    private Button upgradeButton;
     public Text upgradeCardPrice;
 
     private void Start()

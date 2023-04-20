@@ -21,10 +21,9 @@ public class CardManager
             AddNewOwnedCard(card);
         }
     }
-
     public void AddNewOwnedCard(Card card)
     {
-        CardInstance cardInstance = new CardInstance(card);
+        CardInstance cardInstance = new CardInstance(card, this);
         ownedCards.Add(cardInstance);
         availableCards.Add(cardInstance);
     }
@@ -32,5 +31,10 @@ public class CardManager
     public void ResetAvailableCards()
     {
         availableCards = new List<CardInstance>(ownedCards);
+    }
+
+    public void RemoveCard(CardInstance cardToRemove)
+    {
+        ownedCards.Remove(cardToRemove);
     }
 }

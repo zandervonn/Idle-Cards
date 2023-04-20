@@ -21,7 +21,7 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
     {
         cardsList = FindObjectOfType<CardsList>();
         gameManager = FindObjectOfType<GameManager>();
-        cardCostMultiplier = 3;
+        cardCostMultiplier = 2; // testing 3;
 }
 
     public void OnPointerDown(PointerEventData eventData)

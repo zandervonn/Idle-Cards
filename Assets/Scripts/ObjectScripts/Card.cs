@@ -14,6 +14,10 @@ public class Card {
     public List<Action<GameManager, CardInstance>> Actions;
     public int level;
     public int mana;
+    public delegate int CardCostFormula(CardInstance cardInstance);
+    public CardCostFormula CostFormula { get; set; }
+    public delegate bool AffordableCheck(CardInstance cardInstance, GameManager gameManager);
+    public AffordableCheck IsAffordable { get; set; }
 
 
     public static Card CreateInstance(string cardName, string description, Sprite image, List<Action<GameManager, CardInstance>> actions, int initialLevel, int manaCost)
@@ -30,17 +34,6 @@ public class Card {
         Debug.Log("Card created. Actions count: " + card.Actions.Count);
 
         return card;
-    }
-
-    // Copy constructor
-    public Card(Card other)
-    {
-        this.cardName = other.cardName;
-        this.description = other.description;
-        this.image = other.image;
-        this.Actions = other.Actions ?? new List<Action<GameManager, CardInstance>>();
-        this.level = other.level;
-        this.mana = other.mana;
     }
     
     //new card setup
@@ -75,11 +68,5 @@ public class Card {
                 }
             }
         }
-    }
-
-
-    public void Upgrade()
-    {
-        level++;
     }
 }

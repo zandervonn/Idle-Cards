@@ -16,6 +16,8 @@ public class CardDisplay : MonoBehaviour
     public GameObject upgradePanel;
     private Card _card;
     public CardInstance cardInstance;
+    public Text manaCostText;
+    public Text gainValueText;
 
     public Card card
     {
@@ -36,5 +38,25 @@ public class CardDisplay : MonoBehaviour
         cardLevel.text = "" + cardInstance.level; //fix to build string
 
         upgradePanel.gameObject.SetActive(showUpgradeButton);
+    }
+
+    private void Update()
+    {
+        UpdateManaCost();
+        UpdateGainValue();
+    }
+
+    private void UpdateManaCost()
+    {
+        Card card = cardInstance.card;
+        int currentManaCost = card.CostFormula(cardInstance);
+        manaCostText.text = currentManaCost.ToString();
+    }
+
+    private void UpdateGainValue()
+    {
+        Card card = cardInstance.card;
+        int currentGainValue = (int)(10 + (1 * (cardInstance.level - 1)));
+        gainValueText.text = currentGainValue.ToString();
     }
 }

@@ -29,10 +29,9 @@ public class CardsList : MonoBehaviour
 
     private Card CreateBasicCard()
     {
-        // card cost =                cost * level        = liniar
-        // upgrade cost = need to use...  curent cost * cost  = exponetial 
-        float cardCost = 0.2f;
-        //float upgradeCost = 0.5f;
+
+        float cardCost_multi = 0.4f;
+        float cardCost_fixed = 10f;
         float upgradeStrength = 1f;
 
         Card basicCard = Card.CreateInstance(
@@ -48,9 +47,16 @@ public class CardsList : MonoBehaviour
         {
             (gameManager, cardInstance) => {
                 gameManager.IncreaseScore((int) (10 + (upgradeStrength  * (cardInstance.level - 1))));
-                gameManager.DecreaseMana(gameManager.mana * cardCost);
-                //gameManager.DecreaseMana((int) cardCost);
+                gameManager.DecreaseMana((int)(cardCost_fixed + (GameManager.Instance.mana * cardCost_multi)));
             }
+        };
+
+        basicCard.CostFormula = (cardInstance) => {
+            return (int)(cardCost_fixed + (GameManager.Instance.mana * cardCost_multi));
+        };
+
+        basicCard.IsAffordable = (cardInstance, gameManager) => {
+            return gameManager.mana >= basicCard.CostFormula(cardInstance);
         };
 
         return basicCard;
@@ -82,6 +88,14 @@ public class CardsList : MonoBehaviour
                 gameManager.DecreaseMana((int) cardCost);
                 Debug.Log("double card played level: " + cardInstance.level);
             }
+        };
+
+        doubleCard.CostFormula = (cardInstance) => {
+            return (int)cardCost;
+        };
+
+        doubleCard.IsAffordable = (cardInstance, gameManager) => {
+            return gameManager.mana >= doubleCard.CostFormula(cardInstance);
         };
 
         return doubleCard;
@@ -117,76 +131,16 @@ public class CardsList : MonoBehaviour
             }
         };
 
+        manaReset.CostFormula = (cardInstance) => {
+            return (int)cardCost;
+        };
+
+        manaReset.IsAffordable = (cardInstance, gameManager) => {
+            return gameManager.fieldScore >= manaReset.CostFormula(cardInstance);
+        };
+
         return manaReset;
     }
 
-    //private Card CreateDrawCardsCard()
-    //{
-    //    float cardCost = 10f;
-    //    float upgradeCost = 0.8f;
-    //    float upgradeStrength = 0.1f;
-
-    //    Card drawCardsCard = Card.CreateInstance(
-    //        "Draw Cards",
-    //        null,
-    //        Resources.Load<Sprite>("CardImages/Cards"),
-    //        null,
-    //        startingLevel,
-    //        baseCardManaCost
-    //    );
-
-    //    float strength = 1 + (upgradeStrength * drawCardsCard.level);
-
-    //    drawCardsCard.description = "Draw 1 to " + strength + " new cards";
-    //    drawCardsCard.Actions = new List<Action<GameManager, CardInstance>>
-    //    {
-    //        (gameManager, cardInstance) => {
-    //            DrawCard drawCard = FindObjectOfType<DrawCard>();
-    //            drawCard.DrawCards( (int)
-    //                Math.Floor(Math.Pow((UnityEngine.Random.Range(1,100)/100), Math.Log(strength) / (strength - 1)) * strength) + 1);
-    //            gameManager.DecreaseMana(cardCost);
-    //        }
-    //    };
-
-    //    return drawCardsCard;
-    //}
-
-
-    ////should maybe multiply, but a loss drops bank to half
-    //private Card CreateRandomCoinGainCard()
-    //{
-
-    //    float cardCost = 20f;
-    //    float upgradeCost = 0.8f;
-    //    float upgradeStrength = 1f;
-
-    //    Card randomCoinGainCard = Card.CreateInstance(
-    //        "Random Coin Gain",
-    //        null,
-    //        Resources.Load<Sprite>("CardImages/RandomCoinGain"),
-    //        null,
-    //        startingLevel,
-    //        baseCardManaCost
-    //    );
-
-    //    float strength = 10 + (randomCoinGainCard.level * upgradeStrength);
-
-    //    int minCoinGain = (int)(-0.8f * strength);
-    //    int maxCoinGain = (int)(1.0f * strength);
-
-    //    randomCoinGainCard.description = "Random coin gain in range" + minCoinGain + "to " + maxCoinGain;
-
-    //    randomCoinGainCard.Actions = new List<Action<GameManager, CardInstance>>
-    //    {
-    //        (gameManager, cardInstance) => {
-    //            int coinGain = UnityEngine.Random.Range(minCoinGain, maxCoinGain);
-    //            gameManager.IncreaseScore( (int) coinGain);
-    //            gameManager.DecreaseMana(cardCost);
-    //            Debug.Log($"Random Coin Gain card played, gained {coinGain} coins");
-    //        }
-    //    };
-
-    //    return randomCoinGainCard;
-    //}
 
 }

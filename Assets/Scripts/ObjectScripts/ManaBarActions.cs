@@ -11,6 +11,7 @@ public class ManaBarActions : MonoBehaviour
 
     private GameManager gameManager;
     private Slider slider;
+    public Text manaValueText;
 
     private void Start()
     {
@@ -36,6 +37,7 @@ public class ManaBarActions : MonoBehaviour
 
         gameManager.DecreaseMana(currentManaLossRate * Time.deltaTime);
         slider.value = gameManager.mana;
+        manaValueText.text = "" + gameManager.mana;
 
         if (gameManager.mana <= 0)
         {

@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour {
     public int LastScore { get; private set; }
     public int BankValue { get; private set; }
     public int BuyCost { get; set; }
+    public int RemoveCost { get; set; }
+    public int RemoveCostMultiplier { get; private set; }
     public CardsList cardsList{ get; private set; }
     public DrawCard drawCard;
     public CardManager cardManager;
@@ -41,10 +43,15 @@ public class GameManager : MonoBehaviour {
 
         manaBarActions = FindObjectOfType<ManaBarActions>();
 
-        HighScore = 0;
+        HighScore = 1; // to make sue money is always made
         LastScore = 0;
-        BankValue = 100; /// testing
+        BankValue = 100; // testing
         BuyCost = 1;
+        RemoveCost = 1;
+
+
+        RemoveCostMultiplier = 2;
+        UpdateRemoveCost();
 
         // Initialize the cardsList variable
         cardsList = FindObjectOfType<CardsList>();
@@ -182,5 +189,10 @@ public class GameManager : MonoBehaviour {
     public void ResetMana()
     {
         mana = maxMana;
+    }
+
+    public void UpdateRemoveCost()
+    {
+        RemoveCost *= RemoveCostMultiplier;
     }
 }

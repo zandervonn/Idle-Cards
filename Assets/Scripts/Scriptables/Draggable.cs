@@ -128,24 +128,33 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         if (deckManager.isDeckVisible){return;}
         if (playable)
         {
-            // Get the Card component of the dragged object
-            Card card = CardComponent;
-
-            if (card != null)
+            int cardCost = CardComponent.CostFormula(cardInstance);
+            if (CardComponent.IsAffordable(cardInstance, GameManager.Instance))
             {
-                card.OnDrop(GameManager.Instance, cardInstance);
+                // Get the Card component of the dragged object
+                Card card = CardComponent;
+
+                if (card != null)
+                {
+                    card.OnDrop(GameManager.Instance, cardInstance);
+                }
+                else
+                {
+                    Debug.Log("No card component found");
+                }
+
+                Instantiate(cardDie, this.transform.position, Quaternion.identity);
+
+                // Call UpdateSpacing before destroying the game object
+                DrawCard.Instance.OnCardDropped.Invoke();
+
+                Destroy(this.gameObject);
             }
             else
             {
-                Debug.Log("No card component found");
+                this.transform.SetParent(parentToReturnTo);
+                Debug.Log("Card unafordable");
             }
-
-            Instantiate(cardDie, this.transform.position, Quaternion.identity);
-
-            // Call UpdateSpacing before destroying the game object
-            DrawCard.Instance.OnCardDropped.Invoke();
-
-            Destroy(this.gameObject);
         }
         else
         {
@@ -156,8 +165,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         StartCoroutine(ResetTilt());
     }
-
-
 
     private IEnumerator ResetTilt()
     {
