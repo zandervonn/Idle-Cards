@@ -49,7 +49,7 @@ public class CardDisplay : MonoBehaviour
     private void UpdateManaCost()
     {
         Card card = cardInstance.card;
-        int currentManaCost = card.CostFormula(cardInstance);
+        float currentManaCost = card.CostFormula(cardInstance);
         manaCostText.text = currentManaCost.ToString();
     }
 

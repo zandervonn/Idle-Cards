@@ -14,7 +14,7 @@ public class Card {
     public List<Action<GameManager, CardInstance>> Actions;
     public int level;
     public int mana;
-    public delegate int CardCostFormula(CardInstance cardInstance);
+    public delegate float CardCostFormula(CardInstance cardInstance);
     public CardCostFormula CostFormula { get; set; }
     public delegate bool AffordableCheck(CardInstance cardInstance, GameManager gameManager);
     public AffordableCheck IsAffordable { get; set; }

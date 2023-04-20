@@ -14,7 +14,7 @@ public class CardInstance
     public CardInstance(Card card, CardManager cardManager)
     {
         this.card = card;
-        this.level = 1;
+        this.level = 0;
         UpgradeCost = 10;
         this.cardManager = cardManager;
     }

@@ -124,11 +124,13 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        targetTiltRotation = Quaternion.AngleAxis(0, Vector3.zero);
+
         // Check if the deck is open before allowing the card to be dragged
         if (deckManager.isDeckVisible){return;}
         if (playable)
         {
-            int cardCost = CardComponent.CostFormula(cardInstance);
+            float cardCost = CardComponent.CostFormula(cardInstance);
             if (CardComponent.IsAffordable(cardInstance, GameManager.Instance))
             {
                 // Get the Card component of the dragged object
@@ -163,7 +165,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         GetComponent<CanvasGroup>().blocksRaycasts = true;
 
-        StartCoroutine(ResetTilt());
     }
 
     private IEnumerator ResetTilt()

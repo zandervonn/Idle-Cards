@@ -29,7 +29,6 @@ public class CardsList : MonoBehaviour
 
     private Card CreateBasicCard()
     {
-
         float cardCost_multi = 0.4f;
         float cardCost_fixed = 10f;
         float upgradeStrength = 1f;
@@ -44,15 +43,18 @@ public class CardsList : MonoBehaviour
         );
 
         basicCard.Actions = new List<Action<GameManager, CardInstance>>
-        {
-            (gameManager, cardInstance) => {
-                gameManager.IncreaseScore((int) (10 + (upgradeStrength  * (cardInstance.level - 1))));
-                gameManager.DecreaseMana((int)(cardCost_fixed + (GameManager.Instance.mana * cardCost_multi)));
-            }
-        };
+    {
+        (gameManager, cardInstance) => {
+            gameManager.IncreaseScore((int) (10 + (upgradeStrength  * (cardInstance.level - 1))));
+            gameManager.DecreaseMana((int)(cardCost_fixed + (GameManager.Instance.mana * cardCost_multi)));
+        }
+    };
 
         basicCard.CostFormula = (cardInstance) => {
-            return (int)(cardCost_fixed + (GameManager.Instance.mana * cardCost_multi));
+            float baseCost = cardCost_fixed + (GameManager.Instance.mana * cardCost_multi);
+            float speedToZero = 3; 
+            float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, speedToZero); // f(x) = 1/(1 + x/100)^speed
+            return (float)(baseCost * approachZero);
         };
 
         basicCard.IsAffordable = (cardInstance, gameManager) => {
@@ -66,7 +68,6 @@ public class CardsList : MonoBehaviour
     {
 
         float cardCost = 40f;
-        //float upgradeCost = 0.8f;
         float upgradeStrength = 0.1f;
 
         Card doubleCard = Card.CreateInstance(
@@ -83,15 +84,17 @@ public class CardsList : MonoBehaviour
         {
             (gameManager, cardInstance) => {
                 int startScore = gameManager.fieldScore;
-                gameManager.IncreaseScore((int) (startScore * upgradeStrength * cardInstance.level));
-                //.DecreaseMana(gameManager.mana * cardCost);
+                gameManager.IncreaseScore((int) (startScore * upgradeStrength * ( cardInstance.level + 1 )));
                 gameManager.DecreaseMana((int) cardCost);
                 Debug.Log("double card played level: " + cardInstance.level);
             }
         };
 
         doubleCard.CostFormula = (cardInstance) => {
-            return (int)cardCost;
+            float baseCost = cardCost;
+            float speedToZero = 3;
+            float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, speedToZero); // f(x) = 1/(1 + x/100)^speed
+            return (float)(baseCost * approachZero);
         };
 
         doubleCard.IsAffordable = (cardInstance, gameManager) => {
@@ -105,7 +108,6 @@ public class CardsList : MonoBehaviour
     {
 
         float cardCost = 10f;
-        //float upgradeCost = 0.8f;
         float upgradeStrength = 0.5f;
 
         Card manaReset = Card.CreateInstance(
@@ -132,7 +134,10 @@ public class CardsList : MonoBehaviour
         };
 
         manaReset.CostFormula = (cardInstance) => {
-            return (int)cardCost;
+            float baseCost = cardCost;
+            float speedToZero = 3;
+            float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, speedToZero); // f(x) = 1/(1 + x/100)^speed
+            return (float) (baseCost * approachZero);
         };
 
         manaReset.IsAffordable = (cardInstance, gameManager) => {
