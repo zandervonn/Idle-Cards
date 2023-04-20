@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour {
     public int BuyCost { get; set; }
     public int RemoveCost { get; set; }
     public int RemoveCostMultiplier { get; private set; }
+    public int TotalMoneyEarned { get; private set; }
     public CardsList cardsList{ get; private set; }
     public DrawCard drawCard;
     public CardManager cardManager;
@@ -77,13 +78,25 @@ public class GameManager : MonoBehaviour {
 
     public void UpdateBankValue(bool high, bool last)
     {
-        if (high){
-            BankValue += HighScore;
+        int moneyEarned = 0;
+
+        if (high)
+        {
+            moneyEarned += HighScore;
         }
-        if (last){
-            BankValue += LastScore;
+        if (last)
+        {
+            moneyEarned += LastScore;
         }
-        }
+
+        BankValue += moneyEarned;
+        TotalMoneyEarned += moneyEarned;
+    }
+
+    public float CalculateLevel()
+    {
+        return Mathf.Pow(2, Mathf.Log(TotalMoneyEarned, 5));
+    }
 
     public void IncreaseScore(int amount) {
         Debug.Log("updating score");

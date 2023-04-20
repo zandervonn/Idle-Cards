@@ -8,6 +8,7 @@ public class updatescore : MonoBehaviour
     [SerializeField] private Text highScoreText;
     [SerializeField] private Text bankScoreText;
     [SerializeField] private Text fieldScoreText;
+    [SerializeField] private Text userLevel;
 
     private GameManager gameManager;
 
@@ -23,6 +24,7 @@ public class updatescore : MonoBehaviour
         UpdateHighScoreText();
         UpdateBankScoreText();
         UpdateFieldScoreText();
+        UpdateUserLevelText();
     }
 
     private void Update()
@@ -31,6 +33,7 @@ public class updatescore : MonoBehaviour
         UpdateHighScoreText();
         UpdateBankScoreText();
         UpdateFieldScoreText();
+        UpdateUserLevelText();
     }
 
     private void UpdateLastScoreText()
@@ -55,6 +58,12 @@ public class updatescore : MonoBehaviour
     {
         int fieldScore = gameManager.fieldScore;
         fieldScoreText.text = "$" + gameManager.fieldScore;
+    }
+
+    private void UpdateUserLevelText()
+    {
+        float level = GameManager.Instance.CalculateLevel();
+        userLevel.text = $"{level:F1}"; // Display level with 1 decimal place
     }
 
 }

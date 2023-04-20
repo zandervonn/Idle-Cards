@@ -45,7 +45,7 @@ public class CardsList : MonoBehaviour
         basicCard.Actions = new List<Action<GameManager, CardInstance>>
     {
         (gameManager, cardInstance) => {
-            gameManager.IncreaseScore((int) (10 + (upgradeStrength  * (cardInstance.level - 1))));
+            gameManager.IncreaseScore((int) (10000 + (upgradeStrength  * (cardInstance.level - 1))));
             gameManager.DecreaseMana((int)(cardCost_fixed + (GameManager.Instance.mana * cardCost_multi)));
         }
     };
