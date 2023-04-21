@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour {
 
         BankValue += moneyEarned;
         TotalMoneyEarned += moneyEarned;
+        CalculateLevel();
     }
 
     public float CalculateLevel()

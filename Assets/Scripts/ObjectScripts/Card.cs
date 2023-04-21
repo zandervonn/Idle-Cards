@@ -31,12 +31,9 @@ public class Card {
         card.level = initialLevel;
         card.mana = manaCost;
 
-        Debug.Log("Card created. Actions count: " + card.Actions.Count);
-
         return card;
     }
     
-    //new card setup
     public Card()
     {
         this.cardName = "";
@@ -49,22 +46,13 @@ public class Card {
 
     public void OnDrop(GameManager gameManager, CardInstance cardInstance)
     {
-        Debug.Log("OnDrop called for card: " + cardName + " with Level: " + cardInstance.level); // Add this line
-        //Debug.Log("OnDrop called for card: " + cardName);
         if (Actions != null)
         {
-            Debug.Log("Actions count: " + Actions.Count);
-            Debug.Log("running actions");
             foreach (var action in Actions)
             {
                 if (action != null)
                 {
-                    Debug.Log("Running action: " + action.Method.Name);
                     action.Invoke(gameManager, cardInstance);
-                }
-                else
-                {
-                    Debug.Log("Action is null");
                 }
             }
         }

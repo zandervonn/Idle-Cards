@@ -11,7 +11,6 @@ public class ResetRound : MonoBehaviour, IPointerDownHandler {
     private GameManager gameManager;
 
       public void OnPointerDown(PointerEventData eventData) {
-          Debug.Log("Reset Round");
           GameManager gameManager = GameManager.Instance;
           gameManager.OnResetRound();
       }

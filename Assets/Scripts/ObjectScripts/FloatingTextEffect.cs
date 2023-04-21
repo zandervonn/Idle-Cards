@@ -16,10 +16,6 @@ public class FloatingTextEffect : MonoBehaviour
     private void Awake()
     {
         originalText = GetComponent<Text>();
-        if (originalText == null)
-        {
-            Debug.LogError("Text component not found on the same GameObject as FloatingTextEffect.");
-        }
         lastTextValue = originalText.text;
     }
 

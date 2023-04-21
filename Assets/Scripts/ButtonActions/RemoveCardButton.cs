@@ -24,7 +24,6 @@ public class RemoveCardButton : MonoBehaviour, IPointerDownHandler
 
         GameManager gameManager = GameManager.Instance;
         int removeCost = gameManager.RemoveCost;
-        Debug.Log("remove card for $" + removeCost);
         if (gameManager.SpendBank(gameManager.RemoveCost))
         {
             cardDisplay.cardInstance.Remove();
@@ -56,7 +55,6 @@ public class RemoveCardButton : MonoBehaviour, IPointerDownHandler
     private void UpdateRemoveCardPrice()
     {
         int removeCost = gameManager.RemoveCost;
-        Debug.Log("remove card price set as" + removeCost);
 
         removeCardPrice.text = "$" + removeCost;
     }

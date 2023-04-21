@@ -72,7 +72,6 @@ public class DrawCard : MonoBehaviour
         // Instantiate a new CardDisplay instance
         CardDisplay newCardDisplay = Instantiate(cardDisplay, new Vector2(0, 0), Quaternion.identity);
         newCardDisplay.Setup(cardInstance, false);
-        Debug.Log("Card drawn: " + cardInstance.card.cardName + ". Actions count: " + cardInstance.card.Actions.Count);
 
         // Set the card's parent and adjust spacing
         newCardDisplay.transform.SetParent(newParent.transform);
@@ -83,7 +82,6 @@ public class DrawCard : MonoBehaviour
         {
             draggable.CardComponent = cardInstance.card; // Set the CardComponent property in Draggable
             draggable.cardInstance = cardInstance; // Add this line
-            Debug.Log("Card component and cardInstance set in Draggable");
         }
 
         UpdateSpacing();

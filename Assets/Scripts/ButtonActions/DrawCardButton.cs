@@ -23,9 +23,7 @@ public class DrawCardButton : MonoBehaviour, IPointerDownHandler
             {
                 DrawCard drawCardComponent = FindObjectOfType<DrawCard>();
                 drawCardComponent.DrawCards(1);
-                Debug.Log("buy cost before:" + gameManager.BuyCost);
                 gameManager.BuyCost *= 2;
-                Debug.Log("buy cost updated:" + gameManager.BuyCost);
                 UpdateDrawPriceText();
             }
         }
@@ -38,8 +36,6 @@ public class DrawCardButton : MonoBehaviour, IPointerDownHandler
     public void UpdateDrawPriceText()
     {
         GameManager gameManager = GameManager.Instance;
-        // Remove the local variable declaration
-        Debug.Log("buy cost:" + gameManager.BuyCost);
         drawPriceText.text = "$" + gameManager.BuyCost;
     }
 }

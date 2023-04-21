@@ -16,10 +16,6 @@ public class ManaBarActions : MonoBehaviour
     private void Start()
     {
         gameManager = GameManager.Instance;
-        if (gameManager == null)
-        {
-            Debug.LogError("GameManager not found in the scene.");
-        }
 
         slider = GetComponent<Slider>();
         slider.maxValue = maxMana;

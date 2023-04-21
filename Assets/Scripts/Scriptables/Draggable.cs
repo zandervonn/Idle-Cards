@@ -43,20 +43,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     void Awake()
     {
         cardDisplay = GetComponent<CardDisplay>();
-        if (cardDisplay == null)
-        {
-            Debug.LogError("CardDisplay component not found on the same GameObject as Draggable.");
-        }
         drawCard = FindObjectOfType<DrawCard>();
-        if (drawCard == null)
-        {
-            Debug.LogError("DrawCard not found in the scene.");
-        }
-        cardShadow = transform.Find("cardShadow").gameObject;
-        if (cardShadow == null)
-        {
-            Debug.LogError("CardShadow not found in the card.");
-        }
+        cardShadow = transform.Find("cardShadow").gameObject; //TODO remove?
 
         deckManager = FindObjectOfType<DeckManager>();
         if (deckManager == null)
@@ -74,8 +62,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
 
     if (cardInstance == null)
-
-        Debug.Log("Draggable OnStartDrag - Card Name: " + CardComponent.cardName + ", Level: " + cardInstance.level); // Add this line
 
         // Check if the deck is open before allowing the card to be dragged
         if (deckManager.isDeckVisible){return;}

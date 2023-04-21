@@ -24,7 +24,6 @@ public class CardsList : MonoBehaviour
         //cards.Add(CreateDrawCardsCard());
         //cards.Add(CreateRandomCoinGainCard());
 
-        Debug.Log("CardsList Initialized. Number of cards: " + cards.Count);
     }
 
     private Card CreateBasicCard()
@@ -86,7 +85,6 @@ public class CardsList : MonoBehaviour
                 int startScore = gameManager.fieldScore;
                 gameManager.IncreaseScore((int) (startScore * upgradeStrength * ( cardInstance.level + 1 )));
                 gameManager.DecreaseMana((int) cardCost);
-                Debug.Log("double card played level: " + cardInstance.level);
             }
         };
 

@@ -23,7 +23,6 @@ public class UpgradeCardButton : MonoBehaviour, IPointerDownHandler
     {
         GameManager gameManager = GameManager.Instance;
         int upgradeCost = cardDisplay.cardInstance.UpgradeCost;
-        Debug.Log("upgrade card for $" + upgradeCost);
         if (gameManager.SpendBank(upgradeCost))
         {
             cardDisplay.cardInstance.Upgrade();
@@ -41,7 +40,6 @@ public class UpgradeCardButton : MonoBehaviour, IPointerDownHandler
     private void UpdateUpgradeCardPrice()
     {
         int upgradeCost = cardDisplay.cardInstance.UpgradeCost;
-        Debug.Log("upgrade card price set as" + upgradeCost);
 
         upgradeCardPrice.text = "$" + upgradeCost;
     }
