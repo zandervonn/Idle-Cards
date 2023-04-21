@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour {
             return;
         }
         Instance = this;
-        Debug.Log("GameManager Instance set");
 
         manaBarActions = FindObjectOfType<ManaBarActions>();
 
@@ -100,18 +99,14 @@ public class GameManager : MonoBehaviour {
     }
 
     public void IncreaseScore(int amount) {
-        Debug.Log("updating score");
         fieldScore += amount;
         if(fieldScore < 0){
             fieldScore = 0;
         }
-        Debug.Log("NewScore = " + fieldScore);
     }
 
     public void DecreaseScore(int amount) {
-        Debug.Log("updating score");
         fieldScore -= amount;
-        Debug.Log("NewScore = " + fieldScore);
     }
 
     public void IncreaseMana(float amount) {
@@ -173,7 +168,6 @@ public class GameManager : MonoBehaviour {
     public void ResetField() {
         DrawCard drawCardComponent = FindObjectOfType<DrawCard>();
         drawCardComponent.ClearCards();
-//        availableCards = new List<Card>(ownedCards);
         cardManager.ResetAvailableCards();
         drawCardComponent.DrawCards(4);
         manaBarActions.ResetElapsedTimeSinceRoundStart(); 
