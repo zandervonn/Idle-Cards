@@ -23,6 +23,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private Quaternion currentTiltRotation;
     private Quaternion targetTiltRotation;
 
+    private float scaleOnPickup = 1.7f;
+
     private DeckManager deckManager;
     public CardInstance cardInstance;
 
@@ -69,6 +71,12 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         this.transform.SetParent(this.transform.parent.parent);
         GetComponent<CanvasGroup>().blocksRaycasts = false;
         cardDisplay = GetComponent<CardDisplay>();
+
+        // Scale the card up and set the pivot to the bottom-middle
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        rectTransform.pivot = new Vector2(0.5f, 0f);
+        rectTransform.localScale = new Vector3(scaleOnPickup, scaleOnPickup, 1f);
+
 
         dragStartPosition = eventData.position;
         dragStartRotation = transform.localRotation;
@@ -150,6 +158,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             Debug.Log("Card not playable");
         }
         GetComponent<CanvasGroup>().blocksRaycasts = true;
+
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        rectTransform.localScale = new Vector3(1f, 1f, 1f);
 
     }
 
