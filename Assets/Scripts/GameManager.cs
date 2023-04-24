@@ -106,7 +106,14 @@ public class GameManager : MonoBehaviour {
     }
 
     public void DecreaseScore(int amount) {
-        fieldScore -= amount;
+        if (fieldScore - amount > 0)
+        {
+            fieldScore -= amount;
+        }
+        else
+        {
+            fieldScore = 0;
+        }
     }
 
     public void IncreaseMana(float amount) {
