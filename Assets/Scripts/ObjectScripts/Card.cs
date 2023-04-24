@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using static UnityEditor.Progress;
+using static CardsList;
 
 public class Card { 
     public string cardName;
@@ -15,7 +16,8 @@ public class Card {
     public int level;
     public int mana;
     public delegate float CardCostFormula(CardInstance cardInstance);
-    public CardCostFormula CostFormula { get; set; }
+    public FormulaDelegate CostFormula { get; set; }
+    public FormulaDelegate RewardFormula { get; set; }
     public delegate bool AffordableCheck(CardInstance cardInstance, GameManager gameManager);
     public AffordableCheck IsAffordable { get; set; }
 

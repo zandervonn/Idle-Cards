@@ -13,6 +13,9 @@ public class CardsList : MonoBehaviour
     public float upgradeStrength = 1.5f;
     public float cardStrength = 1f;
     public int startingLevel = 1;
+    public float speedToZero = 3f;
+    public delegate float FormulaDelegate(CardInstance cardInstance);
+
 
     public void Initialize()
     {
@@ -30,7 +33,6 @@ public class CardsList : MonoBehaviour
     {
         float cardCost_multi = 0.4f;
         float cardCost_fixed = 10f;
-        float upgradeStrength = 1f;
 
         Card basicCard = Card.CreateInstance(
             "The Basic",
@@ -41,23 +43,36 @@ public class CardsList : MonoBehaviour
             baseCardManaCost
         );
 
-        basicCard.Actions = new List<Action<GameManager, CardInstance>>
-    {
-        (gameManager, cardInstance) => {
-            gameManager.IncreaseScore((int) (10000 + (upgradeStrength  * (cardInstance.level - 1))));
-            gameManager.DecreaseMana((int)(cardCost_fixed + (GameManager.Instance.mana * cardCost_multi)));
-        }
-    };
 
-        basicCard.CostFormula = (cardInstance) => {
+        FormulaDelegate costFormula = (cardInstance) => {
             float baseCost = cardCost_fixed + (GameManager.Instance.mana * cardCost_multi);
-            float speedToZero = 3; 
             float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, speedToZero); // f(x) = 1/(1 + x/100)^speed
             return (float)(baseCost * approachZero);
         };
+        basicCard.CostFormula = costFormula;
 
+        FormulaDelegate rewardFormula = (cardInstance) => {
+            //return 10f + (float)Math.Pow(1f + (cardInstance.level / 30f), 10); //f(x) = 1 + (1 + x/30)^10
+            return 10f + (cardInstance.level * 10f); //f(x) = x * 10, to keep the increase liniar
+
+        };
+        basicCard.RewardFormula = rewardFormula;
+
+        basicCard.Actions = new List<Action<GameManager, CardInstance>>
+        {
+            (gameManager, cardInstance) => {
+                float reward = rewardFormula(cardInstance);
+                gameManager.IncreaseScore((int) reward);
+
+                float cost = costFormula(cardInstance);
+                gameManager.DecreaseMana((int) cost);
+            }
+        };
+
+
+        
         basicCard.IsAffordable = (cardInstance, gameManager) => {
-            return gameManager.mana >= basicCard.CostFormula(cardInstance);
+            return gameManager.mana >= costFormula(cardInstance);
         };
 
         return basicCard;
@@ -67,7 +82,6 @@ public class CardsList : MonoBehaviour
     {
 
         float cardCost = 40f;
-        float upgradeStrength = 0.1f;
 
         Card doubleCard = Card.CreateInstance(
             "Multiply",
@@ -78,25 +92,36 @@ public class CardsList : MonoBehaviour
             baseCardManaCost
         );
 
-        doubleCard.description = "x your score, half your mana";
+        FormulaDelegate costFormula = (cardInstance) => {
+            float baseCost = cardCost;
+            float approachZero = (float)Math.Pow(1f + cardInstance.level / 100f, speedToZero); // f(x) = 1/(1 + x/100)^speed
+            return (float)(baseCost * approachZero);
+        };
+        doubleCard.CostFormula = costFormula;
+
+        FormulaDelegate rewardFormula = (cardInstance) => {
+            GameManager gameManager = FindObjectOfType<GameManager>();
+            int startScore = gameManager.fieldScore;
+            float approachInf = (float)Math.Pow(1f + cardInstance.level / 100f, speedToZero); // f(x) = (1 + x/100)^speed
+            return startScore * approachInf;
+        };
+        doubleCard.RewardFormula = rewardFormula;
+
         doubleCard.Actions = new List<Action<GameManager, CardInstance>>
         {
             (gameManager, cardInstance) => {
-                int startScore = gameManager.fieldScore;
-                gameManager.IncreaseScore((int) (startScore * upgradeStrength * ( cardInstance.level + 1 )));
-                gameManager.DecreaseMana((int) cardCost);
+                float reward = rewardFormula(cardInstance); 
+                gameManager.IncreaseScore((int) reward);
+
+                float cost = costFormula(cardInstance);
+                gameManager.DecreaseMana((int) cost);
             }
         };
 
-        doubleCard.CostFormula = (cardInstance) => {
-            float baseCost = cardCost;
-            float speedToZero = 3;
-            float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, speedToZero); // f(x) = 1/(1 + x/100)^speed
-            return (float)(baseCost * approachZero);
-        };
+
 
         doubleCard.IsAffordable = (cardInstance, gameManager) => {
-            return gameManager.mana >= doubleCard.CostFormula(cardInstance);
+            return gameManager.mana >= costFormula(cardInstance);
         };
 
         return doubleCard;
@@ -117,33 +142,35 @@ public class CardsList : MonoBehaviour
             0
         );
 
-        float strength = 25 + (manaReset.level * upgradeStrength);
+        FormulaDelegate costFormula = (cardInstance) => {
+            float baseCost = cardCost;
+            float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, speedToZero); // f(x) = 1/(1 + x/100)^speed
+            return (float)(baseCost * approachZero);
+        };
+        manaReset.CostFormula = costFormula;
 
-        manaReset.description = "Costs $" + strength + "x Uses \n Full Mana";
+        FormulaDelegate rewardFormula = (cardInstance) => {
+            float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, speedToZero); // f(x) = 1/(1 + x/100)^speed
+            return 100f - (80f * approachZero); //20 > 22 > ... > 100
+
+        };
+        manaReset.RewardFormula = rewardFormula;
+
         manaReset.Actions = new List<Action<GameManager, CardInstance>>
         {
             (gameManager, cardInstance) => {
-                if (gameManager.SpendRound((int) cardCost))
-                {
-                    gameManager.IncreaseMana(strength); 
-                }
-                Debug.Log("Mana Reset");
+                float reward = rewardFormula(cardInstance);
+                gameManager.IncreaseMana((int) reward);
+
+                float cost = costFormula(cardInstance);
+                gameManager.DecreaseScore((int) cost);
             }
         };
 
-        manaReset.CostFormula = (cardInstance) => {
-            float baseCost = cardCost;
-            float speedToZero = 3;
-            float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, speedToZero); // f(x) = 1/(1 + x/100)^speed
-            return (float) (baseCost * approachZero);
-        };
-
         manaReset.IsAffordable = (cardInstance, gameManager) => {
-            return gameManager.fieldScore >= manaReset.CostFormula(cardInstance);
+            return gameManager.fieldScore >= costFormula(cardInstance);
         };
 
         return manaReset;
     }
-
-
 }

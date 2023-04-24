@@ -11,11 +11,12 @@ public class CardDisplay : MonoBehaviour
     public Image cardImage;
     public Text cardName;
     public Text cardDescription;
-    public Text cardLevel;
     public Text cardMana;
     public GameObject upgradePanel;
     private Card _card;
     public CardInstance cardInstance;
+
+    public Text cardLevel;
     public Text manaCostText;
     public Text gainValueText;
 
@@ -35,7 +36,7 @@ public class CardDisplay : MonoBehaviour
         cardName.text = card.cardName;
         cardDescription.text = card.description;
         cardImage.sprite = card.image;
-        cardLevel.text = "" + cardInstance.level; //fix to build string
+        cardLevel.text = cardInstance.level.ToString("F2");
 
         upgradePanel.gameObject.SetActive(showUpgradeButton);
     }
@@ -56,7 +57,7 @@ public class CardDisplay : MonoBehaviour
     private void UpdateGainValue()
     {
         Card card = cardInstance.card;
-        int currentGainValue = (int)(10 + (1 * (cardInstance.level - 1)));
+        float currentGainValue = card.RewardFormula(cardInstance);
         gainValueText.text = currentGainValue.ToString();
     }
 }
