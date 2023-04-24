@@ -20,7 +20,8 @@ public class Card {
     public FormulaDelegate RewardFormula { get; set; }
     public delegate bool AffordableCheck(CardInstance cardInstance, GameManager gameManager);
     public AffordableCheck IsAffordable { get; set; }
-
+    public CardValueType cardRewardType { get; set; }
+    public CardValueType cardCostType { get; set; }
 
     public static Card CreateInstance(string cardName, string description, Sprite image, List<Action<GameManager, CardInstance>> actions, int initialLevel, int manaCost)
     {
@@ -59,4 +60,13 @@ public class Card {
             }
         }
     }
+}
+
+public enum CardValueType
+{
+    Score,
+    Bank,
+    Mana,
+    Time,
+    Card
 }

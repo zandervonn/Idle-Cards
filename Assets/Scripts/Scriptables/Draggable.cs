@@ -29,7 +29,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public CardInstance cardInstance;
 
     public Card CardComponent
-
     {
         get { return _cardComponent; }
         set { _cardComponent = value; }

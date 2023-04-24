@@ -585,13 +585,18 @@ MonoBehaviour:
   cardImage: {fileID: 3415695174584045143}
   cardName: {fileID: 3415695175515158998}
   cardDescription: {fileID: 3415695176328340484}
-  cardLevel: {fileID: 1000573014491711905}
   cardMana: {fileID: 8590545865293543122}
   upgradePanel: {fileID: 5420766707594526969}
   cardInstance:
     level: 0
+  cardLevel: {fileID: 1000573014491711905}
   manaCostText: {fileID: 8590545865293543122}
   gainValueText: {fileID: 8528852934636591993}
+  costImage: {fileID: 2791069371286813171}
+  rewardImage: {fileID: 4702385002964299721}
+  scoreColor: {r: 1, g: 0.9529856, b: 0.3339622, a: 0}
+  manaColor: {r: 0.3622641, g: 0.4598002, b: 1, a: 0}
+  bankColor: {r: 1, g: 0.5698409, b: 0.3622641, a: 0}
 --- !u!114 &-3462345475206245205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1674,7 +1679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8733696, b: 0.56037736, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

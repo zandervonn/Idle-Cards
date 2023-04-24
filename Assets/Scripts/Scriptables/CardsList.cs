@@ -43,6 +43,8 @@ public class CardsList : MonoBehaviour
             baseCardManaCost
         );
 
+        basicCard.cardRewardType = CardValueType.Score;
+        basicCard.cardCostType = CardValueType.Mana;
 
         FormulaDelegate costFormula = (cardInstance) => {
             float baseCost = cardCost_fixed + (GameManager.Instance.mana * cardCost_multi);
@@ -69,7 +71,6 @@ public class CardsList : MonoBehaviour
             }
         };
 
-
         
         basicCard.IsAffordable = (cardInstance, gameManager) => {
             return gameManager.mana >= costFormula(cardInstance);
@@ -91,6 +92,9 @@ public class CardsList : MonoBehaviour
             startingLevel,
             baseCardManaCost
         );
+
+        doubleCard.cardRewardType = CardValueType.Score;
+        doubleCard.cardCostType = CardValueType.Mana;
 
         FormulaDelegate costFormula = (cardInstance) => {
             float baseCost = cardCost;
@@ -141,6 +145,9 @@ public class CardsList : MonoBehaviour
             startingLevel,
             0
         );
+
+        manaReset.cardRewardType = CardValueType.Mana;
+        manaReset.cardCostType = CardValueType.Score;
 
         FormulaDelegate costFormula = (cardInstance) => {
             float baseCost = cardCost;

@@ -20,6 +20,12 @@ public class CardDisplay : MonoBehaviour
     public Text manaCostText;
     public Text gainValueText;
 
+    public Image costImage;
+    public Image rewardImage;
+    public Color scoreColor;
+    public Color manaColor;
+    public Color bankColor;
+
     public Card card
     {
         get
@@ -36,9 +42,11 @@ public class CardDisplay : MonoBehaviour
         cardName.text = card.cardName;
         cardDescription.text = card.description;
         cardImage.sprite = card.image;
-        cardLevel.text = cardInstance.level.ToString("F2");
+        cardLevel.text = cardInstance.level.ToString("F0");
 
         upgradePanel.gameObject.SetActive(showUpgradeButton);
+
+        UpdateColors();
     }
 
     private void Update()
@@ -59,5 +67,35 @@ public class CardDisplay : MonoBehaviour
         Card card = cardInstance.card;
         float currentGainValue = card.RewardFormula(cardInstance);
         gainValueText.text = currentGainValue.ToString();
+    }
+
+    private void UpdateColors()
+    {
+        Card card = cardInstance.card;
+        switch (card.cardCostType)
+        {
+            case CardValueType.Score:
+                costImage.color = new Color(scoreColor.r, scoreColor.g, scoreColor.b, 1);
+                break;
+            case CardValueType.Mana:
+                costImage.color = new Color(manaColor.r, manaColor.g, manaColor.b, 1);
+                break;
+            case CardValueType.Bank:
+                costImage.color = new Color(bankColor.r, bankColor.g, bankColor.b, 1);
+                break;
+        }
+
+        switch (card.cardRewardType)
+        {
+            case CardValueType.Score:
+                rewardImage.color = new Color(scoreColor.r, scoreColor.g, scoreColor.b, 1);
+                break;
+            case CardValueType.Mana:
+                rewardImage.color = new Color(manaColor.r, manaColor.g, manaColor.b, 1);
+                break;
+            case CardValueType.Bank:
+                rewardImage.color = new Color(bankColor.r, bankColor.g, bankColor.b, 1);
+                break;
+        }
     }
 }
