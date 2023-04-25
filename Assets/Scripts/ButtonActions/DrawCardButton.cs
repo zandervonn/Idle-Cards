@@ -23,7 +23,7 @@ public class DrawCardButton : MonoBehaviour, IPointerDownHandler
             {
                 DrawCard drawCardComponent = FindObjectOfType<DrawCard>();
                 drawCardComponent.DrawCards(1);
-                gameManager.BuyCost *= 2;
+                gameManager.BuyCost *= 4;
                 UpdateDrawPriceText();
             }
         }

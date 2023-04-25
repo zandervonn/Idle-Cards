@@ -10,6 +10,7 @@ public class CardInstance
     public int level;
     public int UpgradeCost { get; private set; }
     private CardManager cardManager;
+    public int rarity; 
 
     public CardInstance(Card card, CardManager cardManager)
     {
@@ -17,14 +18,16 @@ public class CardInstance
         this.level = 0;
         UpgradeCost = 10;
         this.cardManager = cardManager;
+        this.rarity = 1;
     }
 
-    public CardInstance(Card card, CardManager cardManager, int level)
+    public CardInstance(Card card, CardManager cardManager, int level, int rarity)
     {
         this.card = card;
         this.level = level;
         UpgradeCost = 10;
         this.cardManager = cardManager;
+        this.rarity = rarity;
     }
 
     public void Upgrade()

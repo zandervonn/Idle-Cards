@@ -40,7 +40,8 @@ public class CardsList : MonoBehaviour
             Resources.Load<Sprite>("CardImages/Coin"),
             null,
             startingLevel,
-            baseCardManaCost
+            baseCardManaCost,
+            50
         );
 
         basicCard.cardRewardType = CardValueType.Score;
@@ -90,7 +91,8 @@ public class CardsList : MonoBehaviour
             Resources.Load<Sprite>("CardImages/CoinBag"),
             null,
             startingLevel,
-            baseCardManaCost
+            baseCardManaCost,
+            1
         );
 
         doubleCard.cardRewardType = CardValueType.Score;
@@ -135,7 +137,6 @@ public class CardsList : MonoBehaviour
     {
 
         float cardCost = 10f;
-        float upgradeStrength = 0.5f;
 
         Card manaReset = Card.CreateInstance(
             "I NEED MORE TIME",
@@ -143,7 +144,8 @@ public class CardsList : MonoBehaviour
             Resources.Load<Sprite>("CardImages/Clock"),
             null,
             startingLevel,
-            0
+            0,
+            1
         );
 
         manaReset.cardRewardType = CardValueType.Mana;

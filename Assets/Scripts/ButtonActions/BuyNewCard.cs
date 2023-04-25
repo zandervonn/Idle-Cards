@@ -1,4 +1,4 @@
-//11
+//15
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,7 +34,9 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
         
         gameManager = FindObjectOfType<GameManager>();
         cardsList = FindObjectOfType<CardsList>();
-        if (gameManager.SpendBank(cardCost))
+
+        //if (gameManager.SpendBank(cardCost))
+        if (gameManager.SpendBank(0))
         {
             // Get a random card from the list of card types (cardsList.cards)
             int cardIndex = Random.Range(0, cardsList.cards.Count);

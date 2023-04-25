@@ -26,6 +26,8 @@ public class CardDisplay : MonoBehaviour
     public Color manaColor;
     public Color bankColor;
 
+    public Image cardBorder;
+
     public Card card
     {
         get
@@ -46,7 +48,8 @@ public class CardDisplay : MonoBehaviour
 
         upgradePanel.gameObject.SetActive(showUpgradeButton);
 
-        UpdateColors();
+        UpdateBorderColor(cardInstance.rarity);
+        UpdateValueColors();
     }
 
     private void Update()
@@ -69,7 +72,7 @@ public class CardDisplay : MonoBehaviour
         gainValueText.text = currentGainValue.ToString();
     }
 
-    private void UpdateColors()
+    private void UpdateValueColors()
     {
         Card card = cardInstance.card;
         switch (card.cardCostType)
@@ -97,5 +100,43 @@ public class CardDisplay : MonoBehaviour
                 rewardImage.color = new Color(bankColor.r, bankColor.g, bankColor.b, 1);
                 break;
         }
+    }
+
+    private void UpdateBorderColor(int rarity)
+    {
+        float rarityPercentage = (float)rarity / 100f;
+        Color borderColor;
+
+        float gray = 0.3f; //0-30
+        float green = 0.5f; //30-50
+        float blue = 0.8f; //50 - 80
+        float magenta = 0.95f; //80-95
+        float yellow = 1f; //95-100
+
+
+
+
+        if (rarityPercentage < 0.3f)
+        {
+            borderColor = Color.Lerp(Color.gray, Color.green, rarityPercentage/gray);
+        }
+        else if (rarityPercentage < 0.5f)
+        {
+            borderColor = Color.Lerp(Color.green, Color.blue, (rarityPercentage-gray) / (green- gray));
+        }
+        else if (rarityPercentage < 0.80f)
+        {
+            borderColor = Color.Lerp(Color.blue, Color.magenta, (rarityPercentage - green) /(blue - green));
+        }
+        else if (rarityPercentage < 0.95f)
+        {
+            borderColor = Color.Lerp(Color.magenta, Color.yellow, (rarityPercentage - blue) / (magenta - blue));
+        }
+        else
+        {
+            borderColor = Color.yellow;
+        }
+
+        cardBorder.color = borderColor;
     }
 }

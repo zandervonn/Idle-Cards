@@ -22,8 +22,10 @@ public class Card {
     public AffordableCheck IsAffordable { get; set; }
     public CardValueType cardRewardType { get; set; }
     public CardValueType cardCostType { get; set; }
+    public int rarity { get; set; } 
 
-    public static Card CreateInstance(string cardName, string description, Sprite image, List<Action<GameManager, CardInstance>> actions, int initialLevel, int manaCost)
+
+    public static Card CreateInstance(string cardName, string description, Sprite image, List<Action<GameManager, CardInstance>> actions, int initialLevel, int manaCost, int rarity)
     {
         Card card = new Card();
 
@@ -33,6 +35,7 @@ public class Card {
         card.Actions = actions ?? new List<Action<GameManager, CardInstance>>();
         card.level = initialLevel;
         card.mana = manaCost;
+        card.rarity = rarity;
 
         return card;
     }

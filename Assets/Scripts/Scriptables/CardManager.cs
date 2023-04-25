@@ -1,4 +1,5 @@
 //12
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,7 +24,9 @@ public class CardManager
     }
     public void AddNewOwnedCard(Card card)
     {
-        CardInstance cardInstance = new CardInstance(card, this);
+        int rarity = GetRandomRarity();
+        Debug.Log("new card rarity: " +  rarity);
+        CardInstance cardInstance = new CardInstance(card, this, 1, rarity);
         ownedCards.Add(cardInstance);
         availableCards.Add(cardInstance);
     }
@@ -36,5 +39,17 @@ public class CardManager
     public void RemoveCard(CardInstance cardToRemove)
     {
         ownedCards.Remove(cardToRemove);
+    }
+
+    private int GetRandomRarity()
+    {
+        var randomizer = new System.Random();
+        var randomDouble = randomizer.NextDouble();
+        int min = 1;
+        int max = 100;
+        double probabilityPower = 3;
+
+        var result = Math.Floor(min + (max + 1 - min) * (Math.Pow(randomDouble, probabilityPower)));
+        return (int)result;
     }
 }
