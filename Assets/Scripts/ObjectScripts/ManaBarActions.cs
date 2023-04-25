@@ -33,7 +33,7 @@ public class ManaBarActions : MonoBehaviour
 
         gameManager.DecreaseMana(currentManaLossRate * Time.deltaTime);
         slider.value = gameManager.mana;
-        manaValueText.text = gameManager.mana.ToString("F1");
+        manaValueText.text = gameManager.mana.ToString("F2");
 
         if (gameManager.mana <= 0)
         {
