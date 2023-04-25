@@ -224,4 +224,10 @@ public class GameManager : MonoBehaviour {
         }
         manaBarActions.UpdateSliderMaxValue();
     }
+
+    public void DrawCards(int num)
+    {
+        drawCard = FindObjectOfType<DrawCard>();
+        drawCard.DrawCards(num);
+    }
 }

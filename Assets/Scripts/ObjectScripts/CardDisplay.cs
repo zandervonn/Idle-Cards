@@ -42,7 +42,7 @@ public class CardDisplay : MonoBehaviour
 
         cardName.text = card.cardName;
         cardDescription.text = card.description;
-        cardImage.sprite = card.image;
+        cardImage.sprite = card.artwork;
         cardLevel.text = cardInstance.level.ToString("F0");
 
         upgradePanel.gameObject.SetActive(showUpgradeButton);
@@ -74,32 +74,39 @@ public class CardDisplay : MonoBehaviour
     private void UpdateValueColors()
     {
         Card card = cardInstance.card;
-        switch (card.cardCostType)
-        {
-            case CardValueType.Score:
-                costImage.color = new Color(scoreColor.r, scoreColor.g, scoreColor.b, 1);
-                break;
-            case CardValueType.Mana:
-                costImage.color = new Color(manaColor.r, manaColor.g, manaColor.b, 1);
-                break;
-            case CardValueType.Bank:
-                costImage.color = new Color(bankColor.r, bankColor.g, bankColor.b, 1);
-                break;
-        }
-
-        switch (card.cardRewardType)
-        {
-            case CardValueType.Score:
-                rewardImage.color = new Color(scoreColor.r, scoreColor.g, scoreColor.b, 1);
-                break;
-            case CardValueType.Mana:
-                rewardImage.color = new Color(manaColor.r, manaColor.g, manaColor.b, 1);
-                break;
-            case CardValueType.Bank:
-                rewardImage.color = new Color(bankColor.r, bankColor.g, bankColor.b, 1);
-                break;
-        }
+        costImage.color = card.CardCost.GetColor();
+        rewardImage.color = card.CardReward.GetColor();
     }
+
+    //private void UpdateValueColors()
+    //{
+    //    Card card = cardInstance.card;
+    //    switch (card.cardCostType)
+    //    {
+    //        case CardValueType.Score:
+    //            costImage.color = new Color(scoreColor.r, scoreColor.g, scoreColor.b, 1);
+    //            break;
+    //        case CardValueType.Mana:
+    //            costImage.color = new Color(manaColor.r, manaColor.g, manaColor.b, 1);
+    //            break;
+    //        case CardValueType.Bank:
+    //            costImage.color = new Color(bankColor.r, bankColor.g, bankColor.b, 1);
+    //            break;
+    //    }
+
+    //    switch (card.cardRewardType)
+    //    {
+    //        case CardValueType.Score:
+    //            rewardImage.color = new Color(scoreColor.r, scoreColor.g, scoreColor.b, 1);
+    //            break;
+    //        case CardValueType.Mana:
+    //            rewardImage.color = new Color(manaColor.r, manaColor.g, manaColor.b, 1);
+    //            break;
+    //        case CardValueType.Bank:
+    //            rewardImage.color = new Color(bankColor.r, bankColor.g, bankColor.b, 1);
+    //            break;
+    //    }
+    //}
 
     private void UpdateBorderColor(int rarity)
     {
