@@ -136,7 +136,7 @@ public class CardsList : MonoBehaviour
     private Card CreateManaResetCard()
     {
 
-        float cardCost = 10f;
+        float cardCost = 30f;
 
         Card manaReset = Card.CreateInstance(
             "I NEED MORE TIME",
@@ -152,10 +152,12 @@ public class CardsList : MonoBehaviour
         manaReset.cardCostType = CardValueType.Score;
 
         FormulaDelegate costFormula = (cardInstance) => {
+            GameManager gameManager = FindObjectOfType<GameManager>();
+            int startScore = gameManager.fieldScore;
             float baseCost = cardCost;
             float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, speedToZero); // f(x) = 1/(1 + x/100)^speed
             
-            return (float)(baseCost * approachZero);
+            return (float)(startScore * ((1f / 100f) * baseCost * approachZero)); //costs x % of score
         };
         manaReset.CostFormula = costFormula;
 

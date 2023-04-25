@@ -27,7 +27,6 @@ public class CardDisplay : MonoBehaviour
     public Color bankColor;
 
     public Image cardBorder;
-
     public Card card
     {
         get
