@@ -56,7 +56,8 @@ public class CardsList : MonoBehaviour
 
         FormulaDelegate rewardFormula = (cardInstance) => {
             //return 10f + (float)Math.Pow(1f + (cardInstance.level / 30f), 10); //f(x) = 1 + (1 + x/30)^10
-            return 10f + (cardInstance.level * 10f); //f(x) = x * 10, to keep the increase liniar
+            float rarityAdd = cardInstance.rarity / 10; //1-10 x
+            return 10f + (cardInstance.level * (5f + rarityAdd)); //f(x) = x * 10, to keep the increase liniar
 
         };
         basicCard.RewardFormula = rewardFormula;
@@ -109,7 +110,8 @@ public class CardsList : MonoBehaviour
             GameManager gameManager = FindObjectOfType<GameManager>();
             int startScore = gameManager.fieldScore;
             float approachInf = (float)Math.Pow(1f + cardInstance.level / 100f, speedToZero); // f(x) = (1 + x/100)^speed
-            return startScore * approachInf;
+            float rarityAdd = 1 + (cardInstance.rarity) / 25; //1-5 x
+            return startScore * approachInf * rarityAdd;
         };
         doubleCard.RewardFormula = rewardFormula;
 
@@ -123,8 +125,6 @@ public class CardsList : MonoBehaviour
                 gameManager.DecreaseMana((int) cost);
             }
         };
-
-
 
         doubleCard.IsAffordable = (cardInstance, gameManager) => {
             return gameManager.mana >= costFormula(cardInstance);
@@ -154,13 +154,15 @@ public class CardsList : MonoBehaviour
         FormulaDelegate costFormula = (cardInstance) => {
             float baseCost = cardCost;
             float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, speedToZero); // f(x) = 1/(1 + x/100)^speed
+            
             return (float)(baseCost * approachZero);
         };
         manaReset.CostFormula = costFormula;
 
         FormulaDelegate rewardFormula = (cardInstance) => {
             float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, speedToZero); // f(x) = 1/(1 + x/100)^speed
-            return 100f - (80f * approachZero); //20 > 22 > ... > 100
+            float rarityAdd = 1 + (cardInstance.rarity / 50); // 1 - 3 x
+            return (100f - (80f * approachZero)) * rarityAdd; //20 > 22 > ... > 100
 
         };
         manaReset.RewardFormula = rewardFormula;
