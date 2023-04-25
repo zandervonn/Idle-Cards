@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ManaBarActions : MonoBehaviour
 {
-    private float maxMana = 100f; //should be game manager value
+     //should be game manager value
     private float manaLossRate = 0.05f;
     private float manaAcceleration = 3f;
     private float elapsedTimeSinceRoundStart = 0f;
@@ -18,10 +18,10 @@ public class ManaBarActions : MonoBehaviour
         gameManager = GameManager.Instance;
 
         slider = GetComponent<Slider>();
-        slider.maxValue = maxMana;
+        slider.maxValue = gameManager.maxMana;
         slider.value = gameManager.mana;
 
-        maxMana = 100f;
+        gameManager.maxMana = 100f;
         manaLossRate = 0.05f;
         manaAcceleration = 3f;
 }
@@ -33,7 +33,7 @@ public class ManaBarActions : MonoBehaviour
 
         gameManager.DecreaseMana(currentManaLossRate * Time.deltaTime);
         slider.value = gameManager.mana;
-        manaValueText.text = "" + gameManager.mana;
+        manaValueText.text = gameManager.mana.ToString("F1");
 
         if (gameManager.mana <= 0)
         {
@@ -55,6 +55,11 @@ public class ManaBarActions : MonoBehaviour
     public void UpdateSlider()
     {
         slider.value = gameManager.mana;
+    }
+
+    public void UpdateSliderMaxValue()
+    {
+        slider.maxValue = gameManager.maxMana;
     }
 
 

@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour {
     public static GameManager Instance { get; private set; }
     public int fieldScore { get; private set; }
     private float _mana = 100;
-    private int maxMana = 100;
     public ManaBarActions manaBarActions;
     public float mana {
         get { return _mana; }
@@ -27,6 +26,8 @@ public class GameManager : MonoBehaviour {
     public int RemoveCost { get; set; }
     public int RemoveCostMultiplier { get; private set; }
     public int TotalMoneyEarned { get; private set; }
+    public float maxMana { get; set; }
+    public float minMana = 10;
     public CardsList cardsList{ get; private set; }
     public DrawCard drawCard;
     public CardManager cardManager;
@@ -43,11 +44,12 @@ public class GameManager : MonoBehaviour {
 
         manaBarActions = FindObjectOfType<ManaBarActions>();
 
-        HighScore = 1; // to make sue money is always made
+        HighScore = 1; // to make sure money is always made
         LastScore = 0;
         BankValue = 100; // testing
         BuyCost = 1;
         RemoveCost = 1;
+        maxMana = 100;
 
 
         RemoveCostMultiplier = 2;
@@ -58,6 +60,8 @@ public class GameManager : MonoBehaviour {
         cardsList.Initialize();
 
         cardManager = new CardManager(cardsList.cards);
+
+        OnResetRound();
 
     }
 
@@ -209,5 +213,15 @@ public class GameManager : MonoBehaviour {
     public void UpdateRemoveCost()
     {
         RemoveCost *= RemoveCostMultiplier;
+    }
+
+    public void ChangeMaxMana(float amount)
+    {
+        maxMana += amount;
+        if (maxMana < 10)
+        {
+            maxMana = 10;
+        }
+        manaBarActions.UpdateSliderMaxValue();
     }
 }

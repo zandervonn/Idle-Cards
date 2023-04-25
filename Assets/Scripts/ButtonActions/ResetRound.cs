@@ -14,9 +14,11 @@ public class ResetRound : MonoBehaviour, IPointerDownHandler {
 
     public void OnPointerDown(PointerEventData eventData) {
         GameManager gameManager = GameManager.Instance;
-        if(gameManager.SpendBank((int)resetCost))
-        gameManager.OnResetRound();
-        UpdateDrawPriceText();
+        if (gameManager.SpendBank((int)resetCost))
+        {
+            gameManager.OnResetRound();
+            UpdateDrawPriceText();
+        }
     }
 
     public void UpdateDrawPriceText()
