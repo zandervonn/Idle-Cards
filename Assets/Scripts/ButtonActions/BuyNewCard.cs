@@ -21,7 +21,7 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
     {
         cardsList = FindObjectOfType<CardsList>();
         gameManager = FindObjectOfType<GameManager>();
-        cardCostMultiplier = 2; // testing 3;
+        cardCostMultiplier = 4;
 }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -35,8 +35,7 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
         gameManager = FindObjectOfType<GameManager>();
         cardsList = FindObjectOfType<CardsList>();
 
-        //if (gameManager.SpendBank(cardCost))
-            if (gameManager.SpendBank(0))
+        if (gameManager.SpendBank(cardCost))
             {
             // Get a random card from the list of card types (cardsList.cards)
             int cardIndex = Random.Range(0, cardsList.cards.Count);
