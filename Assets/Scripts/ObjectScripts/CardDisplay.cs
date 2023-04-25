@@ -107,30 +107,21 @@ public class CardDisplay : MonoBehaviour
         float rarityPercentage = (float)rarity / 100f;
         Color borderColor;
 
-        float gray = 0.3f; //0-30
-        float green = 0.5f; //30-50
-        float blue = 0.8f; //50 - 80
-        float magenta = 0.95f; //80-95
-        float yellow = 1f; //95-100
-
-
-
-
         if (rarityPercentage < 0.3f)
         {
-            borderColor = Color.Lerp(Color.gray, Color.green, rarityPercentage/gray);
+            borderColor = Color.gray;
         }
         else if (rarityPercentage < 0.5f)
         {
-            borderColor = Color.Lerp(Color.green, Color.blue, (rarityPercentage-gray) / (green- gray));
+            borderColor = Color.green;
         }
         else if (rarityPercentage < 0.80f)
         {
-            borderColor = Color.Lerp(Color.blue, Color.magenta, (rarityPercentage - green) /(blue - green));
+            borderColor = Color.blue;
         }
         else if (rarityPercentage < 0.95f)
         {
-            borderColor = Color.Lerp(Color.magenta, Color.yellow, (rarityPercentage - blue) / (magenta - blue));
+            borderColor = Color.magenta;
         }
         else
         {
