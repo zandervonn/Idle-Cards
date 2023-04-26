@@ -1,11 +1,10 @@
 ﻿//3
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine.Events;
+using System.Collections.Generic;
+
 
 public class DrawCard : MonoBehaviour
 {
@@ -50,6 +49,11 @@ public class DrawCard : MonoBehaviour
         }
     }
 
+    //void Update()
+    //{
+    //    UpdateHand();
+    //}
+
     public void DrawNewCard()
     {
         GameManager gameManager = GameManager.Instance;
@@ -84,18 +88,73 @@ public class DrawCard : MonoBehaviour
             draggable.cardInstance = cardInstance; // Add this line
         }
 
-        UpdateSpacing();
+        UpdateHand();
     }
 
-    public void UpdateSpacing() {
-      int cardCount = newParent.transform.childCount;
-      float handWidth = newParent.GetComponent<RectTransform>().rect.width - 100;
-      float cardWidth = cardDisplay.GetComponent<RectTransform>().rect.width + 8f;
-      if (cardWidth * cardCount > handWidth) {
-          spacing = -((cardWidth * cardCount) - handWidth) / cardCount;
-      }
-      newParent.GetComponent<HorizontalLayoutGroup>().spacing = spacing;
-  }
+    public void UpdateHand()
+    {
+        UpdateSpacing();
+        FanOutCards();
+    }
+
+    public void UpdateSpacing()
+    {
+        int cardCount = newParent.transform.childCount;
+        float cardSpacing = 50;
+        float handWidth = newParent.GetComponent<RectTransform>().rect.width - (cardSpacing*2);
+        float cardWidth = cardDisplay.GetComponent<RectTransform>().rect.width + cardSpacing;
+
+        float totalCardWidth = cardWidth * cardCount;
+        float availableSpacing = (totalCardWidth > handWidth) ? -((totalCardWidth - handWidth) / (cardCount - 1)) : (handWidth - totalCardWidth) / (cardCount - 1);
+
+        // Calculate the shift required to center the hand
+        //float shift = (handWidth - (cardWidth * cardCount + availableSpacing * (cardCount - 1))) / 2;
+        float shift = handWidth / 4;
+
+        for (int i = 0; i < cardCount; i++)
+        {
+            RectTransform cardTransform = newParent.transform.GetChild(i).GetComponent<RectTransform>();
+            cardTransform.anchoredPosition = new Vector2(shift + (cardWidth + availableSpacing) * i, cardTransform.anchoredPosition.y);
+        }
+    }
+
+    public void FanOutCards()
+    {
+        int cardCount = newParent.transform.childCount;
+        float halfCardCount = Mathf.Floor(cardCount / 2);
+        float maxTiltAngle = 10f;
+        float maxHeight = 100f;
+
+        if (cardCount <= 2) { return; }
+
+        // Sort the cards by their local X position
+        List<Transform> sortedCards = new List<Transform>();
+        for (int i = 0; i < cardCount; i++)
+        {
+            sortedCards.Add(newParent.transform.GetChild(i));
+        }
+        sortedCards.Sort((a, b) => a.localPosition.x.CompareTo(b.localPosition.x));
+
+        for (int i = 0; i < halfCardCount; i++)
+        {
+            float tiltAngle = (1 - (i/ halfCardCount)) * maxTiltAngle;
+            float height = (((i / halfCardCount) * maxHeight) - (maxHeight/2));
+
+            RectTransform cardTransform;
+
+            // Apply transformations to the left half of the cards
+            cardTransform = sortedCards[i].GetComponent<RectTransform>();
+            cardTransform.pivot = new Vector2(0.5f, 0.5f);
+            cardTransform.localEulerAngles = new Vector3(0f, 0f, tiltAngle);
+            cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, height, cardTransform.localPosition.z);
+
+            // Apply transformations to the right half of the cards
+            cardTransform = sortedCards[(cardCount - 1) - i].GetComponent<RectTransform>();
+            cardTransform.pivot = new Vector2(0.5f, 0.5f);
+            cardTransform.localEulerAngles = new Vector3(0f, 0f, -tiltAngle);
+            cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, height, cardTransform.localPosition.z);
+        }
+    }
 
     public void ClearCards()
     {

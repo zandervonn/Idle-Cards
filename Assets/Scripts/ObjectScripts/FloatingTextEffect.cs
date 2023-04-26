@@ -13,6 +13,9 @@ public class FloatingTextEffect : MonoBehaviour
     private Text originalText;
     private string lastTextValue;
 
+    private float updateInterval = 0.1f;
+    private float updateTimer = 0f;
+
     private void Awake()
     {
         originalText = GetComponent<Text>();
@@ -21,10 +24,15 @@ public class FloatingTextEffect : MonoBehaviour
 
     private void Update()
     {
-        if (originalText.text != lastTextValue)
+        updateTimer += Time.deltaTime;
+        if (updateTimer >= updateInterval)
         {
-            CreateFloatingText();
-            lastTextValue = originalText.text;
+            updateTimer = 0f;
+            if (originalText.text != lastTextValue)
+            {
+                CreateFloatingText();
+                lastTextValue = originalText.text;
+            }
         }
     }
 
@@ -38,6 +46,12 @@ public class FloatingTextEffect : MonoBehaviour
         floatingText.font = originalText.font;
         floatingText.fontSize = originalText.fontSize;
         floatingText.alignment = originalText.alignment;
+
+        // Add ContentSizeFitter and configure it
+        ContentSizeFitter contentSizeFitter = floatingTextObj.AddComponent<ContentSizeFitter>();
+        contentSizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        contentSizeFitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+
 
         string oldValueStr = lastTextValue.TrimStart('$');
         string newValueStr = originalText.text.TrimStart('$');
