@@ -36,7 +36,16 @@ public abstract class Card : ScriptableObject
 
     public void OnDrop(GameManager gameManager, CardInstance cardInstance)
     {
-        ExecuteActions(gameManager, cardInstance);
+
+        if (IsAffordable(cardInstance, gameManager))
+        {
+            CardCost.ExecuteActions(gameManager, cardInstance);
+            CardReward.ExecuteActions(gameManager, cardInstance);
+        }
+        else
+        {
+            Debug.Log("Card not affordable");
+        }
     }
 
 }
@@ -53,6 +62,95 @@ public enum CardValueType
 
 
 
+
+
+public interface ICardCost
+{
+    CardValueType CostType { get; }
+    float CostFormula(CardInstance cardInstance);
+    bool IsAffordable(CardInstance cardInstance, GameManager gameManager);
+    void ExecuteActions(GameManager gameManager, CardInstance cardInstance);
+
+    Color GetColor();
+}
+
+public abstract class CardCostBase : ICardCost
+{
+    public abstract CardValueType CostType { get; }
+    protected readonly Func<CardInstance, float> _costFormula;
+
+    protected CardCostBase(Func<CardInstance, float> costFormula)
+    {
+        _costFormula = costFormula;
+    }
+
+    public float CostFormula(CardInstance cardInstance)
+    {
+        return _costFormula(cardInstance);
+    }
+
+    public abstract bool IsAffordable(CardInstance cardInstance, GameManager gameManager);
+    public abstract void ExecuteActions(GameManager gameManager, CardInstance cardInstance);
+    public abstract Color GetColor();
+}
+
+public class ManaCardCost : CardCostBase
+{
+    public ManaCardCost(Func<CardInstance, float> costFormula) : base(costFormula) { }
+    public override CardValueType CostType => CardValueType.Mana;
+
+    public override bool IsAffordable(CardInstance cardInstance, GameManager gameManager)
+    {
+        return gameManager.mana >= CostFormula(cardInstance);
+    }
+
+    public override void ExecuteActions(GameManager gameManager, CardInstance cardInstance)
+    {
+        
+        float cost = CostFormula(cardInstance);
+
+        Debug.Log("decreasing mana by: " + cost);
+        gameManager.DecreaseMana((int)cost);
+    }
+
+    public override Color GetColor()
+    {
+        return new Color(0, 1, 1, 1); // Replace with your manaColor
+    }
+}
+
+
+public class ScoreCardCost : CardCostBase
+{
+    public ScoreCardCost(Func<CardInstance, float> costFormula) : base(costFormula) { }
+    public override CardValueType CostType => CardValueType.Score;
+
+    public override bool IsAffordable(CardInstance cardInstance, GameManager gameManager)
+    {
+        return gameManager.fieldScore >= CostFormula(cardInstance);
+    }
+    public override void ExecuteActions(GameManager gameManager, CardInstance cardInstance)
+    {
+        float cost = CostFormula(cardInstance);
+        gameManager.DecreaseScore((int)cost);
+    }
+
+    public override Color GetColor()
+    {
+        return new Color(0, 1, 1, 1); // Replace with your manaColor
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 public interface ICardReward
 {
     CardValueType RewardType { get; }
@@ -62,54 +160,12 @@ public interface ICardReward
     Color GetColor();
 }
 
-public interface ICardCost
+public abstract class CardRewardBase : ICardReward
 {
-    CardValueType CostType { get; }
-    float CostFormula(CardInstance cardInstance);
-    bool IsAffordable(CardInstance cardInstance, GameManager gameManager);
+    public abstract CardValueType RewardType { get; }
+    protected readonly Func<CardInstance, float> _rewardFormula;
 
-    Color GetColor();
-}
-
-public class ManaCardCost : ICardCost
-{
-    public CardValueType CostType => CardValueType.Mana;
-    private readonly Func<CardInstance, float> _costFormula;
-    private readonly Action<GameManager, CardInstance> _executeActions;
-
-    public ManaCardCost(Func<CardInstance, float> costFormula, Action<GameManager, CardInstance> executeActions = null)
-    {
-        _costFormula = costFormula;
-        _executeActions = executeActions;
-    }
-
-    public float CostFormula(CardInstance cardInstance)
-    {
-        return _costFormula(cardInstance);
-    }
-
-    public bool IsAffordable(CardInstance cardInstance, GameManager gameManager)
-    {
-        return gameManager.mana >= CostFormula(cardInstance);
-    }
-
-    public void ExecuteActions(GameManager gameManager, CardInstance cardInstance)
-    {
-        _executeActions?.Invoke(gameManager, cardInstance);
-    }
-
-    public Color GetColor()
-    {
-        return new Color(0, 1, 1, 1); // Replace with your manaColor
-    }
-}
-
-public class ScoreCardReward : ICardReward
-{
-    public CardValueType RewardType => CardValueType.Score;
-    private readonly Func<CardInstance, float> _rewardFormula;
-
-    public ScoreCardReward(Func<CardInstance, float> rewardFormula)
+    protected CardRewardBase(Func<CardInstance, float> rewardFormula)
     {
         _rewardFormula = rewardFormula;
     }
@@ -119,94 +175,56 @@ public class ScoreCardReward : ICardReward
         return _rewardFormula(cardInstance);
     }
 
-    public void ExecuteActions(GameManager gameManager, CardInstance cardInstance)
+    public abstract void ExecuteActions(GameManager gameManager, CardInstance cardInstance);
+    public abstract Color GetColor();
+}
+
+public class ScoreCardReward : CardRewardBase
+{
+    public ScoreCardReward(Func<CardInstance, float> rewardFormula) : base(rewardFormula) { }
+    public override CardValueType RewardType => CardValueType.Score;
+
+    public override void ExecuteActions(GameManager gameManager, CardInstance cardInstance)
     {
         float reward = RewardFormula(cardInstance);
         gameManager.IncreaseScore((int)reward);
     }
 
-    public Color GetColor()
+    public override Color GetColor()
     {
         return new Color(0, 1, 1, 1); // Replace with your manaColor
     }
 }
 
-
-public class ManaCardReward : ICardReward
+public class ManaCardReward : CardRewardBase
 {
-    public CardValueType RewardType => CardValueType.Mana;
-    private readonly Func<CardInstance, float> _rewardFormula;
+    public ManaCardReward(Func<CardInstance, float> rewardFormula) : base(rewardFormula) { }
+    public override CardValueType RewardType => CardValueType.Mana;
 
-    public ManaCardReward(Func<CardInstance, float> rewardFormula)
-    {
-        _rewardFormula = rewardFormula;
-    }
-
-    public float RewardFormula(CardInstance cardInstance)
-    {
-        return _rewardFormula(cardInstance);
-    }
-
-    public void ExecuteActions(GameManager gameManager, CardInstance cardInstance)
+    public override void ExecuteActions(GameManager gameManager, CardInstance cardInstance)
     {
         float reward = RewardFormula(cardInstance);
         gameManager.IncreaseMana((int)reward);
     }
 
-    public Color GetColor()
+    public override Color GetColor()
     {
         return new Color(0, 1, 1, 1); // Replace with your manaColor
     }
 }
 
-public class CardCardReward : ICardReward
+public class CardCardReward : CardRewardBase
 {
-    public CardValueType RewardType => CardValueType.Card;
-    private readonly Func<CardInstance, float> _rewardFormula;
+    public CardCardReward(Func<CardInstance, float> rewardFormula) : base(rewardFormula) { }
+    public override CardValueType RewardType => CardValueType.Card;
 
-    public CardCardReward(Func<CardInstance, float> rewardFormula)
-    {
-        _rewardFormula = rewardFormula;
-    }
-
-    public float RewardFormula(CardInstance cardInstance)
-    {
-        return _rewardFormula(cardInstance);
-    }
-
-    public void ExecuteActions(GameManager gameManager, CardInstance cardInstance)
+    public override void ExecuteActions(GameManager gameManager, CardInstance cardInstance)
     {
         float reward = RewardFormula(cardInstance);
         gameManager.DrawCards((int)reward);
     }
 
-    public Color GetColor()
-    {
-        return new Color(0, 1, 1, 1); // Replace with your manaColor
-    }
-}
-
-public class ScoreCardCost : ICardCost
-{
-    public CardValueType CostType => CardValueType.Score;
-    private readonly Func<CardInstance, float> _costFormula;
-
-    public ScoreCardCost(Func<CardInstance, float> costFormula)
-    {
-        _costFormula = costFormula;
-    }
-
-    public float CostFormula(CardInstance cardInstance)
-    {
-        return _costFormula(cardInstance);
-    }
-
-    public bool IsAffordable(CardInstance cardInstance, GameManager gameManager)
-    {
-        return gameManager.fieldScore >= CostFormula(cardInstance);
-    }
-
-    public Color GetColor()
+    public override Color GetColor()
     {
         return new Color(0, 1, 1, 1); // Replace with your manaColor
     }
