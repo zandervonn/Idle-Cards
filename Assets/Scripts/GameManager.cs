@@ -180,7 +180,7 @@ public class GameManager : MonoBehaviour {
         DrawCard drawCardComponent = FindObjectOfType<DrawCard>();
         drawCardComponent.ClearCards();
         cardManager.ResetAvailableCards();
-        drawCardComponent.DrawCards(4);
+        drawCardComponent.DrawCards(3);
         manaBarActions.ResetElapsedTimeSinceRoundStart(); 
         ResetScore();
         ResetMana();

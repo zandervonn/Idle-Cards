@@ -21,6 +21,11 @@ public class DrawCard : MonoBehaviour
         DrawCards(5);
     }
 
+    private void Update()
+    {
+        UpdateHand();
+    }
+
     private void Awake()
     {
         if (Instance == null)
@@ -47,12 +52,9 @@ public class DrawCard : MonoBehaviour
         {
             DrawNewCard();
         }
-    }
 
-    //void Update()
-    //{
-    //    UpdateHand();
-    //}
+        UpdateHand();
+    }
 
     public void DrawNewCard()
     {
@@ -101,20 +103,22 @@ public class DrawCard : MonoBehaviour
     {
         int cardCount = newParent.transform.childCount;
         float cardSpacing = 50;
-        float handWidth = newParent.GetComponent<RectTransform>().rect.width - (cardSpacing*2);
-        float cardWidth = cardDisplay.GetComponent<RectTransform>().rect.width + cardSpacing;
-
+        float elementWidth = newParent.GetComponent<RectTransform>().rect.width;
+        float handWidth = elementWidth - 2 * cardSpacing;
+        float cardWidth = cardDisplay.GetComponent<RectTransform>().rect.width;
         float totalCardWidth = cardWidth * cardCount;
-        float availableSpacing = (totalCardWidth > handWidth) ? -((totalCardWidth - handWidth) / (cardCount - 1)) : (handWidth - totalCardWidth) / (cardCount - 1);
-
-        // Calculate the shift required to center the hand
-        //float shift = (handWidth - (cardWidth * cardCount + availableSpacing * (cardCount - 1))) / 2;
-        float shift = handWidth / 4;
+        float totalSpacing = cardSpacing * (cardCount - 1);
+        float totalWidth = totalCardWidth + totalSpacing;
 
         for (int i = 0; i < cardCount; i++)
         {
             RectTransform cardTransform = newParent.transform.GetChild(i).GetComponent<RectTransform>();
-            cardTransform.anchoredPosition = new Vector2(shift + (cardWidth + availableSpacing) * i, cardTransform.anchoredPosition.y);
+
+            // Update positions for the cards
+            cardTransform.pivot = new Vector2(0.5f, 0.5f);
+            float spacing = handWidth / (cardCount + 1);
+            float x = cardSpacing + (spacing * (i+1));
+            cardTransform.anchoredPosition = new Vector2(x, cardTransform.anchoredPosition.y);
         }
     }
 
@@ -125,8 +129,6 @@ public class DrawCard : MonoBehaviour
         float maxTiltAngle = 10f;
         float maxHeight = 100f;
 
-        if (cardCount <= 2) { return; }
-
         // Sort the cards by their local X position
         List<Transform> sortedCards = new List<Transform>();
         for (int i = 0; i < cardCount; i++)
@@ -135,24 +137,34 @@ public class DrawCard : MonoBehaviour
         }
         sortedCards.Sort((a, b) => a.localPosition.x.CompareTo(b.localPosition.x));
 
-        for (int i = 0; i < halfCardCount; i++)
+        if (cardCount == 1)
         {
-            float tiltAngle = (1 - (i/ halfCardCount)) * maxTiltAngle;
-            float height = (((i / halfCardCount) * maxHeight) - (maxHeight/2));
-
-            RectTransform cardTransform;
-
-            // Apply transformations to the left half of the cards
-            cardTransform = sortedCards[i].GetComponent<RectTransform>();
+            RectTransform cardTransform = sortedCards[0].GetComponent<RectTransform>();
             cardTransform.pivot = new Vector2(0.5f, 0.5f);
-            cardTransform.localEulerAngles = new Vector3(0f, 0f, tiltAngle);
-            cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, height, cardTransform.localPosition.z);
+            cardTransform.localEulerAngles = new Vector3(0f, 0f, 0f);
+            cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, maxHeight / 2, cardTransform.localPosition.z);
+        }
+        else
+        {
+            for (int i = 0; i < halfCardCount; i++)
+            {
+                float tiltAngle = (1 - (i / halfCardCount)) * maxTiltAngle;
+                float height = (((i / halfCardCount) * maxHeight) - (maxHeight / 2));
 
-            // Apply transformations to the right half of the cards
-            cardTransform = sortedCards[(cardCount - 1) - i].GetComponent<RectTransform>();
-            cardTransform.pivot = new Vector2(0.5f, 0.5f);
-            cardTransform.localEulerAngles = new Vector3(0f, 0f, -tiltAngle);
-            cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, height, cardTransform.localPosition.z);
+                RectTransform cardTransform;
+
+                // Apply transformations to the left half of the cards
+                cardTransform = sortedCards[i].GetComponent<RectTransform>();
+                cardTransform.pivot = new Vector2(0.5f, 0.5f);
+                cardTransform.localEulerAngles = new Vector3(0f, 0f, tiltAngle);
+                cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, height, cardTransform.localPosition.z);
+
+                // Apply transformations to the right half of the cards
+                cardTransform = sortedCards[(cardCount - 1) - i].GetComponent<RectTransform>();
+                cardTransform.pivot = new Vector2(0.5f, 0.5f);
+                cardTransform.localEulerAngles = new Vector3(0f, 0f, -tiltAngle);
+                cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, height, cardTransform.localPosition.z);
+            }
         }
     }
 

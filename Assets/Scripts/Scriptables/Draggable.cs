@@ -37,6 +37,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         // Smoothly interpolate the tilt rotation
         float smoothTime = 0.1f; // Adjust this value to control the smoothness of the tilt transition
         transform.localRotation = Quaternion.Lerp(transform.localRotation, targetTiltRotation, smoothTime);
+
+        DrawCard.Instance.UpdateHand();
     }
 
     void Awake()
@@ -79,6 +81,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         dragStartRotation = transform.localRotation;
 
         previousPosition = transform.position;
+
+        DrawCard.Instance.UpdateHand();
 
     }
 
@@ -140,6 +144,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
                 // Call UpdateSpacing before destroying the game object
                 DrawCard.Instance.OnCardDropped.Invoke();
+                DrawCard.Instance.UpdateHand();
+
 
                 Destroy(this.gameObject);
             }
@@ -159,23 +165,25 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         RectTransform rectTransform = GetComponent<RectTransform>();
         rectTransform.localScale = new Vector3(1f, 1f, 1f);
 
+        DrawCard.Instance.UpdateHand();
+
     }
 
-    private IEnumerator ResetTilt()
-    {
-        float resetDuration = 2f;
-        float elapsedTime = 0f;
+    //private IEnumerator ResetTilt()
+    //{
+    //    float resetDuration = 2f;
+    //    float elapsedTime = 0f;
 
-        Quaternion startRotation = transform.localRotation;
+    //    Quaternion startRotation = transform.localRotation;
 
-        while (elapsedTime < resetDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            float t = elapsedTime / resetDuration;
-            transform.localRotation = Quaternion.Lerp(startRotation, Quaternion.identity, t);
-            yield return null;
-        }
+    //    while (elapsedTime < resetDuration)
+    //    {
+    //        elapsedTime += Time.deltaTime;
+    //        float t = elapsedTime / resetDuration;
+    //        transform.localRotation = Quaternion.Lerp(startRotation, Quaternion.identity, t);
+    //        yield return null;
+    //    }
 
-        transform.localRotation = Quaternion.identity;
-    }
+    //    transform.localRotation = Quaternion.identity;
+    //}
 }
