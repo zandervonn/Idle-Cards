@@ -1,10 +1,8 @@
 ﻿//3
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using System.Collections.Generic;
-
 
 public class DrawCard : MonoBehaviour
 {
@@ -137,35 +135,35 @@ public class DrawCard : MonoBehaviour
         }
         sortedCards.Sort((a, b) => a.localPosition.x.CompareTo(b.localPosition.x));
 
-        if (cardCount == 1)
+        RectTransform cardTransform;
+
+        for (int i = 0; i < halfCardCount; i++)
         {
-            RectTransform cardTransform = sortedCards[0].GetComponent<RectTransform>();
+            float tiltAngle = (1 - (i / halfCardCount)) * maxTiltAngle;
+            float height = (((i / halfCardCount) * maxHeight) - (maxHeight / 2));
+
+
+
+            // Apply transformations to the left half of the cards
+            cardTransform = sortedCards[i].GetComponent<RectTransform>();
+            cardTransform.pivot = new Vector2(0.5f, 0.5f);
+            cardTransform.localEulerAngles = new Vector3(0f, 0f, tiltAngle);
+            cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, height, cardTransform.localPosition.z);
+
+            // Apply transformations to the right half of the cards
+            cardTransform = sortedCards[(cardCount - 1) - i].GetComponent<RectTransform>();
+            cardTransform.pivot = new Vector2(0.5f, 0.5f);
+            cardTransform.localEulerAngles = new Vector3(0f, 0f, -tiltAngle);
+            cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, height, cardTransform.localPosition.z);
+        }
+        
+        if(cardCount % 2 == 1) { //if odd
+            cardTransform = sortedCards[(int)System.Math.Floor((float)(cardCount / 2))].GetComponent<RectTransform>(); // middle element
             cardTransform.pivot = new Vector2(0.5f, 0.5f);
             cardTransform.localEulerAngles = new Vector3(0f, 0f, 0f);
             cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, maxHeight / 2, cardTransform.localPosition.z);
         }
-        else
-        {
-            for (int i = 0; i < halfCardCount; i++)
-            {
-                float tiltAngle = (1 - (i / halfCardCount)) * maxTiltAngle;
-                float height = (((i / halfCardCount) * maxHeight) - (maxHeight / 2));
 
-                RectTransform cardTransform;
-
-                // Apply transformations to the left half of the cards
-                cardTransform = sortedCards[i].GetComponent<RectTransform>();
-                cardTransform.pivot = new Vector2(0.5f, 0.5f);
-                cardTransform.localEulerAngles = new Vector3(0f, 0f, tiltAngle);
-                cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, height, cardTransform.localPosition.z);
-
-                // Apply transformations to the right half of the cards
-                cardTransform = sortedCards[(cardCount - 1) - i].GetComponent<RectTransform>();
-                cardTransform.pivot = new Vector2(0.5f, 0.5f);
-                cardTransform.localEulerAngles = new Vector3(0f, 0f, -tiltAngle);
-                cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, height, cardTransform.localPosition.z);
-            }
-        }
     }
 
     public void ClearCards()
