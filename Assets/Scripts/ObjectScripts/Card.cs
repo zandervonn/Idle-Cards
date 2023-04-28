@@ -1,5 +1,4 @@
 //2
-using System;
 using UnityEngine;
 
 public abstract class Card : ScriptableObject

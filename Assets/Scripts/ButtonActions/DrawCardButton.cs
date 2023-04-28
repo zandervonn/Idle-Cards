@@ -6,6 +6,12 @@ using UnityEngine.EventSystems;
 public class DrawCardButton : MonoBehaviour, IPointerDownHandler {
 
     public Text drawPriceText;
+    public Text deckSizeText;
+
+    public void Update()
+    {
+        UpdateDeckRemaining(); //todo should maybe handle this elsewhere
+    }
 
     public void OnPointerDown(PointerEventData eventData) {
         GameManager gameManager = GameManager.Instance;
@@ -17,7 +23,7 @@ public class DrawCardButton : MonoBehaviour, IPointerDownHandler {
             {
                 DrawCard drawCardComponent = FindObjectOfType<DrawCard>();
                 drawCardComponent.DrawCards(1);
-                gameManager.BuyCost *= 4;
+                gameManager.BuyCost *= 2;
                 UpdateDrawPriceText();
             }
         }
@@ -30,5 +36,10 @@ public class DrawCardButton : MonoBehaviour, IPointerDownHandler {
     public void UpdateDrawPriceText()
     {
         drawPriceText.text = "$" + GameManager.Instance.BuyCost;
+    }
+
+    public void UpdateDeckRemaining()
+    {
+        deckSizeText.text = GameManager.Instance.cardManager.availableCards.Count.ToString();
     }
 }

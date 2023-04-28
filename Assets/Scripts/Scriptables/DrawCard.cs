@@ -14,11 +14,6 @@ public class DrawCard : MonoBehaviour
     public static DrawCard Instance;
     public UnityEvent OnCardDropped;
 
-    private void Start()
-    {
-        DrawCards(5);
-    }
-
     private void Awake()
     {
         if (Instance == null)
@@ -49,6 +44,8 @@ public class DrawCard : MonoBehaviour
 
         int cardCount = newParent.transform.childCount;
         Debug.Log("after draw cards: " + cardCount);
+        DrawCardButton drawCardButton = FindObjectOfType<DrawCardButton>();
+        drawCardButton.UpdateDeckRemaining();
     }
 
     public void DrawNewCard()

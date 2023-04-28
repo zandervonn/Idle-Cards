@@ -88,24 +88,33 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     public void OnDrag(PointerEventData eventData)
     {
         // Check if the deck is open before allowing the card to be dragged
-        if (deckManager.isDeckVisible){return;}
+        if (deckManager.isDeckVisible) { return; }
         Vector3 currentPosition = eventData.position;
         Vector3 direction = currentPosition - previousPosition;
         float speed = direction.magnitude / Time.deltaTime;
 
-        float maxSpeed = 1000f; // Adjust this value to control how fast the card needs to be dragged to reach maximum tilt
-        float tiltFactor = Mathf.Clamp01(speed / maxSpeed);
-        float maxTiltAngle = 30f; // Adjust this value to control the maximum tilt angle
+        float velocityThreshold = 100f; // Adjust this value to control the minimum speed for tilt
 
-        // Calculate the target tilt angle
-        float targetTiltAngle = tiltFactor * maxTiltAngle;
+        if (speed < velocityThreshold)
+        {
+            targetTiltRotation = Quaternion.AngleAxis(0, Vector3.zero);
+        }
+        else
+        {
+            float maxSpeed = 1000f; // Adjust this value to control how fast the card needs to be dragged to reach maximum tilt
+            float tiltFactor = Mathf.Clamp01(speed / maxSpeed);
+            float maxTiltAngle = 30f; // Adjust this value to control the maximum tilt angle
 
-        // Calculate the tilt axis (limiting rotation to certain axes)
-        Vector3 tiltAxis = Vector3.Cross(Vector3.forward, direction).normalized;
-        tiltAxis.z = 0; // Prevent rotation around the Z-axis
+            // Calculate the target tilt angle
+            float targetTiltAngle = tiltFactor * maxTiltAngle;
 
-        // Calculate the target tilt rotation
-        targetTiltRotation = Quaternion.AngleAxis(targetTiltAngle, tiltAxis);
+            // Calculate the tilt axis (limiting rotation to certain axes)
+            Vector3 tiltAxis = Vector3.Cross(Vector3.forward, direction).normalized;
+            tiltAxis.z = 0; // Prevent rotation around the Z-axis
+
+            // Calculate the target tilt rotation
+            targetTiltRotation = Quaternion.AngleAxis(targetTiltAngle, tiltAxis);
+        }
 
         // Update the card position
         this.transform.position = currentPosition;
@@ -113,7 +122,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         // Update the previous position for the next frame
         previousPosition = currentPosition;
     }
-
 
 
     public void OnEndDrag(PointerEventData eventData)
