@@ -43,7 +43,6 @@ public class DrawCard : MonoBehaviour
         }
 
         int cardCount = newParent.transform.childCount;
-        Debug.Log("after draw cards: " + cardCount);
         DrawCardButton drawCardButton = FindObjectOfType<DrawCardButton>();
         drawCardButton.UpdateDeckRemaining();
     }

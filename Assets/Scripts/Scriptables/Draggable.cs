@@ -174,4 +174,19 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         DrawCard.Instance.UpdateHand();
 
     }
+
+    public void CancelDragging()
+    {
+        // Reset card position and rotation
+        transform.position = parentToReturnTo.position;
+        transform.localRotation = dragStartRotation;
+
+        // Reset card parent and blocksRaycasts
+        transform.SetParent(parentToReturnTo);
+        GetComponent<CanvasGroup>().blocksRaycasts = true;
+
+        // Reset card scale
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        rectTransform.localScale = new Vector3(1f, 1f, 1f);
+    }
 }

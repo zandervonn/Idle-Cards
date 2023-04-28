@@ -25,7 +25,6 @@ public class CardManager
     public void AddNewOwnedCard(Card card)
     {
         int rarity = GetRandomRarity();
-        Debug.Log("new card rarity: " +  rarity);
         CardInstance cardInstance = new CardInstance(card, this, 1, rarity);
         ownedCards.Add(cardInstance);
         availableCards.Add(cardInstance);

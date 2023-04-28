@@ -38,8 +38,8 @@ public abstract class Card : ScriptableObject
 
         if (IsAffordable(cardInstance, gameManager))
         {
-            CardCost.ExecuteActions(gameManager, cardInstance);
             CardReward.ExecuteActions(gameManager, cardInstance);
+            CardCost.ExecuteActions(gameManager, cardInstance);
         }
         else
         {

@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour {
     public int LastScore { get; private set; }
     public int BankValue { get; private set; }
     public int BuyCost { get; set; }
-    public event Action<int> OnBuyCostChanged;
     public int RemoveCost { get; set; }
     public int RemoveCostMultiplier { get; private set; }
     public int TotalMoneyEarned { get; private set; }
@@ -172,12 +171,14 @@ public class GameManager : MonoBehaviour {
         ResetField();
     }
 
-    public void ResetField() {
+    public void ResetField()
+    {
+        CancelAllDraggingCards();
         DrawCard drawCardComponent = FindObjectOfType<DrawCard>();
         drawCardComponent.ClearCards();
         cardManager.ResetAvailableCards();
         drawCardComponent.DrawCards(3);
-        manaBarActions.ResetElapsedTimeSinceRoundStart(); 
+        manaBarActions.ResetElapsedTimeSinceRoundStart();
         ResetScore();
         ResetMana();
         ResetDrawCost();
@@ -225,5 +226,14 @@ public class GameManager : MonoBehaviour {
     {
         drawCard = FindObjectOfType<DrawCard>();
         drawCard.DrawCards(num);
+    }
+
+    public void CancelAllDraggingCards()
+    {
+        Draggable[] draggableCards = FindObjectsOfType<Draggable>();
+        foreach (Draggable draggableCard in draggableCards)
+        {
+            draggableCard.CancelDragging();
+        }
     }
 }

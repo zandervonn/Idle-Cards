@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class FloatingTextEffect : MonoBehaviour
 {
     [SerializeField] private float floatSpeed = 1f;
-    [SerializeField] private float fadeSpeed = 1f;
+    //[SerializeField] private float fadeSpeed = 1f;
     [SerializeField] private float duration = 2f;
     [SerializeField] private float wobbleAmplitude = 0.1f;
     [SerializeField] private float wobbleFrequency = 1f;
