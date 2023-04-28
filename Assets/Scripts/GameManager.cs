@@ -1,11 +1,6 @@
 //7
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using System;
-using System.Linq;
 
 public class GameManager : MonoBehaviour {
 
@@ -23,6 +18,7 @@ public class GameManager : MonoBehaviour {
     public int LastScore { get; private set; }
     public int BankValue { get; private set; }
     public int BuyCost { get; set; }
+    public event Action<int> OnBuyCostChanged;
     public int RemoveCost { get; set; }
     public int RemoveCostMultiplier { get; private set; }
     public int TotalMoneyEarned { get; private set; }

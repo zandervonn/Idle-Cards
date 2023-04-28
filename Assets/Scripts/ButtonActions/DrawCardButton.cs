@@ -1,19 +1,13 @@
 ﻿//3
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 
-public class DrawCardButton : MonoBehaviour, IPointerDownHandler
-{
+public class DrawCardButton : MonoBehaviour, IPointerDownHandler {
 
-    public GameManager gameManager; // Make it public
     public Text drawPriceText;
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
+    public void OnPointerDown(PointerEventData eventData) {
         GameManager gameManager = GameManager.Instance;
 
         // Remove the local variable declaration
@@ -35,7 +29,6 @@ public class DrawCardButton : MonoBehaviour, IPointerDownHandler
 
     public void UpdateDrawPriceText()
     {
-        GameManager gameManager = GameManager.Instance;
-        drawPriceText.text = "$" + gameManager.BuyCost;
+        drawPriceText.text = "$" + GameManager.Instance.BuyCost;
     }
 }

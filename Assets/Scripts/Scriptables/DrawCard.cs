@@ -19,11 +19,6 @@ public class DrawCard : MonoBehaviour
         DrawCards(5);
     }
 
-    private void Update()
-    {
-        UpdateHand();
-    }
-
     private void Awake()
     {
         if (Instance == null)
@@ -39,7 +34,8 @@ public class DrawCard : MonoBehaviour
     public void OnPointerDown(PointerEventData eventData)
     {
         GameManager gameManager = GameManager.Instance;
-        if(gameManager.SpendRound(2)){
+        if (gameManager.SpendRound(2))
+        {
             DrawNewCard();
         }
     }
@@ -51,7 +47,8 @@ public class DrawCard : MonoBehaviour
             DrawNewCard();
         }
 
-        UpdateHand();
+        int cardCount = newParent.transform.childCount;
+        Debug.Log("after draw cards: " + cardCount);
     }
 
     public void DrawNewCard()
@@ -115,7 +112,7 @@ public class DrawCard : MonoBehaviour
             // Update positions for the cards
             cardTransform.pivot = new Vector2(0.5f, 0.5f);
             float spacing = handWidth / (cardCount + 1);
-            float x = cardSpacing + (spacing * (i+1));
+            float x = cardSpacing + (spacing * (i + 1));
             cardTransform.anchoredPosition = new Vector2(x, cardTransform.anchoredPosition.y);
         }
     }
@@ -156,8 +153,9 @@ public class DrawCard : MonoBehaviour
             cardTransform.localEulerAngles = new Vector3(0f, 0f, -tiltAngle);
             cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, height, cardTransform.localPosition.z);
         }
-        
-        if(cardCount % 2 == 1) { //if odd
+
+        if (cardCount % 2 == 1)
+        { //if odd
             cardTransform = sortedCards[(int)System.Math.Floor((float)(cardCount / 2))].GetComponent<RectTransform>(); // middle element
             cardTransform.pivot = new Vector2(0.5f, 0.5f);
             cardTransform.localEulerAngles = new Vector3(0f, 0f, 0f);
@@ -168,9 +166,21 @@ public class DrawCard : MonoBehaviour
 
     public void ClearCards()
     {
+        List<Transform> childrenToDestroy = new List<Transform>();
+
+        // First, collect all children you want to destroy
         foreach (Transform child in newParent.transform)
         {
-            Destroy(child.gameObject);
+            childrenToDestroy.Add(child);
         }
+
+        // Then, destroy the collected children
+        foreach (Transform child in childrenToDestroy)
+        {
+            DestroyImmediate(child.gameObject);
+        }
+
+        int cardCount = newParent.transform.childCount;
+        Debug.Log("after clear cards: " + cardCount);
     }
 }
