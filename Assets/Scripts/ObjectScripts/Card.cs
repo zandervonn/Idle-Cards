@@ -40,6 +40,7 @@ public abstract class Card : ScriptableObject
         {
             CardReward.ExecuteActions(gameManager, cardInstance);
             CardCost.ExecuteActions(gameManager, cardInstance);
+            cardInstance.timesPlayed++;
         }
         else
         {
