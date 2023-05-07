@@ -141,7 +141,7 @@ public class DrawCard : MonoBehaviour
             cardTransform = sortedCards[i].GetComponent<RectTransform>();
             cardTransform.pivot = new Vector2(0.5f, 0.5f);
             cardTransform.localEulerAngles = new Vector3(0f, 0f, tiltAngle);
-            cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, height, cardTransform.localPosition.z);
+            cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, height, i * -30);
 
             // Apply transformations to the right half of the cards
             cardTransform = sortedCards[(cardCount - 1) - i].GetComponent<RectTransform>();
