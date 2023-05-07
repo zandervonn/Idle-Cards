@@ -46,6 +46,39 @@ public class ScoreCardReward : CardRewardBase
     }
 }
 
+public class BankCardReward : CardRewardBase
+{
+    public BankCardReward(Func<CardInstance, float> rewardFormula) : base(rewardFormula) { }
+    public override CardValueType RewardType => CardValueType.Bank;
+
+    public override void ExecuteActions(GameManager gameManager, CardInstance cardInstance)
+    {
+        float reward = RewardFormula(cardInstance);
+        gameManager.IncreaseBank((int)reward);
+    }
+
+    public override Color GetColor()
+    {
+        return new Color(0, 1, 1, 1); // Replace with your manaColor
+    }
+}
+
+public class DrawCostCardReward : CardRewardBase
+{
+    public DrawCostCardReward(Func<CardInstance, float> rewardFormula) : base(rewardFormula) { }
+    public override CardValueType RewardType => CardValueType.Bank;
+
+    public override void ExecuteActions(GameManager gameManager, CardInstance cardInstance)
+    {
+        gameManager.ResetDrawCost();
+    }
+
+    public override Color GetColor()
+    {
+        return new Color(0, 1, 1, 1); // Replace with your manaColor
+    }
+}
+
 public class ManaCardReward : CardRewardBase
 {
     public ManaCardReward(Func<CardInstance, float> rewardFormula) : base(rewardFormula) { }

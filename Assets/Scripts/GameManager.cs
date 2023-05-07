@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour {
 
         manaBarActions = FindObjectOfType<ManaBarActions>();
 
-        HighScore = 1; // to make sure money is always made
+        HighScore = 0;
         LastScore = 0;
         BankValue = 100; // testing
         BuyCost = 1;
@@ -138,6 +138,11 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public void IncreaseBank(int amount)
+    {
+        BankValue += amount;
+    }
+
     public bool SpendBank(int cost) {
         if(BankValue >= cost){
             BankValue -= cost;
@@ -186,12 +191,12 @@ public class GameManager : MonoBehaviour {
 
     public void ResetScore()
     {
-        fieldScore = 0;
+        fieldScore = 1; //something to multiply
     }
 
     public void ResetDrawCost()
     {
-        BuyCost = 1;
+        BuyCost =(int) (TotalMoneyEarned * 0.001f) + 1;
         DrawCardButton drawCardButton = FindObjectOfType<DrawCardButton>();
         drawCardButton.UpdateDrawPriceText();
     }

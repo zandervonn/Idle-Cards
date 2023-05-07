@@ -17,13 +17,13 @@ public class DrawCardButton : MonoBehaviour, IPointerDownHandler {
         GameManager gameManager = GameManager.Instance;
 
         // Remove the local variable declaration
-        if (gameManager.cardManager.availableCards.Count > 0)
+        if (gameManager.cardManager.availableCards.Count >= 0)
         {
             if (gameManager.SpendRound(1 + gameManager.BuyCost))
             {
                 DrawCard drawCardComponent = FindObjectOfType<DrawCard>();
                 drawCardComponent.DrawCards(1);
-                gameManager.BuyCost *= 2;
+                gameManager.BuyCost *= 3;
                 UpdateDrawPriceText();
             }
         }

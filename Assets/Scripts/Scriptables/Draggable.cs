@@ -11,7 +11,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private DrawCard drawCard;
     private Card _cardComponent;
 
-    public GameObject cardShadow;
+    //public GameObject cardShadow;
     private Vector2 _lastPosition;
     private Vector3 dragStartPosition;
     private Quaternion dragStartRotation;
@@ -44,7 +44,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         cardDisplay = GetComponent<CardDisplay>();
         drawCard = FindObjectOfType<DrawCard>();
-        cardShadow = transform.Find("cardShadow").gameObject; //TODO remove?
 
         deckManager = FindObjectOfType<DeckManager>();
         if (deckManager == null)
@@ -94,6 +93,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         float speed = direction.magnitude / Time.deltaTime;
 
         float velocityThreshold = 100f; // Adjust this value to control the minimum speed for tilt
+        float maxSpeed = 400f; // Adjust this value to control how fast the card needs to be dragged to reach maximum tilt
+        float maxTiltAngle = 10f; // Adjust this value to control the maximum tilt angle
 
         if (speed < velocityThreshold)
         {
@@ -101,9 +102,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
         else
         {
-            float maxSpeed = 1000f; // Adjust this value to control how fast the card needs to be dragged to reach maximum tilt
             float tiltFactor = Mathf.Clamp01(speed / maxSpeed);
-            float maxTiltAngle = 30f; // Adjust this value to control the maximum tilt angle
 
             // Calculate the target tilt angle
             float targetTiltAngle = tiltFactor * maxTiltAngle;

@@ -16,6 +16,7 @@ public class MaxManaChange : MonoBehaviour, IPointerDownHandler {
 
     public void OnPointerDown(PointerEventData eventData)
     {
+
         GameManager gameManager = GameManager.Instance;
         if (!increase && gameManager.maxMana * (1 - manaIncriment) < gameManager.minMana)
         {
@@ -38,7 +39,7 @@ public class MaxManaChange : MonoBehaviour, IPointerDownHandler {
     public void UpdateManaChangeText()
     {
         GameManager gameManager = GameManager.Instance;
-        manaChangeCost = (gameManager.TotalMoneyEarned * 0.0555f) + 1f;
+        manaChangeCost = ((gameManager.TotalMoneyEarned * 0.0355f) + 1f ) * (gameManager.maxMana/50);
         manaChangeCostText.text = "$" +  (manaChangeCost).ToString("F0");
     }
 }

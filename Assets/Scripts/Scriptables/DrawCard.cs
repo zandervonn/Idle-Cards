@@ -135,13 +135,11 @@ public class DrawCard : MonoBehaviour
             float tiltAngle = (1 - (i / halfCardCount)) * maxTiltAngle;
             float height = (((i / halfCardCount) * maxHeight) - (maxHeight / 2));
 
-
-
             // Apply transformations to the left half of the cards
             cardTransform = sortedCards[i].GetComponent<RectTransform>();
             cardTransform.pivot = new Vector2(0.5f, 0.5f);
             cardTransform.localEulerAngles = new Vector3(0f, 0f, tiltAngle);
-            cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, height, i * -30);
+            cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, height, cardTransform.localPosition.z);
 
             // Apply transformations to the right half of the cards
             cardTransform = sortedCards[(cardCount - 1) - i].GetComponent<RectTransform>();
@@ -158,6 +156,11 @@ public class DrawCard : MonoBehaviour
             cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, maxHeight / 2, cardTransform.localPosition.z);
         }
 
+        for (int i = 0; i < cardCount; i++)
+        {
+            cardTransform = sortedCards[i].GetComponent<RectTransform>();
+            cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, cardTransform.localPosition.y, i * 30);
+        }
     }
 
     public void ClearCards()
