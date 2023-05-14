@@ -94,7 +94,8 @@ public class GameManager : MonoBehaviour {
 
     public float CalculateLevel()
     {
-        return Mathf.Pow(2, Mathf.Log(TotalMoneyEarned, 5));
+        //return Mathf.Pow(2, Mathf.Log(TotalMoneyEarned, 5));
+        return Mathf.Pow(2, Mathf.Log(TotalMoneyEarned) / Mathf.Log(5)) / 1000; ;
     }
 
     public void IncreaseScore(int amount) {

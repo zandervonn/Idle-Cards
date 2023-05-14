@@ -10,11 +10,11 @@ using UnityEngine.Events;
 public class BuyNewCard : MonoBehaviour, IPointerDownHandler
 {
 
-    public CardsList cardsList;
+    private CardsList cardsList;
     public int cardCost = 1;
     public Text cardCostText;
-    public Button buyButton;
-    public GameManager gameManager;
+    //public Button buyButton;
+    private GameManager gameManager;
     public int cardCostMultiplier;
 
     private void Start()

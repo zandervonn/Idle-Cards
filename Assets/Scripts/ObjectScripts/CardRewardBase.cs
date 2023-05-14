@@ -6,8 +6,6 @@ public interface ICardReward
     CardValueType RewardType { get; }
     float RewardFormula(CardInstance cardInstance);
     void ExecuteActions(GameManager gameManager, CardInstance cardInstance);
-
-    Color GetColor();
 }
 
 public abstract class CardRewardBase : ICardReward
@@ -26,7 +24,6 @@ public abstract class CardRewardBase : ICardReward
     }
 
     public abstract void ExecuteActions(GameManager gameManager, CardInstance cardInstance);
-    public abstract Color GetColor();
 }
 
 public class ScoreCardReward : CardRewardBase
@@ -38,11 +35,6 @@ public class ScoreCardReward : CardRewardBase
     {
         float reward = RewardFormula(cardInstance);
         gameManager.IncreaseScore((int)reward);
-    }
-
-    public override Color GetColor()
-    {
-        return new Color(0, 1, 1, 1); // Replace with your manaColor
     }
 }
 
@@ -56,11 +48,6 @@ public class BankCardReward : CardRewardBase
         float reward = RewardFormula(cardInstance);
         gameManager.IncreaseBank((int)reward);
     }
-
-    public override Color GetColor()
-    {
-        return new Color(0, 1, 1, 1); // Replace with your manaColor
-    }
 }
 
 public class DrawCostCardReward : CardRewardBase
@@ -71,11 +58,6 @@ public class DrawCostCardReward : CardRewardBase
     public override void ExecuteActions(GameManager gameManager, CardInstance cardInstance)
     {
         gameManager.ResetDrawCost();
-    }
-
-    public override Color GetColor()
-    {
-        return new Color(0, 1, 1, 1); // Replace with your manaColor
     }
 }
 
@@ -90,10 +72,6 @@ public class ManaCardReward : CardRewardBase
         gameManager.IncreaseMana((int)reward);
     }
 
-    public override Color GetColor()
-    {
-        return new Color(0, 1, 1, 1); // Replace with your manaColor
-    }
 }
 
 public class CardCardReward : CardRewardBase
@@ -105,10 +83,5 @@ public class CardCardReward : CardRewardBase
     {
         float reward = RewardFormula(cardInstance);
         gameManager.DrawCards((int)reward);
-    }
-
-    public override Color GetColor()
-    {
-        return new Color(0, 1, 1, 1); // Replace with your manaColor
     }
 }

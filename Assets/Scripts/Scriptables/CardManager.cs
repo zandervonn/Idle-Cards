@@ -9,19 +9,38 @@ public class CardManager
     public List<Card> cardTypes;
     public List<CardInstance> availableCards;
     public List<CardInstance> ownedCards;
+    private int startingCards = 4;
 
     public CardManager(List<Card> cardsList)
     {
-        cardTypes = cardsList;
+        cardTypes = new List<Card>(cardsList); // Create a copy of the cardTypes list
         ownedCards = new List<CardInstance>();
         availableCards = new List<CardInstance>();
 
-        // Initialize the ownedCards and availableCards lists
-        foreach (Card card in cardTypes)
+        // Initialize the ownedCards and availableCards lists with 4 random unique cards
+        for (int i = 0; i < startingCards; i++)
         {
-            AddNewOwnedCard(card);
+            Card randomCard = GetRandomCard(cardTypes);
+            if (randomCard != null)
+            {
+                AddNewOwnedCard(randomCard);
+            }
         }
     }
+
+    private Card GetRandomCard(List<Card> cardsList)
+    {
+        if (cardsList.Count == 0)
+        {
+            return null;
+        }
+
+        int randomIndex = UnityEngine.Random.Range(0, cardsList.Count);
+        Card randomCard = cardsList[randomIndex];
+        cardsList.RemoveAt(randomIndex); // Remove the selected card from the list
+        return randomCard;
+    }
+
     public void AddNewOwnedCard(Card card)
     {
         int rarity = GetRandomRarity();

@@ -127,51 +127,60 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     {
         targetTiltRotation = Quaternion.AngleAxis(0, Vector3.zero);
 
-        // Check if the deck is open before allowing the card to be dragged
-        if (deckManager.isDeckVisible){return;}
-        if (playable)
-        {
-            float cardCost = CardComponent.CostFormula(cardInstance);
-            if (CardComponent.IsAffordable(cardInstance, GameManager.Instance))
+        //// Check if the deck is open before allowing the card to be dragged
+        //if (deckManager.isDeckVisible)
+        //{
+        //    // Reset the card size, pivot, and position
+        //    ResetCardSizeAndPivot();
+        //    this.transform.SetParent(parentToReturnTo);
+        //    this.transform.localPosition = Vector3.zero;
+        //}
+        //else
+        //{
+            if (playable)
             {
-                // Get the Card component of the dragged object
-                Card card = CardComponent;
-
-                if (card != null)
+                float cardCost = CardComponent.CostFormula(cardInstance);
+                if (CardComponent.IsAffordable(cardInstance, GameManager.Instance))
                 {
-                    card.OnDrop(GameManager.Instance, cardInstance);
+                    // Get the Card component of the dragged object
+                    Card card = CardComponent;
+
+                    if (card != null)
+                    {
+                        card.OnDrop(GameManager.Instance, cardInstance);
+                    }
+                    else
+                    {
+                        Debug.Log("No card component found");
+                    }
+
+                    Instantiate(cardDie, this.transform.position, Quaternion.identity);
+
+                    // Call UpdateSpacing before destroying the game object
+                    DrawCard.Instance.OnCardDropped.Invoke();
+
+                    Destroy(this.gameObject);
                 }
                 else
                 {
-                    Debug.Log("No card component found");
+                    this.transform.SetParent(parentToReturnTo);
+                    Debug.Log("Card unaffordable");
                 }
-
-                Instantiate(cardDie, this.transform.position, Quaternion.identity);
-
-                // Call UpdateSpacing before destroying the game object
-                DrawCard.Instance.OnCardDropped.Invoke();
-
-
-                Destroy(this.gameObject);
             }
             else
             {
                 this.transform.SetParent(parentToReturnTo);
-                Debug.Log("Card unafordable");
+                Debug.Log("Card not playable");
             }
-        }
-        else
-        {
-            this.transform.SetParent(parentToReturnTo);
-            Debug.Log("Card not playable");
-        }
+        //}
+
         GetComponent<CanvasGroup>().blocksRaycasts = true;
 
+        // Reset card size
         RectTransform rectTransform = GetComponent<RectTransform>();
         rectTransform.localScale = new Vector3(1f, 1f, 1f);
 
         DrawCard.Instance.UpdateHand();
-
     }
 
     public void CancelDragging()

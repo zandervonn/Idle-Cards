@@ -7,8 +7,6 @@ public interface ICardCost
     float CostFormula(CardInstance cardInstance);
     bool IsAffordable(CardInstance cardInstance, GameManager gameManager);
     void ExecuteActions(GameManager gameManager, CardInstance cardInstance);
-
-    Color GetColor();
 }
 
 public abstract class CardCostBase : ICardCost
@@ -28,7 +26,6 @@ public abstract class CardCostBase : ICardCost
 
     public abstract bool IsAffordable(CardInstance cardInstance, GameManager gameManager);
     public abstract void ExecuteActions(GameManager gameManager, CardInstance cardInstance);
-    public abstract Color GetColor();
 }
 
 public class ManaCardCost : CardCostBase
@@ -47,11 +44,6 @@ public class ManaCardCost : CardCostBase
         float cost = CostFormula(cardInstance);
         gameManager.DecreaseMana((int)cost);
     }
-
-    public override Color GetColor()
-    {
-        return new Color(0, 1, 1, 1); // Replace with your manaColor
-    }
 }
 
 
@@ -69,9 +61,20 @@ public class ScoreCardCost : CardCostBase
         float cost = CostFormula(cardInstance);
         gameManager.DecreaseScore((int)cost);
     }
+}
 
-    public override Color GetColor()
+public class BankCardCost : CardCostBase
+{
+    public BankCardCost(Func<CardInstance, float> costFormula) : base(costFormula) { }
+    public override CardValueType CostType => CardValueType.Bank;
+
+    public override bool IsAffordable(CardInstance cardInstance, GameManager gameManager)
     {
-        return new Color(0, 1, 1, 1); // Replace with your manaColor
+        return gameManager.BankValue >= CostFormula(cardInstance);
+    }
+    public override void ExecuteActions(GameManager gameManager, CardInstance cardInstance)
+    {
+        float cost = CostFormula(cardInstance);
+        gameManager.SpendBank((int)cost);
     }
 }

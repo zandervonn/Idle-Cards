@@ -158,8 +158,9 @@ public class DrawCard : MonoBehaviour
 
         for (int i = 0; i < cardCount; i++)
         {
+
             cardTransform = sortedCards[i].GetComponent<RectTransform>();
-            cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, cardTransform.localPosition.y, i * 30);
+            cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, cardTransform.localPosition.y, 90 - (i*10)); //150 - (i * (100/cardCount+1))
         }
     }
 

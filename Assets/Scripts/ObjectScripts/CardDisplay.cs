@@ -27,6 +27,13 @@ public class CardDisplay : MonoBehaviour
     public Color bankColor;
 
     public Image cardBorder;
+
+    public Sprite scoreSprite;
+    public Sprite manaSprite;
+    public Sprite bankSprite;
+    public Sprite timeSprite;
+    public Sprite cardSprite;
+
     public Card card
     {
         get
@@ -42,19 +49,29 @@ public class CardDisplay : MonoBehaviour
 
         cardName.text = card.cardName;
         cardDescription.text = card.description;
-        cardImage.sprite = card.artwork;
         cardLevel.text = cardInstance.level.ToString("F0");
 
         upgradePanel.gameObject.SetActive(showUpgradeButton);
 
         UpdateBorderColor(cardInstance.rarity);
         UpdateValueColors();
+        UpdateCostIcon();
+        UpdateRewardIcon();
     }
+
+    private float updateInterval = 0.1f;
+    private float updateTimer = 0f;
 
     private void Update()
     {
-        UpdateManaCost();
-        UpdateGainValue();
+
+        updateTimer += Time.deltaTime;
+        if (updateTimer >= updateInterval)
+        {
+            updateTimer = 0f;
+            UpdateManaCost();
+            UpdateGainValue();
+        }
     }
 
     private void UpdateManaCost()
@@ -74,39 +91,32 @@ public class CardDisplay : MonoBehaviour
     private void UpdateValueColors()
     {
         Card card = cardInstance.card;
-        costImage.color = card.CardCost.GetColor();
-        rewardImage.color = card.CardReward.GetColor();
+        switch (card.CardCost.CostType)
+        {
+            case CardValueType.Score:
+                costImage.color = new Color(scoreColor.r, scoreColor.g, scoreColor.b, 1);
+                break;
+            case CardValueType.Mana:
+                costImage.color = new Color(manaColor.r, manaColor.g, manaColor.b, 1);
+                break;
+            case CardValueType.Bank:
+                costImage.color = new Color(bankColor.r, bankColor.g, bankColor.b, 1);
+                break;
+        }
+
+        switch (card.CardReward.RewardType)
+        {
+            case CardValueType.Score:
+                rewardImage.color = new Color(scoreColor.r, scoreColor.g, scoreColor.b, 1);
+                break;
+            case CardValueType.Mana:
+                rewardImage.color = new Color(manaColor.r, manaColor.g, manaColor.b, 1);
+                break;
+            case CardValueType.Bank:
+                rewardImage.color = new Color(bankColor.r, bankColor.g, bankColor.b, 1);
+                break;
+        }
     }
-
-    //private void UpdateValueColors()
-    //{
-    //    Card card = cardInstance.card;
-    //    switch (card.cardCostType)
-    //    {
-    //        case CardValueType.Score:
-    //            costImage.color = new Color(scoreColor.r, scoreColor.g, scoreColor.b, 1);
-    //            break;
-    //        case CardValueType.Mana:
-    //            costImage.color = new Color(manaColor.r, manaColor.g, manaColor.b, 1);
-    //            break;
-    //        case CardValueType.Bank:
-    //            costImage.color = new Color(bankColor.r, bankColor.g, bankColor.b, 1);
-    //            break;
-    //    }
-
-    //    switch (card.cardRewardType)
-    //    {
-    //        case CardValueType.Score:
-    //            rewardImage.color = new Color(scoreColor.r, scoreColor.g, scoreColor.b, 1);
-    //            break;
-    //        case CardValueType.Mana:
-    //            rewardImage.color = new Color(manaColor.r, manaColor.g, manaColor.b, 1);
-    //            break;
-    //        case CardValueType.Bank:
-    //            rewardImage.color = new Color(bankColor.r, bankColor.g, bankColor.b, 1);
-    //            break;
-    //    }
-    //}
 
     private void UpdateBorderColor(int rarity)
     {
@@ -135,5 +145,51 @@ public class CardDisplay : MonoBehaviour
         }
 
         cardBorder.color = borderColor;
+    }
+
+    private void UpdateCostIcon()
+    {
+        Card card = cardInstance.card;
+        switch (card.CardCost.CostType)
+        {
+            case CardValueType.Score:
+                costImage.sprite = scoreSprite;
+                break;
+            case CardValueType.Mana:
+                costImage.sprite = manaSprite;
+                break;
+            case CardValueType.Bank:
+                costImage.sprite = bankSprite;
+                break;
+            case CardValueType.Time:
+                costImage.sprite = timeSprite;
+                break;
+            case CardValueType.Card:
+                costImage.sprite = cardSprite;
+                break;
+        }
+    }
+
+    private void UpdateRewardIcon()
+    {
+        Card card = cardInstance.card;
+        switch (card.CardReward.RewardType)
+        {
+            case CardValueType.Score:
+                rewardImage.sprite = scoreSprite;
+                break;
+            case CardValueType.Mana:
+                rewardImage.sprite = manaSprite;
+                break;
+            case CardValueType.Bank:
+                rewardImage.sprite = bankSprite;
+                break;
+            case CardValueType.Time:
+                rewardImage.sprite = timeSprite;
+                break;
+            case CardValueType.Card:
+                rewardImage.sprite = cardSprite;
+                break;
+        }
     }
 }

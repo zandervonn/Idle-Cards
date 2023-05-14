@@ -26,11 +26,11 @@ public class CardsList : MonoBehaviour
         cards.Add(new ManaResetCard());
         cards.Add(new DrawCardsCard());
         cards.Add(new ManaLeftCard());
-        cards.Add(new ToTheBankCard());
+        //cards.Add(new ToTheBankCard()); //maybe bad idea
         cards.Add(new MortgageCard());
         cards.Add(new PanicModeCard());
         cards.Add(new LottoCard());
-        cards.Add(new ResetDrawCostCard());
+        //cards.Add(new ResetDrawCostCard());
     }
 
     public class BasicCard : Card
@@ -214,138 +214,143 @@ public class CardsList : MonoBehaviour
             );
         }
 
-        public class MortgageCard : Card
+    }
+
+    public class MortgageCard : Card
+    {
+        public MortgageCard()
         {
-            public MortgageCard()
-            {
-                cardName = "Mortgage";
-                description = "Add % of bank to hand \n Costs % of mana";
-                artwork = null;
-                startingLevel = 1;
-                baseCardManaCost = 10;
-                rarity = 1;
+            cardName = "Mortgage";
+            description = "Add % of bank to hand \n Costs % of mana";
+            artwork = null;
+            startingLevel = 1;
+            baseCardManaCost = 10;
+            rarity = 1;
 
-                CardCost = new ManaCardCost(
-                    (cardInstance) => {
-                        float baseCost = GameManager.Instance.mana * 0.3f;
-                        float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, 3);
-                        return (float)(baseCost * approachZero);
-                    }
-                );
+            CardCost = new BankCardCost(
+                (cardInstance) => {
+                    float baseCost = GameManager.Instance.BankValue * 0.3f;
+                    float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, 3);
+                    return (float)(baseCost * approachZero);
+                }
+            );
 
-                CardReward = new ScoreCardReward(
-                    (cardInstance) =>
-                    {
-                        GameManager gameManager = FindObjectOfType<GameManager>();
-                        int startScore = gameManager.BankValue;
-                        float approachInf = (float)Math.Pow(1f + cardInstance.level / 100f, 3);
-                        float rarityAdd = 1 + (cardInstance.rarity) / 25;
-                        return (int)(startScore * approachInf * rarityAdd) / 10;
-                    }
-                );
-            }
-        }
-
-        public class PanicModeCard : Card
-        {
-            public PanicModeCard()
-            {
-                cardName = "Panic Mode";
-                description = "The closer to 0 mana, the more score \n Costs % of mana";
-                artwork = null;
-                startingLevel = 1;
-                baseCardManaCost = 10;
-                rarity = 1;
-
-                CardCost = new ManaCardCost(
-                    (cardInstance) => {
-                        float baseCost = GameManager.Instance.mana * 0.5f;
-                        float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, 3);
-                        return (float)(baseCost * approachZero);
-                    }
-                );
-
-                CardReward = new ScoreCardReward(
-                    (cardInstance) =>
-                    {
-                        GameManager gameManager = FindObjectOfType<GameManager>();
-                        float mana = gameManager.mana;
-                        float approachInf = (float)Math.Pow(1f + cardInstance.level / 100f, 3);
-                        float rarityAdd = 1 + (cardInstance.rarity) / 25;
-                        return (int)Math.Pow((10 / (mana + 1)), 2) * approachInf * rarityAdd;
-                    }
-                );
-            }
-        }
-
-        public class LottoCard : Card
-        {
-            public LottoCard()
-            {
-                cardName = "The gambler";
-                description = "High chance to increase coins by % \n Low chance to lose all coins";
-                artwork = null;
-                startingLevel = 1;
-                baseCardManaCost = 10;
-                rarity = 1;
-
-                CardCost = new ScoreCardCost(
-                    (cardInstance) => {
-                        GameManager gameManager = FindObjectOfType<GameManager>();
-                        int startScore = gameManager.fieldScore;
-                        int rand = UnityEngine.Random.Range(0, 100);
-                        float approachInf = (float)Math.Pow(1f + cardInstance.level / 100f, 3);
-                        float rarityAdd = 1 + (cardInstance.rarity) / 25;
-                        float odds = 30 / (approachInf * rarityAdd);
-                        Debug.Log("odds: " + odds);
-                        if (rand < odds) {
-                            return startScore;
-                        }
-                        return 0;
-                    }
-                );
-
-                CardReward = new ScoreCardReward(
-                    (cardInstance) => {
-                        GameManager gameManager = FindObjectOfType<GameManager>();
-                        int startScore = gameManager.fieldScore;
-                        float approachInf = (float)Math.Pow(1f + cardInstance.level / 60f, 3);
-                        float rarityAdd = 1 + (cardInstance.rarity) / 10;
-                        return startScore * approachInf * rarityAdd;
-                    }
-                );
-            }
-        }
-
-        public class ResetDrawCostCard : Card
-        {
-            public ResetDrawCostCard()
-            {
-                cardName = "Reset Draw Cost";
-                description = "Draw card cost = 0 \n Costs % of mana";
-                artwork = null;
-                startingLevel = 1;
-                baseCardManaCost = 10;
-                rarity = 1;
-
-                CardCost = new ManaCardCost(
-                    (cardInstance) => {
-                        float baseCost = GameManager.Instance.mana * 0.3f;
-                        float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, 3);
-                        return (float)(baseCost * approachZero);
-                    }
-                );
-
-                CardReward = new DrawCostCardReward(
-                    (cardInstance) => {
-                        return 0;
-                    }
-                );
-            }
+            CardReward = new ScoreCardReward(
+                (cardInstance) =>
+                {
+                    GameManager gameManager = FindObjectOfType<GameManager>();
+                    int startScore = gameManager.BankValue;
+                    float approachInf = (float)Math.Pow(1f + cardInstance.level / 100f, 3);
+                    float rarityAdd = 1 + (cardInstance.rarity) / 25;
+                    return (int)(startScore * approachInf * rarityAdd) / 10;
+                }
+            );
         }
     }
 
-    /**
+    public class PanicModeCard : Card
+    {
+        public PanicModeCard()
+        {
+            cardName = "Panic Mode";
+            description = "The closer to 0 mana, the more score \n Costs % of mana";
+            artwork = null;
+            startingLevel = 1;
+            baseCardManaCost = 10;
+            rarity = 1;
+
+            CardCost = new ManaCardCost(
+                (cardInstance) => {
+                    float baseCost = GameManager.Instance.mana * 0.5f;
+                    float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, 3);
+                    return (float)(baseCost * approachZero);
+                }
+            );
+
+            CardReward = new ScoreCardReward(
+                (cardInstance) =>
+                {
+                    GameManager gameManager = FindObjectOfType<GameManager>();
+                    float mana = gameManager.mana;
+                    float approachInf = (float)Math.Pow(1f + cardInstance.level / 100f, 3);
+                    float rarityAdd = 1 + (cardInstance.rarity) / 25;
+                    return (int)(Math.Pow((10 / (mana + 1)), 2) * approachInf * rarityAdd) + 1;
+                }
+            );
+        }
+    }
+
+    public class LottoCard : Card
+    {
+        public LottoCard()
+        {
+            cardName = "The gambler";
+            description = "High chance to increase coins by % \n Low chance to lose all coins";
+            artwork = null;
+            startingLevel = 1;
+            baseCardManaCost = 10;
+            rarity = 1;
+
+            CardCost = new ScoreCardCost(
+                (cardInstance) => {
+                    GameManager gameManager = FindObjectOfType<GameManager>();
+                    int startScore = gameManager.fieldScore;
+                    int rand = UnityEngine.Random.Range(0, 100);
+                    float approachInf = (float)Math.Pow(1f + cardInstance.level / 100f, 3);
+                    float rarityAdd = 1 + (cardInstance.rarity) / 25;
+                    float odds = 30 / (approachInf * rarityAdd);
+                    Debug.Log("odds: " + odds);
+                    if (rand < odds)
+                    {
+                        return startScore;
+                    }
+                    return 0;
+                }
+            );
+
+            CardReward = new ScoreCardReward(
+                (cardInstance) => {
+                    GameManager gameManager = FindObjectOfType<GameManager>();
+                    int startScore = gameManager.fieldScore;
+                    float approachInf = (float)Math.Pow(1f + cardInstance.level / 60f, 3);
+                    float rarityAdd = 1 + (cardInstance.rarity) / 10;
+                    return startScore * approachInf * rarityAdd;
+                }
+            );
+        }
+    }
+
+    public class ResetDrawCostCard : Card
+    {
+        public ResetDrawCostCard()
+        {
+            cardName = "Reset Draw Cost";
+            description = "Draw card cost = 0 \n Costs % of mana";
+            artwork = null;
+            startingLevel = 1;
+            baseCardManaCost = 10;
+            rarity = 1;
+
+            CardCost = new ManaCardCost(
+                (cardInstance) => {
+                    float baseCost = GameManager.Instance.mana * 0.3f;
+                    float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, 3);
+                    return (float)(baseCost * approachZero);
+                }
+            );
+
+            CardReward = new DrawCostCardReward(
+                (cardInstance) => {
+                    return 0;
+                }
+            );
+        }
+    }
+
+
+}
+
+/**
 o	        add copy of next card played
 o	    one time use cards, high value 
 o	        draw non-owned card
@@ -356,7 +361,7 @@ o	x mana and x cards, costs coins
 o	//x% of your bank value
 o	        draw 2 discard 1
 o	if mana is below x, gain x
-    the less mana the more value
+the less mana the more value
 o	if mana is above x, gain x
 o	    freeze mana decrease with time rate
 o	        gain x coins, burn 2 random cards
@@ -367,8 +372,6 @@ o	    next cost draws from bank * 10
 o	    convert mana to coins, deplete all mana
 
 **/
-
-}
 
 
 
