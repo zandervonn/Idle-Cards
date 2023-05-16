@@ -14,10 +14,8 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
     
     public Text cardCostText;
     private GameManager gameManager;
-    //private int cardCostMultiplier = 5; // testing
-    private int cardCostMultiplier = 1;
-    //private int cardCost = 10; //testing
-    private int cardCost = 1;
+    private int cardCostMultiplier = 5;
+    private int cardCost = 10;
 
     private void Start()
     {
