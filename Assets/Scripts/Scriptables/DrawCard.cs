@@ -115,7 +115,11 @@ public class DrawCard : MonoBehaviour
 
     public void FanOutCards()
     {
+
+        Debug.Log("fanning out cads");
+
         int cardCount = newParent.transform.childCount;
+        Debug.Log("card count: " + cardCount);
         float halfCardCount = Mathf.Floor(cardCount / 2);
         float maxTiltAngle = 10f;
         float maxHeight = 100f;
@@ -158,10 +162,13 @@ public class DrawCard : MonoBehaviour
 
         for (int i = 0; i < cardCount; i++)
         {
-
             cardTransform = sortedCards[i].GetComponent<RectTransform>();
             cardTransform.localPosition = new Vector3(cardTransform.localPosition.x, cardTransform.localPosition.y, 90 - (i*10)); //150 - (i * (100/cardCount+1))
+
+            Debug.Log("Setting rotation for card " + i + ": " + cardTransform.localEulerAngles);
         }
+
+
     }
 
     public void ClearCards()

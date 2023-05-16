@@ -11,18 +11,20 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
 {
 
     private CardsList cardsList;
-    public int cardCost = 1;
+    
     public Text cardCostText;
-    //public Button buyButton;
     private GameManager gameManager;
-    public int cardCostMultiplier;
+    //private int cardCostMultiplier = 5; // testing
+    private int cardCostMultiplier = 1;
+    //private int cardCost = 10; //testing
+    private int cardCost = 1;
 
     private void Start()
     {
         cardsList = FindObjectOfType<CardsList>();
         gameManager = FindObjectOfType<GameManager>();
-        cardCostMultiplier = 2;
-}
+        cardCostText.text = "$" + cardCost;
+    }
 
     public void OnPointerDown(PointerEventData eventData)
     {

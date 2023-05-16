@@ -299,7 +299,7 @@ public class CardsList : MonoBehaviour
                     float approachInf = (float)Math.Pow(1f + cardInstance.level / 100f, 3);
                     float rarityAdd = 1 + (cardInstance.rarity) / 25;
                     float odds = 30 / (approachInf * rarityAdd);
-                    Debug.Log("odds: " + odds);
+                    //Debug.Log("odds: " + odds);
                     if (rand < odds)
                     {
                         return startScore;

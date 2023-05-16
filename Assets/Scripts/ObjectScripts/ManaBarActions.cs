@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class ManaBarActions : MonoBehaviour
 {
      //should be game manager value
-    private float manaLossRate = 0.05f;
+    public float manaLossRate = 0.05f;
     private float manaAcceleration = 3f;
     private float elapsedTimeSinceRoundStart = 0f;
 

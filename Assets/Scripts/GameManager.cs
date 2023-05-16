@@ -58,6 +58,8 @@ public class GameManager : MonoBehaviour {
 
         OnResetRound();
 
+
+
     }
 
     public void UpdateHighScore(int newScore)
@@ -242,4 +244,6 @@ public class GameManager : MonoBehaviour {
             draggableCard.CancelDragging();
         }
     }
+
+
 }

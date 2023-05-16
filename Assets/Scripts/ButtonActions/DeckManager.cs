@@ -45,18 +45,6 @@ public class DeckManager : MonoBehaviour, IPointerClickHandler
         {
             CardDisplay cardDisplay = Instantiate(gameManager.cardsList.cardPrefab, cardGrid);
 
-            // Set the sorting order of the instantiated card's canvas
-            Canvas cardCanvas = cardDisplay.GetComponent<Canvas>();
-            if (cardCanvas != null)
-            {
-                cardCanvas.overrideSorting = true;
-                cardCanvas.sortingOrder = 1; // Set this value to be higher than the deck's canvas sorting order
-            }
-            else
-            {
-                Debug.LogError("No Canvas component found on the card.");
-            }
-
             cardDisplay.Setup(cardInstance, true);
         }
     }

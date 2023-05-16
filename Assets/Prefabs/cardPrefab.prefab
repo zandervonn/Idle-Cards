@@ -684,11 +684,11 @@ MonoBehaviour:
   rewardImage: {fileID: 4702385002964299721}
   scoreColor: {r: 1, g: 0.9074214, b: 0.30566037, a: 0}
   manaColor: {r: 0, g: 0.9960785, b: 0.9960785, a: 0}
-  bankColor: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 0}
+  bankColor: {r: 0.8528302, g: 0.98080397, b: 1, a: 0}
   cardBorder: {fileID: 388642652525443443}
   scoreSprite: {fileID: 21300000, guid: 9e7880b4e3c292d4fa1b63ae173b17ab, type: 3}
   manaSprite: {fileID: 21300000, guid: 112d8d3d5d28f554ab5f9f5b3beee5b4, type: 3}
-  bankSprite: {fileID: 21300000, guid: 8eee7f6adcd375d4c88184617f5bd566, type: 3}
+  bankSprite: {fileID: 21300000, guid: 49b636e421192bd42bc905cf39bf9867, type: 3}
   timeSprite: {fileID: 21300000, guid: aa0402f0e3c7a6d4797301ce578b8c1f, type: 3}
   cardSprite: {fileID: 21300000, guid: 6ec3377e2a3b2f54bba392112b45e209, type: 3}
 --- !u!114 &-3462345475206245205

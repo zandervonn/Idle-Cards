@@ -25,6 +25,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private DeckManager deckManager;
     public CardInstance cardInstance;
 
+    private bool beingDragged = false;
+    float smoothTime = 0.1f; // Adjust this value to control the smoothness of the tilt transition
+
     public Card CardComponent
     {
         get { return _cardComponent; }
@@ -33,11 +36,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     private void Update()
     {
-        // Smoothly interpolate the tilt rotation
-        float smoothTime = 0.1f; // Adjust this value to control the smoothness of the tilt transition
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, targetTiltRotation, smoothTime);
-
-        //DrawCard.Instance.UpdateHand();
+        if (beingDragged)
+        {
+            // Smoothly interpolate the tilt rotation
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, targetTiltRotation, smoothTime);
+        }
     }
 
     void Awake()
@@ -59,11 +62,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-
-    if (cardInstance == null)
-
+        beingDragged = true;
         // Check if the deck is open before allowing the card to be dragged
-        if (deckManager.isDeckVisible){return;}
+        if (deckManager.isDeckVisible) { return; }
         parentToReturnTo = this.transform.parent;
         this.transform.SetParent(this.transform.parent.parent);
         GetComponent<CanvasGroup>().blocksRaycasts = false;
@@ -86,15 +87,16 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnDrag(PointerEventData eventData)
     {
+        beingDragged = true;
         // Check if the deck is open before allowing the card to be dragged
         if (deckManager.isDeckVisible) { return; }
         Vector3 currentPosition = eventData.position;
         Vector3 direction = currentPosition - previousPosition;
         float speed = direction.magnitude / Time.deltaTime;
 
-        float velocityThreshold = 100f; // Adjust this value to control the minimum speed for tilt
-        float maxSpeed = 400f; // Adjust this value to control how fast the card needs to be dragged to reach maximum tilt
-        float maxTiltAngle = 10f; // Adjust this value to control the maximum tilt angle
+        float velocityThreshold = 1f; // Adjust this value to control the minimum speed for tilt
+        float maxSpeed = 80f; // Adjust this value to control how fast the card needs to be dragged to reach maximum tilt
+        float maxTiltAngle = 20f; // Adjust this value to control the maximum tilt angle
 
         if (speed < velocityThreshold)
         {
@@ -125,53 +127,43 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        targetTiltRotation = Quaternion.AngleAxis(0, Vector3.zero);
 
-        //// Check if the deck is open before allowing the card to be dragged
-        //if (deckManager.isDeckVisible)
-        //{
-        //    // Reset the card size, pivot, and position
-        //    ResetCardSizeAndPivot();
-        //    this.transform.SetParent(parentToReturnTo);
-        //    this.transform.localPosition = Vector3.zero;
-        //}
-        //else
-        //{
-            if (playable)
+        beingDragged = false;
+        if (playable)
+        {
+            //float cardCost = CardComponent.CostFormula(cardInstance);
+            if (CardComponent.IsAffordable(cardInstance, GameManager.Instance))
             {
-                float cardCost = CardComponent.CostFormula(cardInstance);
-                if (CardComponent.IsAffordable(cardInstance, GameManager.Instance))
+                // Get the Card component of the dragged object
+                Card card = CardComponent;
+
+                if (card != null)
                 {
-                    // Get the Card component of the dragged object
-                    Card card = CardComponent;
-
-                    if (card != null)
-                    {
-                        card.OnDrop(GameManager.Instance, cardInstance);
-                    }
-                    else
-                    {
-                        Debug.Log("No card component found");
-                    }
-
-                    Instantiate(cardDie, this.transform.position, Quaternion.identity);
-
-                    // Call UpdateSpacing before destroying the game object
-                    DrawCard.Instance.OnCardDropped.Invoke();
-
-                    Destroy(this.gameObject);
+                    card.OnDrop(GameManager.Instance, cardInstance);
                 }
                 else
                 {
-                    this.transform.SetParent(parentToReturnTo);
-                    Debug.Log("Card unaffordable");
+                    Debug.Log("No card component found");
                 }
+
+                Instantiate(cardDie, this.transform.position, Quaternion.identity);
+
+                // Call UpdateSpacing before destroying the game object
+                DrawCard.Instance.OnCardDropped.Invoke();
+
+                Destroy(this.gameObject);
             }
             else
             {
                 this.transform.SetParent(parentToReturnTo);
-                Debug.Log("Card not playable");
+                Debug.Log("Card unaffordable");
             }
+        }
+        else
+        {
+            this.transform.SetParent(parentToReturnTo);
+            Debug.Log("Card not playable");
+        }
         //}
 
         GetComponent<CanvasGroup>().blocksRaycasts = true;
@@ -181,10 +173,13 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         rectTransform.localScale = new Vector3(1f, 1f, 1f);
 
         DrawCard.Instance.UpdateHand();
+        targetTiltRotation = rectTransform.rotation;
     }
 
     public void CancelDragging()
     {
+        beingDragged = false;
+
         // Reset card position and rotation
         transform.position = parentToReturnTo.position;
         transform.localRotation = dragStartRotation;
