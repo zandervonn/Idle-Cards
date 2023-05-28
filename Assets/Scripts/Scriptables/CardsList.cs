@@ -21,16 +21,18 @@ public class CardsList : MonoBehaviour
     {
         cards = new List<Card>();
 
-        cards.Add(new BasicCard());
-        cards.Add(new DoubleCard());
-        cards.Add(new ManaResetCard());
-        cards.Add(new DrawCardsCard());
-        cards.Add(new ManaLeftCard());
-        //cards.Add(new ToTheBankCard()); //maybe bad idea
-        cards.Add(new MortgageCard());
-        cards.Add(new PanicModeCard());
-        cards.Add(new LottoCard());
-        //cards.Add(new ResetDrawCostCard());
+        cards.Add(ScriptableObject.CreateInstance<BasicCard>());
+        cards.Add(ScriptableObject.CreateInstance<DoubleCard>());
+        cards.Add(ScriptableObject.CreateInstance<ManaResetCard>());
+        cards.Add(ScriptableObject.CreateInstance<DrawCardsCard>());
+        cards.Add(ScriptableObject.CreateInstance<ManaLeftCard>());
+        cards.Add(ScriptableObject.CreateInstance<MortgageCard>());
+        cards.Add(ScriptableObject.CreateInstance<PanicModeCard>());
+        cards.Add(ScriptableObject.CreateInstance<LottoCard>());
+
+        ////cards.Add(ScriptableObject.CreateInstance<ToTheBankCard>()); //maybe bad idea
+        ////cards.Add(ScriptableObject.CreateInstance<ResetDrawCostCard>());
+        ///
     }
 
     public class BasicCard : Card
@@ -39,7 +41,7 @@ public class CardsList : MonoBehaviour
         {
             cardName = "The Basic";
             description = "Increase score by fixed \n costs % of mana";
-            artwork = Resources.Load<Sprite>("CardImages/Coin");
+            artwork = null;
             startingLevel = 1;
             baseCardManaCost = 10;
             rarity = 50;
@@ -67,7 +69,7 @@ public class CardsList : MonoBehaviour
         {
             cardName = "Multiply";
             description = "Multiply your score \n Fixed mana cost";
-            artwork = Resources.Load<Sprite>("CardImages/CoinBag");
+            artwork = null;
             startingLevel = 1;
             baseCardManaCost = 40;
             rarity = 1;
@@ -98,7 +100,7 @@ public class CardsList : MonoBehaviour
         {
             cardName = "I NEED MORE TIME";
             description = "Increase mana by % \n Costs fixed coins";
-            artwork = Resources.Load<Sprite>("CardImages/Clock");
+            artwork = null;
             startingLevel = 1;
             baseCardManaCost = 0;
             rarity = 1;
@@ -129,7 +131,7 @@ public class CardsList : MonoBehaviour
         {
             cardName = "Draw Cards";
             description = "Draw fixed cards \n Costs fixed mana";
-            artwork = Resources.Load<Sprite>("CardImages/Cards");
+            artwork = null;
             startingLevel = 1;
             baseCardManaCost = 30;
             rarity = 1;

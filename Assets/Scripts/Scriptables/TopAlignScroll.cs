@@ -27,6 +27,6 @@ public class TopAlignScroll : MonoBehaviour
             // Reset it to 0.5f
             scrollRect.normalizedPosition = new Vector2(scrollRect.normalizedPosition.x, maxY);
         }
-        Debug.Log("min max y = " + minY + '-' + maxY);
+        //Debug.Log("min max y = " + minY + '-' + maxY);
     }
 }

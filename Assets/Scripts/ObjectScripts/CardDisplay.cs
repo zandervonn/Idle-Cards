@@ -47,6 +47,12 @@ public class CardDisplay : MonoBehaviour
         this.cardInstance = cardInstance;
         Card card = cardInstance.card;
 
+        if (card == null)
+        {
+            Debug.LogError("Card is null.");
+            return;
+        }
+
         cardName.text = card.cardName;
         cardDescription.text = card.description;
         cardLevel.text = cardInstance.level.ToString("F0");

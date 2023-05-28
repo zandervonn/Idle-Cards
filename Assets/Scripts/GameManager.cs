@@ -14,24 +14,27 @@ public class GameManager : MonoBehaviour {
             _mana = value;
         }
     }
-    public int HighScore { get; private set; }
-    public int LastScore { get; private set; }
-    public int BankValue { get; private set; }
+    public int HighScore { get; set; }
+    public int LastScore { get; set; }
+    public int BankValue { get; set; }
     public int BuyCost { get; set; }
     public int RemoveCost { get; set; }
-    public int RemoveCostMultiplier { get; private set; }
-    public int TotalMoneyEarned { get; private set; }
+    public int RemoveCostMultiplier { get; set; }
+    public int TotalMoneyEarned { get; set; }
     public float maxMana { get; set; }
     public float minMana = 10;
     public CardsList cardsList{ get; private set; }
     public DrawCard drawCard;
     public CardManager cardManager;
     public DrawCardButton drawCardButton;
+    public SaveLoadManager saveLoadManager;
 
 
-    private void Awake() {
+    private void Awake()
+    {
 
-        if (Instance != null && Instance != this) {
+        if (Instance != null && Instance != this)
+        {
             Destroy(gameObject);
             return;
         }
@@ -50,13 +53,35 @@ public class GameManager : MonoBehaviour {
         RemoveCostMultiplier = 2;
         UpdateRemoveCost();
 
+        // Load the game state
+        saveLoadManager = FindObjectOfType<SaveLoadManager>();
         // Initialize the cardsList variable
         cardsList = FindObjectOfType<CardsList>();
+
+        // Check if CardsList is found and if not, log an error
+        if (cardsList == null)
+        {
+            Debug.LogError("CardsList not found");
+            return;
+        }
+
         cardsList.Initialize();
 
+        // Initialize the cardsList variable
+        cardsList = FindObjectOfType<CardsList>();
+
+        // Always initialize the CardManager
         cardManager = new CardManager(cardsList.cards);
 
-        OnResetRound();
+        if (PlayerPrefs.HasKey("GameState"))
+        {
+            saveLoadManager.LoadGameState();
+        }
+        else
+        {
+            saveLoadManager.SaveGameState();
+            OnResetRound();
+        }
 
     }
 
@@ -241,5 +266,20 @@ public class GameManager : MonoBehaviour {
         {
             draggableCard.CancelDragging();
         }
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            saveLoadManager = FindObjectOfType<SaveLoadManager>();
+            saveLoadManager.SaveGameState();
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        saveLoadManager = FindObjectOfType<SaveLoadManager>();
+        saveLoadManager.SaveGameState();
     }
 }

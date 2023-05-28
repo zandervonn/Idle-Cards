@@ -68,6 +68,10 @@ public class DrawCard : MonoBehaviour
 
         // Instantiate a new CardDisplay instance
         CardDisplay newCardDisplay = Instantiate(cardDisplay, new Vector2(0, 0), Quaternion.identity);
+        if (newCardDisplay == null)
+        {
+            Debug.LogError("Failed to Instantiate CardDisplay.");
+        }
         newCardDisplay.Setup(cardInstance, false);
 
         // Set the card's parent and adjust spacing
@@ -180,6 +184,5 @@ public class DrawCard : MonoBehaviour
         }
 
         int cardCount = newParent.transform.childCount;
-        Debug.Log("after clear cards: " + cardCount);
     }
 }

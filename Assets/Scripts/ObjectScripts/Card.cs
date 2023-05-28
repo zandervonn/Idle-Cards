@@ -9,6 +9,7 @@ public abstract class Card : ScriptableObject
     public int startingLevel;
     public int baseCardManaCost;
     public int rarity;
+    public string id;
 
     public ICardCost CardCost { get; set; }
     public ICardReward CardReward { get; set; }

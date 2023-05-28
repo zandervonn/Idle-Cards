@@ -8,8 +8,9 @@ public class ResetIdleEarnings : MonoBehaviour
     {
         if (resetIdleEarnings)
         {
-            PlayerPrefs.DeleteKey("LastQuitTime");
-            resetIdleEarnings = false;
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
+            Debug.Log("PlayerPrefs cleared.");
         }
     }
 }
