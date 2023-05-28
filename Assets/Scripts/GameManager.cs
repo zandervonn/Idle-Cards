@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour {
         if (PlayerPrefs.HasKey("GameState"))
         {
             saveLoadManager.LoadGameState();
+            OnResetRound();
         }
         else
         {

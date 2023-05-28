@@ -11,7 +11,7 @@ public class CardManager
     public List<CardInstance> ownedCards;
     private int startingCards = 4;
 
-    // A dictionary to map card IDs to card instances.
+    // A dictionary to map card Name/type to card instances.
     private Dictionary<string, Card> cardIdToCardMap;
 
     public CardManager(List<Card> cardsList)
@@ -63,7 +63,7 @@ public class CardManager
 
             Card card = GetCardByName(data.cardName);
 
-            CardInstance cardInstance = new CardInstance(card, this, data.level, data.rarity, data.cardId)
+            CardInstance cardInstance = new CardInstance(card, this, data.level, data.rarity)
             {
                 timesPlayed = data.timesPlayed,
                 nextUpgradeExtra = data.nextUpgradeExtra,

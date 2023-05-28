@@ -11,8 +11,6 @@ public class CardInstance
     public int level;
     public int timesPlayed = 0;
     public float nextUpgradeExtra = 1;
-    public string id;
-    public string cardId;
     public int UpgradeCost { get; set; }
     private CardManager cardManager;
     public int rarity; 
@@ -24,8 +22,6 @@ public class CardInstance
             Debug.LogError("Card is null in CardInstance constructor.");
         }
 
-        this.cardId = card.id;
-        this.id = Guid.NewGuid().ToString();
         this.card = card;
         this.level = 0;
         UpgradeCost = 10;
@@ -37,28 +33,10 @@ public class CardInstance
     {
         if (card == null)
         {
-            Debug.LogError("Card is null in CardInstance constructor. 2 ");
-        }
-
-        this.cardId = card.id;
-        this.id = Guid.NewGuid().ToString();
-        this.card = card;
-        this.level = level;
-        UpgradeCost = 10;
-        this.cardManager = cardManager;
-        this.rarity = rarity;
-    }
-
-    public CardInstance(Card card, CardManager cardManager, int level, int rarity, String id)
-    {
-        if (card == null)
-        {
             Debug.LogError("Card is null in CardInstance constructor. 3");
         }
 
         this.card = card;
-        this.cardId = card.id;
-        this.id = id;
         this.level = level;
         UpgradeCost = 10;
         this.cardManager = cardManager;

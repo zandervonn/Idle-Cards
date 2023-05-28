@@ -22,7 +22,6 @@ public class GameState
 [System.Serializable]
 public class CardInstanceData
 {
-    public string cardId;
     public string cardName;
     public int level;
     public int timesPlayed;
@@ -50,7 +49,6 @@ public class SaveLoadManager : MonoBehaviour
         {
             var cardData = new CardInstanceData
             {
-                cardId = cardInstance.id,
                 cardName = cardInstance.card.cardName,
                 level = cardInstance.level,
                 timesPlayed = cardInstance.timesPlayed,
@@ -96,7 +94,7 @@ public class SaveLoadManager : MonoBehaviour
             foreach (var cardData in gameState.ownedCardsData)
             {
                 Card card = gameManager.cardManager.GetCardByName(cardData.cardName);
-                CardInstance cardInstance = new CardInstance(card, gameManager.cardManager, cardData.level, cardData.rarity, cardData.cardId)
+                CardInstance cardInstance = new CardInstance(card, gameManager.cardManager, cardData.level, cardData.rarity)
                 {
                     timesPlayed = cardData.timesPlayed,
                     nextUpgradeExtra = cardData.nextUpgradeExtra,
@@ -104,7 +102,6 @@ public class SaveLoadManager : MonoBehaviour
                 };
 
                 //Add the CardInstanceData based on the CardInstance
-                cardData.cardId = cardInstance.id;
                 cardData.cardName = cardInstance.card.cardName;
                 cardData.level = cardInstance.level;
                 cardData.timesPlayed = cardInstance.timesPlayed;

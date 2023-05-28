@@ -62,5 +62,27 @@ public class ManaBarActions : MonoBehaviour
         slider.maxValue = gameManager.maxMana;
     }
 
+    public float CalculateTimeToDepleteMana()
+    {
+        float a = 0.5f * manaAcceleration;
+        float b = manaLossRate;
+        float c = -gameManager.maxMana;
+
+        if (a != 0)
+        {
+            float t = (Mathf.Sqrt(2 * a * c + b * b) - b) / a;
+            return t;
+        }
+        else if (b != 0)
+        {
+            float t = c / b;
+            return t;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
 
 }
