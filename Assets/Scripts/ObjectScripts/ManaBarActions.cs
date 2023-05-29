@@ -64,22 +64,31 @@ public class ManaBarActions : MonoBehaviour
 
     public float CalculateTimeToDepleteMana()
     {
+        gameManager = GameManager.Instance;
+
         float a = 0.5f * manaAcceleration;
         float b = manaLossRate;
         float c = -gameManager.maxMana;
 
+        Debug.Log("a: " + a);
+        Debug.Log("b: " + b);
+        Debug.Log("c: " + c);
+
         if (a != 0)
         {
-            float t = (Mathf.Sqrt(2 * a * c + b * b) - b) / a;
+            float t = (Mathf.Sqrt(2 * a * Mathf.Abs(c) + b * b) - b) / a;
+            Debug.Log("Calculated time to deplete mana: " + t);
             return t;
         }
         else if (b != 0)
         {
             float t = c / b;
+            Debug.Log("Calculated time to deplete mana: " + t);
             return t;
         }
         else
         {
+            Debug.Log("Mana cannot be depleted.");
             return 0;
         }
     }

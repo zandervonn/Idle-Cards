@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour {
     public int TotalMoneyEarned { get; set; }
     public float maxMana { get; set; }
     public float minMana = 10;
+    public DateTime LastPauseTime { get; set; }
     public CardsList cardsList{ get; private set; }
     public DrawCard drawCard;
     public CardManager cardManager;
@@ -91,7 +92,6 @@ public class GameManager : MonoBehaviour {
         if (newScore > HighScore)
         {
             HighScore = newScore;
-            PlayerPrefs.SetInt("HighScore", HighScore);
         }
     }
 
@@ -190,7 +190,6 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-
     public void OnManaDepleted() {
         updateScoreRecords();
         UpdateBankValue(true,true);
@@ -273,14 +272,35 @@ public class GameManager : MonoBehaviour {
     {
         if (pauseStatus)
         {
-            saveLoadManager = FindObjectOfType<SaveLoadManager>();
+            LastPauseTime = DateTime.UtcNow;
             saveLoadManager.SaveGameState();
         }
     }
 
     private void OnApplicationQuit()
     {
-        saveLoadManager = FindObjectOfType<SaveLoadManager>();
+        LastPauseTime = DateTime.UtcNow;
         saveLoadManager.SaveGameState();
+    }
+
+    public void CalculateIdleEarnings()
+    {
+        // Calculate the time difference in seconds
+        double timeDifference = (DateTime.UtcNow - LastPauseTime).TotalSeconds;
+
+        // Calculate the time it takes to deplete mana
+        float timeToDepleteMana = manaBarActions.CalculateTimeToDepleteMana();
+
+        // Calculate how many earnings there were
+        int numberOfEarnings = (int)(timeDifference / timeToDepleteMana);
+
+        // Calculate the total idle earnings
+        int totalIdleEarnings = numberOfEarnings * HighScore;
+
+        // Add the idle earnings to the score
+        IncreaseBank(totalIdleEarnings);
+
+        // Print the time away
+        Debug.Log("Time away: " + timeDifference + " seconds, Time per tick:" + timeToDepleteMana  + " Ticks: " + numberOfEarnings + ", idle earnings: " + totalIdleEarnings);
     }
 }

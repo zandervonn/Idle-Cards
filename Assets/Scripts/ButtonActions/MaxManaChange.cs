@@ -39,7 +39,7 @@ public class MaxManaChange : MonoBehaviour, IPointerDownHandler {
     public void UpdateManaChangeText()
     {
         GameManager gameManager = GameManager.Instance;
-        manaChangeCost = ((gameManager.TotalMoneyEarned * 0.0355f) + 1f ) * (gameManager.maxMana/50);
+        manaChangeCost += ((((gameManager.TotalMoneyEarned * 0.00355f) + 1f ) * (gameManager.maxMana/50))); //todo add to savestate
         manaChangeCostText.text = "$" +  (manaChangeCost).ToString("F0");
     }
 }

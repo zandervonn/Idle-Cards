@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class GameState
     public int RemoveCost;
     public int BuyCost;
     public int BankValue;
+    public long LastPauseTimeTicks;
 
     public GameState()
     {
@@ -67,7 +69,8 @@ public class SaveLoadManager : MonoBehaviour
         gameState.RemoveCost = gameManager.RemoveCost;
         gameState.BuyCost = gameManager.BuyCost;
         gameState.BankValue = gameManager.BankValue;
-           
+        gameState.LastPauseTimeTicks = gameManager.LastPauseTime.Ticks;
+
 
         string json = JsonUtility.ToJson(gameState);
 
@@ -125,6 +128,10 @@ public class SaveLoadManager : MonoBehaviour
             gameManager.RemoveCost = gameState.RemoveCost;
             gameManager.BuyCost = gameState.BuyCost;
             gameManager.BankValue = gameState.BankValue;
+            gameManager.LastPauseTime = new DateTime(gameState.LastPauseTimeTicks);
+
+
+            gameManager.CalculateIdleEarnings();
         }
         else
         {
