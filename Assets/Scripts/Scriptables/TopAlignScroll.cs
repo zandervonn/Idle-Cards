@@ -12,7 +12,7 @@ public class TopAlignScroll : MonoBehaviour
     private void Update()
     {
 
-        float maxY = - ((childEle.rect.height - 2500) / 20);
+        float maxY = - ((childEle.rect.height - 2000) / 22);
         
         // Check if the ScrollRect's y position is greater than 0.5f
         if (scrollRect.normalizedPosition.y > minY)
@@ -27,6 +27,5 @@ public class TopAlignScroll : MonoBehaviour
             // Reset it to 0.5f
             scrollRect.normalizedPosition = new Vector2(scrollRect.normalizedPosition.x, maxY);
         }
-        //Debug.Log("min max y = " + minY + '-' + maxY);
     }
 }

@@ -16,8 +16,7 @@ public class DrawCardButton : MonoBehaviour, IPointerDownHandler {
     public void OnPointerDown(PointerEventData eventData) {
         GameManager gameManager = GameManager.Instance;
 
-        // Remove the local variable declaration
-        if (gameManager.cardManager.availableCards.Count >= 0)
+        if (gameManager.cardManager.availableCards.Count > 0)
         {
             if (gameManager.SpendRound(gameManager.BuyCost))
             {

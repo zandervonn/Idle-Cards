@@ -16,11 +16,14 @@ public class GameManager : MonoBehaviour {
     }
     public int HighScore { get; set; }
     public int LastScore { get; set; }
-    public int BankValue { get; set; }
+    public long BankValue { get; set; }
     public int BuyCost { get; set; }
+    public float Multiplier { get; set; }
     public int RemoveCost { get; set; }
     public int RemoveCostMultiplier { get; set; }
     public int TotalMoneyEarned { get; set; }
+    public float ManaLossRate { get; set; }
+    public float MaxManaChangeCost { get; set; }
     public float maxMana { get; set; }
     public float minMana = 10;
     public DateTime LastPauseTime { get; set; }
@@ -45,10 +48,13 @@ public class GameManager : MonoBehaviour {
 
         HighScore = 0;
         LastScore = 0;
-        BankValue = 100; // testing
+        BankValue = 1000000000; // testing
         BuyCost = 1;
         RemoveCost = 1;
         maxMana = 100;
+        Multiplier = 0.1f;
+        ManaLossRate = 3.3f;
+        MaxManaChangeCost = 1.0f;
 
 
         RemoveCostMultiplier = 2;
@@ -73,17 +79,18 @@ public class GameManager : MonoBehaviour {
 
         // Always initialize the CardManager
         cardManager = new CardManager(cardsList.cards);
+        
 
         if (PlayerPrefs.HasKey("GameState"))
         {
             saveLoadManager.LoadGameState();
-            OnResetRound();
         }
         else
         {
             saveLoadManager.SaveGameState();
-            OnResetRound();
         }
+        DrawCard drawCardComponent = FindObjectOfType<DrawCard>();
+        drawCardComponent.DrawCards(3);
 
     }
 
@@ -106,7 +113,7 @@ public class GameManager : MonoBehaviour {
 
         if (high)
         {
-            moneyEarned += HighScore;
+            moneyEarned += (int) (HighScore * Multiplier);
         }
         if (last)
         {
@@ -190,9 +197,20 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void OnManaDepleted() {
+    private float lastDepletionTime;
+
+    public void OnManaDepleted()
+    {
+        float currentTime = Time.time;
+        if (lastDepletionTime > 0)
+        {
+            float depletionTime = currentTime - lastDepletionTime;
+            Debug.Log("Real time to deplete mana: " + depletionTime);
+        }
+        lastDepletionTime = currentTime;
+
         updateScoreRecords();
-        UpdateBankValue(true,true);
+        UpdateBankValue(true, true);
         ResetField();
     }
 
@@ -209,7 +227,7 @@ public class GameManager : MonoBehaviour {
         drawCardComponent.ClearCards();
         cardManager.ResetAvailableCards();
         drawCardComponent.DrawCards(3);
-        manaBarActions.ResetElapsedTimeSinceRoundStart();
+        //manaBarActions.ResetElapsedTimeSinceRoundStart();
         ResetScore();
         ResetMana();
         ResetDrawCost();
@@ -246,9 +264,9 @@ public class GameManager : MonoBehaviour {
     public void ChangeMaxMana(float amount)
     {
         maxMana += amount;
-        if (maxMana < 10)
+        if ( 1 < maxMana && maxMana < minMana)
         {
-            maxMana = 10;
+            maxMana = minMana;
         }
         manaBarActions.UpdateSliderMaxValue();
     }
@@ -295,7 +313,7 @@ public class GameManager : MonoBehaviour {
         int numberOfEarnings = (int)(timeDifference / timeToDepleteMana);
 
         // Calculate the total idle earnings
-        int totalIdleEarnings = numberOfEarnings * HighScore;
+        int totalIdleEarnings = (int) (numberOfEarnings * HighScore * Multiplier);
 
         // Add the idle earnings to the score
         IncreaseBank(totalIdleEarnings);

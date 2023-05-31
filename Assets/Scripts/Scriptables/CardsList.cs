@@ -241,7 +241,7 @@ public class CardsList : MonoBehaviour
                 (cardInstance) =>
                 {
                     GameManager gameManager = FindObjectOfType<GameManager>();
-                    int startScore = gameManager.BankValue;
+                    long startScore = gameManager.BankValue;
                     float approachInf = (float)Math.Pow(1f + cardInstance.level / 100f, 3);
                     float rarityAdd = 1 + (cardInstance.rarity) / 25;
                     return (int)(startScore * approachInf * rarityAdd) / 10;

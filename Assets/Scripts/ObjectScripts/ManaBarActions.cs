@@ -1,14 +1,10 @@
 //8
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.UI;
 
 public class ManaBarActions : MonoBehaviour
 {
-     //should be game manager value
-    public float manaLossRate = 0.05f;
-    private float manaAcceleration = 3f;
-    private float elapsedTimeSinceRoundStart = 0f;
-
     private GameManager gameManager;
     private Slider slider;
     public Text manaValueText;
@@ -20,18 +16,13 @@ public class ManaBarActions : MonoBehaviour
         slider = GetComponent<Slider>();
         slider.maxValue = gameManager.maxMana;
         slider.value = gameManager.mana;
-
-        gameManager.maxMana = 100f;
-        manaLossRate = 0.05f;
-        manaAcceleration = 3f;
 }
 
     private void Update()
     {
-        elapsedTimeSinceRoundStart += Time.deltaTime;
-        float currentManaLossRate = manaLossRate * manaAcceleration * elapsedTimeSinceRoundStart;
+        float currentManaLossRate = gameManager.ManaLossRate * Time.deltaTime;
 
-        gameManager.DecreaseMana(currentManaLossRate * Time.deltaTime);
+        gameManager.DecreaseMana(currentManaLossRate);
         slider.value = gameManager.mana;
         manaValueText.text = gameManager.mana.ToString("F2");
 
@@ -39,11 +30,6 @@ public class ManaBarActions : MonoBehaviour
         {
             gameManager.OnManaDepleted();
         }
-    }
-
-    public void ResetElapsedTimeSinceRoundStart()
-    {
-        elapsedTimeSinceRoundStart = 0f;
     }
 
     public void SetSliderValue(float value)
@@ -60,37 +46,21 @@ public class ManaBarActions : MonoBehaviour
     public void UpdateSliderMaxValue()
     {
         slider.maxValue = gameManager.maxMana;
+        if(slider.value > slider.maxValue)
+        {
+            slider.value = slider.maxValue;
+        }
     }
 
     public float CalculateTimeToDepleteMana()
     {
         gameManager = GameManager.Instance;
 
-        float a = 0.5f * manaAcceleration;
-        float b = manaLossRate;
-        float c = -gameManager.maxMana;
+        Debug.Log("max mana = " + gameManager.maxMana);
+        Debug.Log("manaLossRate = " + gameManager.ManaLossRate);
 
-        Debug.Log("a: " + a);
-        Debug.Log("b: " + b);
-        Debug.Log("c: " + c);
-
-        if (a != 0)
-        {
-            float t = (Mathf.Sqrt(2 * a * Mathf.Abs(c) + b * b) - b) / a;
-            Debug.Log("Calculated time to deplete mana: " + t);
-            return t;
-        }
-        else if (b != 0)
-        {
-            float t = c / b;
-            Debug.Log("Calculated time to deplete mana: " + t);
-            return t;
-        }
-        else
-        {
-            Debug.Log("Mana cannot be depleted.");
-            return 0;
-        }
+        float t = gameManager.maxMana / gameManager.ManaLossRate;
+        return t;
     }
 
 

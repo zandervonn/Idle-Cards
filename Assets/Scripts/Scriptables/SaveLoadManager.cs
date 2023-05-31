@@ -12,8 +12,10 @@ public class GameState
     public int TotalMoneyEarned;
     public int RemoveCost;
     public int BuyCost;
-    public int BankValue;
+    public long BankValue;
     public long LastPauseTimeTicks;
+    public float MaxManaChangeCost;
+    public float CurrentMana;
 
     public GameState()
     {
@@ -70,6 +72,8 @@ public class SaveLoadManager : MonoBehaviour
         gameState.BuyCost = gameManager.BuyCost;
         gameState.BankValue = gameManager.BankValue;
         gameState.LastPauseTimeTicks = gameManager.LastPauseTime.Ticks;
+        gameState.MaxManaChangeCost = gameManager.MaxManaChangeCost;
+        gameState.CurrentMana = gameManager.mana;
 
 
         string json = JsonUtility.ToJson(gameState);
@@ -129,6 +133,8 @@ public class SaveLoadManager : MonoBehaviour
             gameManager.BuyCost = gameState.BuyCost;
             gameManager.BankValue = gameState.BankValue;
             gameManager.LastPauseTime = new DateTime(gameState.LastPauseTimeTicks);
+            gameManager.MaxManaChangeCost = gameState.MaxManaChangeCost;
+            gameManager.mana = gameState.CurrentMana;
 
 
             gameManager.CalculateIdleEarnings();

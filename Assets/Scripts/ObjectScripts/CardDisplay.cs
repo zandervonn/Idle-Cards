@@ -13,8 +13,10 @@ public class CardDisplay : MonoBehaviour
     public Text cardDescription;
     public Text cardMana;
     public GameObject upgradePanel;
+    public GameObject mainCardBits;
     private Card _card;
     public CardInstance cardInstance;
+
 
     public Text cardLevel;
     public Text manaCostText;
@@ -57,12 +59,33 @@ public class CardDisplay : MonoBehaviour
         cardDescription.text = card.description;
         cardLevel.text = cardInstance.level.ToString("F0");
 
+        // Disable or enable Raycast Targets based on the visibility of the upgrade panel
+        SetRaycastTargets(mainCardBits, !showUpgradeButton);
+
         upgradePanel.gameObject.SetActive(showUpgradeButton);
 
         UpdateBorderColor(cardInstance.rarity);
         UpdateValueColors();
         UpdateCostIcon();
         UpdateRewardIcon();
+    }
+
+    public void SetRaycastTargets(GameObject obj, bool value)
+    {
+        foreach (Transform child in obj.transform)
+        {
+            var canvasGroup = child.gameObject.GetComponent<CanvasGroup>();
+            if (canvasGroup == null)
+            {
+                canvasGroup = child.gameObject.AddComponent<CanvasGroup>();
+            }
+            canvasGroup.blocksRaycasts = value;
+
+            if (child.childCount > 0)
+            {
+                SetRaycastTargets(child.gameObject, value);
+            }
+        }
     }
 
     private float updateInterval = 0.1f;

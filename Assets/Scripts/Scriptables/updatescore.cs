@@ -50,7 +50,7 @@ public class updatescore : MonoBehaviour
 
     private void UpdateBankScoreText()
     {
-        int bankScore = gameManager.BankValue;
+        long bankScore = gameManager.BankValue;
         bankScoreText.text = "$" + bankScore;
     }
 
