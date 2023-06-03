@@ -113,14 +113,13 @@ public class CardManager
 
     private int GetRandomRarity()
     {
-        //var randomizer = new System.Random();
-        //var randomDouble = randomizer.NextDouble();
-        //int min = 1;
-        //int max = 100;
-        //double probabilityPower = 3;
+        var randomizer = new System.Random();
+        var randomDouble = randomizer.NextDouble();
+        int min = 1;
+        int max = 100;
+        double probabilityPower = 3;
 
-        //var result = Math.Floor(min + (max + 1 - min) * (Math.Pow(randomDouble, probabilityPower)));
-        int result = 1;
+        var result = Math.Floor(min + (max + 1 - min) * (Math.Pow(randomDouble, probabilityPower)));
         return (int)result;
     }
 }
