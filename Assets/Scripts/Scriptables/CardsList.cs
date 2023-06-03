@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using static CardsList.ToTheBankCard;
 
 public class CardsList : MonoBehaviour
 {
@@ -30,9 +29,9 @@ public class CardsList : MonoBehaviour
         cards.Add(ScriptableObject.CreateInstance<PanicModeCard>());
         cards.Add(ScriptableObject.CreateInstance<LottoCard>());
 
-        ////cards.Add(ScriptableObject.CreateInstance<ToTheBankCard>()); //maybe bad idea
+        ////cards.Add(ScriptableObject.CreateInstance<ToTheBankCard>());
         ////cards.Add(ScriptableObject.CreateInstance<ResetDrawCostCard>());
-        ///
+
     }
 
     public class BasicCard : Card

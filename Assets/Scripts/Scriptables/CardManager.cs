@@ -24,7 +24,7 @@ public class CardManager
         List<Card> tempCardTypes = new List<Card>(cardTypes);
 
         // Initialize the ownedCards and availableCards lists with 4 random unique cards
-        for (int i = 0; i < startingCards; i++)
+        for (int i = 0; i < startingCards -1; i++)
         {
             Card randomCard = GetRandomCard(tempCardTypes);
             if (randomCard != null)
@@ -32,6 +32,10 @@ public class CardManager
                 AddNewOwnedCard(randomCard);
             }
         }
+        Card basicCard = GetCardByName("The Basic");
+        AddNewOwnedCard(basicCard);
+
+
         // Initialize the dictionary.
         cardIdToCardMap = new Dictionary<string, Card>();
         foreach (Card card in cardTypes)
@@ -109,13 +113,14 @@ public class CardManager
 
     private int GetRandomRarity()
     {
-        var randomizer = new System.Random();
-        var randomDouble = randomizer.NextDouble();
-        int min = 1;
-        int max = 100;
-        double probabilityPower = 3;
+        //var randomizer = new System.Random();
+        //var randomDouble = randomizer.NextDouble();
+        //int min = 1;
+        //int max = 100;
+        //double probabilityPower = 3;
 
-        var result = Math.Floor(min + (max + 1 - min) * (Math.Pow(randomDouble, probabilityPower)));
+        //var result = Math.Floor(min + (max + 1 - min) * (Math.Pow(randomDouble, probabilityPower)));
+        int result = 1;
         return (int)result;
     }
 }
