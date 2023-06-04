@@ -28,6 +28,7 @@ public class CardsList : MonoBehaviour
         cards.Add(ScriptableObject.CreateInstance<MortgageCard>());
         cards.Add(ScriptableObject.CreateInstance<PanicModeCard>());
         cards.Add(ScriptableObject.CreateInstance<LottoCard>());
+        cards.Add(ScriptableObject.CreateInstance<DuplicateCard>());
 
         ////cards.Add(ScriptableObject.CreateInstance<ToTheBankCard>());
         ////cards.Add(ScriptableObject.CreateInstance<ResetDrawCostCard>());
@@ -298,7 +299,7 @@ public class CardsList : MonoBehaviour
                     int startScore = gameManager.fieldScore;
                     int rand = UnityEngine.Random.Range(0, 100);
                     float approachInf = (float)Math.Pow(1f + cardInstance.level / 100f, 3);
-                    float rarityAdd = 1 + (cardInstance.rarity) / 25;
+                    float rarityAdd = 1 + (cardInstance.rarity) / 45;
                     float odds = 30 / (approachInf * rarityAdd);
                     if (rand < odds)
                     {
@@ -340,6 +341,38 @@ public class CardsList : MonoBehaviour
             );
 
             CardReward = new DrawCostCardReward(
+                (cardInstance) => {
+                    return 0;
+                }
+            );
+        }
+    }
+
+    public class DuplicateCard : Card
+    {
+        public DuplicateCard()
+        {
+            cardName = "Duplicate Next Card";
+            description = "Get a copy of the next card played into your hand";
+            artwork = null;
+            startingLevel = 1;
+            baseCardManaCost = 10;
+            rarity = 1;
+
+            CardCost = new ManaCardCost(
+                (cardInstance) => {
+                    float baseCost = GameManager.Instance.mana * 0.3f;
+                    float rarityAdd = 1 + (cardInstance.rarity) / 5;
+                    float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, 3);
+                    if((baseCost * approachZero) - rarityAdd < 0)
+                    {
+                        return 0;
+                    }
+                    return (float)(baseCost * approachZero) - rarityAdd;
+                }
+            );
+
+            CardReward = new DuplicateCardReward(
                 (cardInstance) => {
                     return 0;
                 }

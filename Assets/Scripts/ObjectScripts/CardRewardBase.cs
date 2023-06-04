@@ -85,3 +85,14 @@ public class CardCardReward : CardRewardBase
         gameManager.DrawCards((int)reward);
     }
 }
+
+public class DuplicateCardReward : CardRewardBase
+{
+    public DuplicateCardReward(Func<CardInstance, float> rewardFormula) : base(rewardFormula) { }
+    public override CardValueType RewardType => CardValueType.Card;
+
+    public override void ExecuteActions(GameManager gameManager, CardInstance cardInstance)
+    {
+        gameManager.DuplicateCard = true;
+    }
+}

@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour {
     public float MaxManaChangeCost { get; set; }
     public float maxMana { get; set; }
     public float minMana = 10;
+    public bool DuplicateCard = false;
     public DateTime LastPauseTime { get; set; }
     public CardsList cardsList{ get; private set; }
     public DrawCard drawCard;
@@ -53,7 +54,7 @@ public class GameManager : MonoBehaviour {
         RemoveCost = 1;
         maxMana = 100;
         Multiplier = 0.1f;
-        ManaLossRate = 3.3f;
+        ManaLossRate = 2.5f;
         MaxManaChangeCost = 1.0f;
 
 

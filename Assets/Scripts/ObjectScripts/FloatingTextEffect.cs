@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class FloatingTextEffect : MonoBehaviour
 {
-    [SerializeField] private float floatSpeed = 1f;
+    [SerializeField] private float floatSpeed = 0.1f;
     //[SerializeField] private float fadeSpeed = 1f;
     [SerializeField] private float duration = 2f;
-    [SerializeField] private float wobbleAmplitude = 0.1f;
-    [SerializeField] private float wobbleFrequency = 1f;
+    //[SerializeField] private float wobbleAmplitude = 0.1f;
+    //[SerializeField] private float wobbleFrequency = 1f;
 
     private Text originalText;
     private string lastTextValue;
@@ -89,8 +89,8 @@ public class FloatingTextEffect : MonoBehaviour
 
             // Float upwards
             floatingTextObj.transform.position = new Vector3(
-                startPosition.x + wobbleAmplitude * Mathf.Sin(wobbleFrequency * elapsedTime),
-                startPosition.y + floatSpeed * elapsedTime,
+                startPosition.x,
+                startPosition.y += floatSpeed,
                 startPosition.z
             );
 

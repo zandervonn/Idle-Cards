@@ -1,4 +1,5 @@
 ﻿//4
+using UnityEditor.TextCore.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -19,6 +20,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private Vector3 previousPosition;
     private Quaternion currentTiltRotation;
     private Quaternion targetTiltRotation;
+    private int originalIndex;
 
     private float scaleOnPickup = 1.7f;
 
@@ -65,6 +67,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         beingDragged = true;
         // Check if the deck is open before allowing the card to be dragged
         if (deckManager.isDeckVisible) { return; }
+        originalIndex = this.transform.GetSiblingIndex();
         parentToReturnTo = this.transform.parent;
         this.transform.SetParent(this.transform.parent.parent);
         GetComponent<CanvasGroup>().blocksRaycasts = false;
@@ -137,31 +140,37 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 // Get the Card component of the dragged object
                 Card card = CardComponent;
 
-                if (card != null)
+                if (GameManager.Instance.DuplicateCard)
                 {
                     card.OnDrop(GameManager.Instance, cardInstance);
+                    this.transform.SetParent(parentToReturnTo);
+                    this.transform.SetSiblingIndex(originalIndex);
+                    GameManager.Instance.DuplicateCard = false;
                 }
                 else
                 {
-                    Debug.Log("No card component found");
+                    card.OnDrop(GameManager.Instance, cardInstance);
+                    Instantiate(cardDie, this.transform.position, Quaternion.identity);
+
+                    // Call UpdateSpacing before destroying the game object
+                    DrawCard.Instance.OnCardDropped.Invoke();
+
+                    Destroy(this.gameObject);
                 }
 
-                Instantiate(cardDie, this.transform.position, Quaternion.identity);
 
-                // Call UpdateSpacing before destroying the game object
-                DrawCard.Instance.OnCardDropped.Invoke();
-
-                Destroy(this.gameObject);
             }
             else
             {
                 this.transform.SetParent(parentToReturnTo);
+                this.transform.SetSiblingIndex(originalIndex);
                 Debug.Log("Card unaffordable");
             }
         }
         else
         {
             this.transform.SetParent(parentToReturnTo);
+            this.transform.SetSiblingIndex(originalIndex);
             Debug.Log("Card not playable");
         }
         //}
