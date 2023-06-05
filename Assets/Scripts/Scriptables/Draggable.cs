@@ -1,5 +1,4 @@
 ﻿//4
-using UnityEditor.TextCore.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -139,6 +138,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             {
                 // Get the Card component of the dragged object
                 Card card = CardComponent;
+                Instantiate(cardDie, this.transform.position, Quaternion.identity);
 
                 if (GameManager.Instance.DuplicateCard)
                 {
@@ -150,7 +150,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
                 else
                 {
                     card.OnDrop(GameManager.Instance, cardInstance);
-                    Instantiate(cardDie, this.transform.position, Quaternion.identity);
 
                     // Call UpdateSpacing before destroying the game object
                     DrawCard.Instance.OnCardDropped.Invoke();

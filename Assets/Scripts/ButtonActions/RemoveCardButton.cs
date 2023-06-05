@@ -23,25 +23,31 @@ public class RemoveCardButton : MonoBehaviour, IPointerDownHandler
     {
 
         GameManager gameManager = GameManager.Instance;
+        ModalDialog popup = ModalDialog.instance;
         int removeCost = gameManager.RemoveCost;
-        if (gameManager.SpendBank(gameManager.RemoveCost))
+        popup.OpenDialog("Are you sure you want to remove this card for $" + removeCost + "?");
+
+        popup.OnYes.AddListener(() =>
         {
-            cardDisplay.cardInstance.Remove();
-
-            // Update the remove card cost
-            gameManager.UpdateRemoveCost();
-
-            // Update remove card prices for all card instances
-            UpdateAllRemoveCardPrices();
-
-            // Update the deck display
-            DeckManager deckManager = FindObjectOfType<DeckManager>();
-            if (deckManager != null && deckManager.isDeckVisible)
+            if (gameManager.SpendBank(gameManager.RemoveCost))
             {
-                deckManager.DisplayCards();
-            }
+                cardDisplay.cardInstance.Remove();
 
-        }
+                // Update the remove card cost
+                gameManager.UpdateRemoveCost();
+
+                // Update remove card prices for all card instances
+                UpdateAllRemoveCardPrices();
+
+                // Update the deck display
+                DeckManager deckManager = FindObjectOfType<DeckManager>();
+                if (deckManager != null && deckManager.isDeckVisible)
+                {
+                    deckManager.DisplayCards();
+                }
+            }
+        });
+
     }
     private void UpdateAllRemoveCardPrices()
     {
@@ -54,6 +60,7 @@ public class RemoveCardButton : MonoBehaviour, IPointerDownHandler
 
     private void UpdateRemoveCardPrice()
     {
+        GameManager gameManager = GameManager.Instance;
         int removeCost = gameManager.RemoveCost;
 
         removeCardPrice.text = "$" + removeCost;

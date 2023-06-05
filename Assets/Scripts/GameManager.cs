@@ -18,8 +18,10 @@ public class GameManager : MonoBehaviour {
     public int LastScore { get; set; }
     public long BankValue { get; set; }
     public int BuyCost { get; set; }
-    public float Multiplier { get; set; }
+    public float CurrentMultiplier { get; set; }
+    public float LevelMultiplier { get; set; }
     public int RemoveCost { get; set; }
+    public int ResetCost { get; set; }
     public int RemoveCostMultiplier { get; set; }
     public int TotalMoneyEarned { get; set; }
     public float ManaLossRate { get; set; }
@@ -47,36 +49,16 @@ public class GameManager : MonoBehaviour {
 
         manaBarActions = FindObjectOfType<ManaBarActions>();
 
-        HighScore = 0;
-        LastScore = 0;
-        BankValue = 1000000000; // testing
-        BuyCost = 1;
-        RemoveCost = 1;
-        maxMana = 100;
-        Multiplier = 0.1f;
-        ManaLossRate = 2.5f;
-        MaxManaChangeCost = 1.0f;
-
+        CurrentMultiplier = 0.1f;
+        resetValues();
 
         RemoveCostMultiplier = 2;
         UpdateRemoveCost();
 
         // Load the game state
         saveLoadManager = FindObjectOfType<SaveLoadManager>();
-        // Initialize the cardsList variable
-        cardsList = FindObjectOfType<CardsList>();
 
-        // Check if CardsList is found and if not, log an error
-        if (cardsList == null)
-        {
-            Debug.LogError("CardsList not found");
-            return;
-        }
-
-        cardsList.Initialize();
-
-        // Initialize the cardsList variable
-        cardsList = FindObjectOfType<CardsList>();
+        resetCards();
 
         // Always initialize the CardManager
         cardManager = new CardManager(cardsList.cards);
@@ -93,6 +75,37 @@ public class GameManager : MonoBehaviour {
         DrawCard drawCardComponent = FindObjectOfType<DrawCard>();
         drawCardComponent.DrawCards(3);
 
+    }
+    public void resetValues()
+    {
+        HighScore = 0;
+        LastScore = 0;
+        BankValue = 1000000000; // testing
+        BuyCost = 1;
+        RemoveCost = 1;
+        maxMana = 100;
+        ManaLossRate = 2.5f;
+        MaxManaChangeCost = 1.0f;
+        TotalMoneyEarned = 0;
+        ResetCost = 1;
+    }
+
+    public void resetCards()
+    {
+        // Initialize the cardsList variable
+        cardsList = FindObjectOfType<CardsList>();
+
+        // Check if CardsList is found and if not, log an error
+        if (cardsList == null)
+        {
+            Debug.LogError("CardsList not found");
+            return;
+        }
+
+        cardsList.Initialize();
+
+        // Always initialize the CardManager
+        cardManager = new CardManager(cardsList.cards);
     }
 
     public void UpdateHighScore(int newScore)
@@ -114,7 +127,7 @@ public class GameManager : MonoBehaviour {
 
         if (high)
         {
-            moneyEarned += (int) (HighScore * Multiplier);
+            moneyEarned += (int) (HighScore * CurrentMultiplier);
         }
         if (last)
         {
@@ -128,7 +141,6 @@ public class GameManager : MonoBehaviour {
 
     public float CalculateLevel()
     {
-        //return Mathf.Pow(2, Mathf.Log(TotalMoneyEarned, 5));
         return Mathf.Pow(2, Mathf.Log(TotalMoneyEarned) / Mathf.Log(5)) / 1000; ;
     }
 
@@ -228,7 +240,6 @@ public class GameManager : MonoBehaviour {
         drawCardComponent.ClearCards();
         cardManager.ResetAvailableCards();
         drawCardComponent.DrawCards(3);
-        //manaBarActions.ResetElapsedTimeSinceRoundStart();
         ResetScore();
         ResetMana();
         ResetDrawCost();
@@ -314,12 +325,29 @@ public class GameManager : MonoBehaviour {
         int numberOfEarnings = (int)(timeDifference / timeToDepleteMana);
 
         // Calculate the total idle earnings
-        int totalIdleEarnings = (int) (numberOfEarnings * HighScore * Multiplier);
+        int totalIdleEarnings = (int) (numberOfEarnings * HighScore * CurrentMultiplier);
 
         // Add the idle earnings to the score
         IncreaseBank(totalIdleEarnings);
 
         // Print the time away
-        Debug.Log("Time away: " + timeDifference + " seconds, Time per tick:" + timeToDepleteMana  + " Ticks: " + numberOfEarnings + ", idle earnings: " + totalIdleEarnings);
+        Debug.Log("Time away: " + timeDifference + " seconds, Time per tick:" + timeToDepleteMana  + " Ticks: " + numberOfEarnings + ", idle earnings: " + totalIdleEarnings); //todo make popup
     }
+    public void retire()
+    {
+
+        Debug.Log("retireing");
+        float tmpMultiplier = CurrentMultiplier + LevelMultiplier;
+
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
+
+        resetValues();
+        resetCards();
+        ResetField();
+
+        CurrentMultiplier = tmpMultiplier;
+        saveLoadManager.SaveGameState();
+    }
+
 }

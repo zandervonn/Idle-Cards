@@ -96,3 +96,15 @@ public class DuplicateCardReward : CardRewardBase
         gameManager.DuplicateCard = true;
     }
 }
+
+public class PauseManaCardReward : CardRewardBase
+{
+    public PauseManaCardReward(Func<CardInstance, float> rewardFormula) : base(rewardFormula) { }
+    public override CardValueType RewardType => CardValueType.Card;
+
+    public override void ExecuteActions(GameManager gameManager, CardInstance cardInstance)
+    {
+        float reward = RewardFormula(cardInstance);
+        gameManager.manaBarActions.PauseManaDecrease(reward);
+    }
+}

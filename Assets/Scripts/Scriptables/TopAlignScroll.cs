@@ -7,7 +7,7 @@ public class TopAlignScroll : MonoBehaviour
     public RectTransform scrollEle;
     public ScrollRect scrollRect;
     private float minY = 0f;
-    private float maxY = -20f;
+    //private float maxY = -20f;
 
     private void Update()
     {

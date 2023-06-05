@@ -9,6 +9,7 @@ public class updatescore : MonoBehaviour
     [SerializeField] private Text bankScoreText;
     [SerializeField] private Text fieldScoreText;
     [SerializeField] private Text userLevel;
+    [SerializeField] private Text currentMultiplier;
 
     private GameManager gameManager;
 
@@ -25,6 +26,7 @@ public class updatescore : MonoBehaviour
         UpdateBankScoreText();
         UpdateFieldScoreText();
         UpdateUserLevelText();
+        UpdateUserMultiplierText();
     }
 
     private void Update()
@@ -34,6 +36,7 @@ public class updatescore : MonoBehaviour
         UpdateBankScoreText();
         UpdateFieldScoreText();
         UpdateUserLevelText();
+        UpdateUserMultiplierText();
     }
 
     private void UpdateLastScoreText()
@@ -62,8 +65,14 @@ public class updatescore : MonoBehaviour
 
     private void UpdateUserLevelText()
     {
-        float level = GameManager.Instance.CalculateLevel();
+        float level = gameManager.LevelMultiplier = gameManager.CalculateLevel();
         userLevel.text = $"{level:F1}"; // Display level with 1 decimal place
+    }
+
+    private void UpdateUserMultiplierText()
+    {
+        float multiplier = gameManager.CurrentMultiplier;
+        currentMultiplier.text = $"{multiplier:F1}"; // Display level with 1 decimal place
     }
 
 }

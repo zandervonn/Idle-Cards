@@ -16,6 +16,7 @@ public class GameState
     public long LastPauseTimeTicks;
     public float MaxManaChangeCost;
     public float CurrentMana;
+    public float Multiplier;
 
     public GameState()
     {
@@ -74,6 +75,7 @@ public class SaveLoadManager : MonoBehaviour
         gameState.LastPauseTimeTicks = gameManager.LastPauseTime.Ticks;
         gameState.MaxManaChangeCost = gameManager.MaxManaChangeCost;
         gameState.CurrentMana = gameManager.mana;
+        gameState.Multiplier = gameManager.CurrentMultiplier;
 
 
         string json = JsonUtility.ToJson(gameState);
@@ -135,6 +137,8 @@ public class SaveLoadManager : MonoBehaviour
             gameManager.LastPauseTime = new DateTime(gameState.LastPauseTimeTicks);
             gameManager.MaxManaChangeCost = gameState.MaxManaChangeCost;
             gameManager.mana = gameState.CurrentMana;
+            gameManager.CurrentMultiplier = gameState.Multiplier;
+
 
 
             gameManager.CalculateIdleEarnings();

@@ -29,6 +29,7 @@ public class CardsList : MonoBehaviour
         cards.Add(ScriptableObject.CreateInstance<PanicModeCard>());
         cards.Add(ScriptableObject.CreateInstance<LottoCard>());
         cards.Add(ScriptableObject.CreateInstance<DuplicateCard>());
+        cards.Add(ScriptableObject.CreateInstance<ManaPauseCard>());
 
         ////cards.Add(ScriptableObject.CreateInstance<ToTheBankCard>());
         ////cards.Add(ScriptableObject.CreateInstance<ResetDrawCostCard>());
@@ -98,7 +99,7 @@ public class CardsList : MonoBehaviour
     {
         public ManaResetCard()
         {
-            cardName = "I NEED MORE TIME";
+            cardName = "Add Mana";
             description = "Increase mana by % \n Costs fixed coins";
             artwork = null;
             startingLevel = 1;
@@ -380,7 +381,36 @@ public class CardsList : MonoBehaviour
         }
     }
 
+    public class ManaPauseCard : Card
+    {
+        public ManaPauseCard()
+        {
+            cardName = "Pause mana";
+            description = "Pause mana decrease for time % \n Costs fixed coins";
+            artwork = null;
+            startingLevel = 1;
+            baseCardManaCost = 0;
+            rarity = 1;
 
+            CardCost = new ScoreCardCost(
+                (cardInstance) => {
+                    GameManager gameManager = FindObjectOfType<GameManager>();
+                    int startScore = gameManager.fieldScore;
+                    float baseCost = 30f;
+                    float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, 3);
+                    return (float)(startScore * ((1f / 100f) * baseCost * approachZero));
+                }
+            );
+
+            CardReward = new PauseManaCardReward(
+                (cardInstance) => {
+                    float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, 3);
+                    float rarityAdd = 1 + (cardInstance.rarity / 50);
+                    return ((100f - (80f * approachZero)) * rarityAdd)/10;
+                }
+            );
+        }
+    }
 }
 
 /**
