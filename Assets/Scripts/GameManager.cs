@@ -80,8 +80,8 @@ public class GameManager : MonoBehaviour {
     {
         HighScore = 0;
         LastScore = 0;
-        BankValue = 1000000000; // testing
-        BuyCost = 1;
+        BankValue = 0;
+        BuyCost = 100;
         RemoveCost = 1;
         maxMana = 100;
         ManaLossRate = 2.5f;
@@ -345,6 +345,9 @@ public class GameManager : MonoBehaviour {
         resetValues();
         resetCards();
         ResetField();
+
+        ResetRound resetRound = FindObjectOfType<ResetRound>();
+        resetRound.UpdateResetPriceText();
 
         CurrentMultiplier = tmpMultiplier;
         saveLoadManager.SaveGameState();

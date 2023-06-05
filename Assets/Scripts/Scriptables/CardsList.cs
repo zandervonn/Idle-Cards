@@ -78,7 +78,7 @@ public class CardsList : MonoBehaviour
             CardCost = new ManaCardCost(
                 (cardInstance) => {
                     float baseCost = 40f;
-                    float approachZero = (float)Math.Pow(1f + cardInstance.level / 100f, 3);
+                    float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, 3);
                     return (float)(baseCost * approachZero);
                 }
             );

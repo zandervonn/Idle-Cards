@@ -14,7 +14,7 @@ public class CardDisplay : MonoBehaviour
     public Text cardMana;
     public GameObject upgradePanel;
     public GameObject mainCardBits;
-    private Card _card;
+    //private Card _card;
     public CardInstance cardInstance;
 
 
@@ -36,13 +36,13 @@ public class CardDisplay : MonoBehaviour
     public Sprite timeSprite;
     public Sprite cardSprite;
 
-    public Card card
-    {
-        get
-        {
-            return _card;
-        }
-    }
+    //public Card card
+    //{
+    //    get
+    //    {
+    //        return _card;
+    //    }
+    //}
 
     public void Setup(CardInstance cardInstance, bool showUpgradeButton)
     {

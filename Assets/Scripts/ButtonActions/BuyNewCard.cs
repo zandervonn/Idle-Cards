@@ -14,14 +14,13 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
     
     public Text cardCostText;
     private GameManager gameManager;
-    private int cardCostMultiplier = 5;
-    private int cardCost = 10;
+    private int cardCostMultiplier = 4;
 
     private void Start()
     {
         cardsList = FindObjectOfType<CardsList>();
-        gameManager = FindObjectOfType<GameManager>();
-        cardCostText.text = "$" + cardCost;
+        gameManager = GameManager.Instance;
+        cardCostText.text = "$" + gameManager.BuyCost;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -31,11 +30,9 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
 
     public void BuyCard()
     {
-        
-        gameManager = FindObjectOfType<GameManager>();
         cardsList = FindObjectOfType<CardsList>();
 
-        if (gameManager.SpendBank(cardCost))
+        if (gameManager.SpendBank(gameManager.BuyCost))
             {
             // Get a random card from the list of card types (cardsList.cards)
             int cardIndex = Random.Range(0, cardsList.cards.Count);
@@ -43,8 +40,8 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
 
             // Add the random card to the ownedCards list
             gameManager.cardManager.AddNewOwnedCard(card);
-            cardCost *= cardCostMultiplier;
-            cardCostText.text = "$" + cardCost;
+            gameManager.BuyCost *= cardCostMultiplier;
+            cardCostText.text = "$" + gameManager.BuyCost;
 
             // Update the deck display
             DeckManager deckManager = FindObjectOfType<DeckManager>();
