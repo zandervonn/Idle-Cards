@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour {
     {
         HighScore = 0;
         LastScore = 0;
-        BankValue = 0; //testing
+        BankValue = 0;
         BuyCost = 100;
         RemoveCost = 50;
         maxMana = 100;
