@@ -18,11 +18,12 @@ public class GameManager : MonoBehaviour {
     public int LastScore { get; set; }
     public long BankValue { get; set; }
     public int BuyCost { get; set; }
+    public int DrawCost { get; set; }
     public float CurrentMultiplier { get; set; }
     public float LevelMultiplier { get; set; }
     public int RemoveCost { get; set; }
     public int ResetCost { get; set; }
-    public int RemoveCostMultiplier { get; set; }
+    private int CardCostMultiplier = 2;
     public int TotalMoneyEarned { get; set; }
     public float ManaLossRate { get; set; }
     public float MaxManaChangeCost { get; set; }
@@ -52,8 +53,7 @@ public class GameManager : MonoBehaviour {
         CurrentMultiplier = 0.1f;
         resetValues();
 
-        RemoveCostMultiplier = 2;
-        UpdateRemoveCost();
+        
 
         // Load the game state
         saveLoadManager = FindObjectOfType<SaveLoadManager>();
@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour {
         LastScore = 0;
         BankValue = 0;
         BuyCost = 100;
-        RemoveCost = 1;
+        RemoveCost = 50;
         maxMana = 100;
         ManaLossRate = 2.5f;
         MaxManaChangeCost = 1.0f;
@@ -214,14 +214,6 @@ public class GameManager : MonoBehaviour {
 
     public void OnManaDepleted()
     {
-        float currentTime = Time.time;
-        if (lastDepletionTime > 0)
-        {
-            float depletionTime = currentTime - lastDepletionTime;
-            Debug.Log("Real time to deplete mana: " + depletionTime);
-        }
-        lastDepletionTime = currentTime;
-
         updateScoreRecords();
         UpdateBankValue(true, true);
         ResetField();
@@ -252,7 +244,7 @@ public class GameManager : MonoBehaviour {
 
     public void ResetDrawCost()
     {
-        BuyCost =(int) (TotalMoneyEarned * 0.001f) + 1;
+        DrawCost = (int) (TotalMoneyEarned * 0.001f) + 1;
         DrawCardButton drawCardButton = FindObjectOfType<DrawCardButton>();
         drawCardButton.UpdateDrawPriceText();
     }
@@ -270,7 +262,12 @@ public class GameManager : MonoBehaviour {
 
     public void UpdateRemoveCost()
     {
-        RemoveCost *= RemoveCostMultiplier;
+        RemoveCost *= CardCostMultiplier;
+    }
+
+    public void UpdateBuyCost()
+    {
+        BuyCost *= CardCostMultiplier;
     }
 
     public void ChangeMaxMana(float amount)
@@ -330,8 +327,10 @@ public class GameManager : MonoBehaviour {
         // Add the idle earnings to the score
         IncreaseBank(totalIdleEarnings);
 
+        ModalDialog.instance.OpenDialog("Your Idle earnings were $" + totalIdleEarnings + ", click yes (or no) to continue.");
+
         // Print the time away
-        Debug.Log("Time away: " + timeDifference + " seconds, Time per tick:" + timeToDepleteMana  + " Ticks: " + numberOfEarnings + ", idle earnings: " + totalIdleEarnings); //todo make popup
+        //Debug.Log("Time away: " + timeDifference + " seconds, Time per tick:" + timeToDepleteMana  + " Ticks: " + numberOfEarnings + ", idle earnings: " + totalIdleEarnings);
     }
     public void retire()
     {

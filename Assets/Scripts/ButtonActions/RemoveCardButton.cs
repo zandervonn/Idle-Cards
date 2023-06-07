@@ -19,6 +19,13 @@ public class RemoveCardButton : MonoBehaviour, IPointerDownHandler
         UpdateRemoveCardPrice(); 
     }
 
+    private void Update()
+    {
+        UpdateAllRemoveCardPrices();
+    }
+
+
+
     public void OnPointerDown(PointerEventData eventData)
     {
 

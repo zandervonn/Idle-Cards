@@ -12,6 +12,7 @@ public class GameState
     public int TotalMoneyEarned;
     public int RemoveCost;
     public int BuyCost;
+    public int DrawCost;
     public long BankValue;
     public long LastPauseTimeTicks;
     public float MaxManaChangeCost;
@@ -71,6 +72,7 @@ public class SaveLoadManager : MonoBehaviour
         gameState.TotalMoneyEarned = gameManager.TotalMoneyEarned;
         gameState.RemoveCost = gameManager.RemoveCost;
         gameState.BuyCost = gameManager.BuyCost;
+        gameState.DrawCost = gameManager.DrawCost;
         gameState.BankValue = gameManager.BankValue;
         gameState.LastPauseTimeTicks = gameManager.LastPauseTime.Ticks;
         gameState.MaxManaChangeCost = gameManager.MaxManaChangeCost;
@@ -80,7 +82,7 @@ public class SaveLoadManager : MonoBehaviour
 
         string json = JsonUtility.ToJson(gameState);
 
-        Debug.Log("Saved JSON: " + json);
+        //Debug.Log("Saved JSON: " + json);
 
         PlayerPrefs.SetString("GameState", json);
         PlayerPrefs.Save();
@@ -93,7 +95,7 @@ public class SaveLoadManager : MonoBehaviour
         {
             string json = PlayerPrefs.GetString("GameState");
 
-            Debug.Log("Loaded JSON: " + json);
+            //Debug.Log("Loaded JSON: " + json);
 
             GameState gameState = JsonUtility.FromJson<GameState>(json);
 
@@ -133,6 +135,7 @@ public class SaveLoadManager : MonoBehaviour
             gameManager.TotalMoneyEarned = gameState.TotalMoneyEarned;
             gameManager.RemoveCost = gameState.RemoveCost;
             gameManager.BuyCost = gameState.BuyCost;
+            gameManager.DrawCost = gameState.DrawCost;
             gameManager.BankValue = gameState.BankValue;
             gameManager.LastPauseTime = new DateTime(gameState.LastPauseTimeTicks);
             gameManager.MaxManaChangeCost = gameState.MaxManaChangeCost;

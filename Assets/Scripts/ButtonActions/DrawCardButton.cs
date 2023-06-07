@@ -18,11 +18,11 @@ public class DrawCardButton : MonoBehaviour, IPointerDownHandler {
 
         if (gameManager.cardManager.availableCards.Count > 0)
         {
-            if (gameManager.SpendRound(gameManager.BuyCost))
+            if (gameManager.SpendRound(gameManager.DrawCost))
             {
                 DrawCard drawCardComponent = FindObjectOfType<DrawCard>();
                 drawCardComponent.DrawCards(1);
-                gameManager.BuyCost *= 3;
+                gameManager.DrawCost *= 3;
                 UpdateDrawPriceText();
             }
         }
@@ -34,7 +34,7 @@ public class DrawCardButton : MonoBehaviour, IPointerDownHandler {
 
     public void UpdateDrawPriceText()
     {
-        drawPriceText.text = "$" + GameManager.Instance.BuyCost;
+        drawPriceText.text = "$" + GameManager.Instance.DrawCost;
     }
 
     public void UpdateDeckRemaining()
