@@ -23,8 +23,13 @@ public class CardManager
         // Create a temporary copy of the cardTypes list for pulling out unique cards
         List<Card> tempCardTypes = new List<Card>(cardTypes);
 
+        Card basicCard = GetCardByName("The Basic");
+        AddNewOwnedCard(basicCard);
+        Card multiplyCard = GetCardByName("Multiply");
+        AddNewOwnedCard(multiplyCard);
+
         // Initialize the ownedCards and availableCards lists with 4 random unique cards
-        for (int i = 0; i < startingCards -1; i++)
+        for (int i = 0; i <= startingCards - ownedCards.Count; i++)
         {
             Card randomCard = GetRandomCard(tempCardTypes);
             if (randomCard != null)
@@ -32,8 +37,7 @@ public class CardManager
                 AddNewOwnedCard(randomCard);
             }
         }
-        Card basicCard = GetCardByName("The Basic");
-        AddNewOwnedCard(basicCard);
+
 
 
         // Initialize the dictionary.

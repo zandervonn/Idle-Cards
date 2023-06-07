@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
     public float LevelMultiplier { get; set; }
     public int RemoveCost { get; set; }
     public int ResetCost { get; set; }
-    private int CardCostMultiplier = 2;
+    private int CardCostMultiplier = 1;
     public int TotalMoneyEarned { get; set; }
     public float ManaLossRate { get; set; }
     public float MaxManaChangeCost { get; set; }
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour {
     {
         HighScore = 0;
         LastScore = 0;
-        BankValue = 0;
+        BankValue = 0; //testing
         BuyCost = 100;
         RemoveCost = 50;
         maxMana = 100;
@@ -88,6 +88,7 @@ public class GameManager : MonoBehaviour {
         MaxManaChangeCost = 1.0f;
         TotalMoneyEarned = 0;
         ResetCost = 1;
+        DuplicateCard = false;
     }
 
     public void resetCards()
@@ -141,7 +142,12 @@ public class GameManager : MonoBehaviour {
 
     public float CalculateLevel()
     {
-        return Mathf.Pow(2, Mathf.Log(TotalMoneyEarned) / Mathf.Log(5)) / 1000; ;
+        float level = Mathf.Pow(2, Mathf.Log(TotalMoneyEarned) / Mathf.Log(5)) / 100000;
+        if (level > 1)
+        {
+            return 1;
+        }
+        return level;
     }
 
     public void IncreaseScore(int amount) {
@@ -235,6 +241,8 @@ public class GameManager : MonoBehaviour {
         ResetScore();
         ResetMana();
         ResetDrawCost();
+        manaBarActions.UpdateSliderMaxValue();
+        manaBarActions.UpdateSlider();
     }
 
     public void ResetScore()
@@ -344,6 +352,7 @@ public class GameManager : MonoBehaviour {
         resetValues();
         resetCards();
         ResetField();
+
 
         ResetRound resetRound = FindObjectOfType<ResetRound>();
         resetRound.UpdateResetPriceText();

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ModalDialog : MonoBehaviour
@@ -8,10 +7,13 @@ public class ModalDialog : MonoBehaviour
     public Text dialogText;
     public Button yesButton;
     public Button noButton;
-    public UnityEvent OnYes;
-    public UnityEvent OnNo;
     public bool result;
     public static ModalDialog instance;
+
+    // Define delegate event for Yes and No
+    public delegate void DialogResponse();
+    public event DialogResponse OnYes;
+    public event DialogResponse OnNo;
 
     private void Awake()
     {
@@ -23,6 +25,7 @@ public class ModalDialog : MonoBehaviour
 
         instance = this;
     }
+
     public void OpenDialog(string text)
     {
         dialogText.text = text;
@@ -34,14 +37,20 @@ public class ModalDialog : MonoBehaviour
 
         yesButton.onClick.AddListener(() =>
         {
-            OnYes.Invoke();
+            OnYes?.Invoke();
             dialogBox.SetActive(false);
         });
 
         noButton.onClick.AddListener(() =>
         {
-            OnNo.Invoke();
+            OnNo?.Invoke();
             dialogBox.SetActive(false);
         });
+    }
+
+    public void ClearListeners()
+    {
+        OnYes = null;
+        OnNo = null;
     }
 }

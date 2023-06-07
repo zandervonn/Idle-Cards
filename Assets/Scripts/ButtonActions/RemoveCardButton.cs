@@ -32,9 +32,11 @@ public class RemoveCardButton : MonoBehaviour, IPointerDownHandler
         GameManager gameManager = GameManager.Instance;
         ModalDialog popup = ModalDialog.instance;
         int removeCost = gameManager.RemoveCost;
-        popup.OpenDialog("Are you sure you want to remove this card for $" + removeCost + "?");
 
-        popup.OnYes.AddListener(() =>
+        popup.ClearListeners();
+
+        popup.OpenDialog("Are you sure you want to remove this card for $" + removeCost + "?");
+        popup.OnYes += () =>
         {
             if (gameManager.SpendBank(gameManager.RemoveCost))
             {
@@ -53,7 +55,7 @@ public class RemoveCardButton : MonoBehaviour, IPointerDownHandler
                     deckManager.DisplayCards();
                 }
             }
-        });
+        };
 
     }
     private void UpdateAllRemoveCardPrices()

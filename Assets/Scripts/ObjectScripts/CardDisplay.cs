@@ -98,14 +98,14 @@ public class CardDisplay : MonoBehaviour
     {
         Card card = cardInstance.card;
         float currentManaCost = card.CostFormula(cardInstance);
-        manaCostText.text = currentManaCost.ToString();
+        manaCostText.text = $"{currentManaCost:F2}";
     }
 
     private void UpdateGainValue()
     {
         Card card = cardInstance.card;
         float currentGainValue = card.RewardFormula(cardInstance);
-        gainValueText.text = currentGainValue.ToString();
+        gainValueText.text = $"{currentGainValue:F2}";
     }
 
     private void UpdateValueColors()

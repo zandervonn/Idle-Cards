@@ -13,6 +13,7 @@ public class GameState
     public int RemoveCost;
     public int BuyCost;
     public int DrawCost;
+    public int ResetCost;
     public long BankValue;
     public long LastPauseTimeTicks;
     public float MaxManaChangeCost;
@@ -73,6 +74,7 @@ public class SaveLoadManager : MonoBehaviour
         gameState.RemoveCost = gameManager.RemoveCost;
         gameState.BuyCost = gameManager.BuyCost;
         gameState.DrawCost = gameManager.DrawCost;
+        gameState.ResetCost = gameManager.ResetCost;
         gameState.BankValue = gameManager.BankValue;
         gameState.LastPauseTimeTicks = gameManager.LastPauseTime.Ticks;
         gameState.MaxManaChangeCost = gameManager.MaxManaChangeCost;
@@ -136,6 +138,7 @@ public class SaveLoadManager : MonoBehaviour
             gameManager.RemoveCost = gameState.RemoveCost;
             gameManager.BuyCost = gameState.BuyCost;
             gameManager.DrawCost = gameState.DrawCost;
+            gameManager.ResetCost = gameState.ResetCost;
             gameManager.BankValue = gameState.BankValue;
             gameManager.LastPauseTime = new DateTime(gameState.LastPauseTimeTicks);
             gameManager.MaxManaChangeCost = gameState.MaxManaChangeCost;

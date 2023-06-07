@@ -25,12 +25,12 @@ public class CardsList : MonoBehaviour
         cards.Add(ScriptableObject.CreateInstance<ManaResetCard>());
         cards.Add(ScriptableObject.CreateInstance<DrawCardsCard>());
         cards.Add(ScriptableObject.CreateInstance<ManaLeftCard>());
-        cards.Add(ScriptableObject.CreateInstance<MortgageCard>());
         cards.Add(ScriptableObject.CreateInstance<PanicModeCard>());
         cards.Add(ScriptableObject.CreateInstance<LottoCard>());
         cards.Add(ScriptableObject.CreateInstance<DuplicateCard>());
-        cards.Add(ScriptableObject.CreateInstance<ManaPauseCard>());
 
+        //cards.Add(ScriptableObject.CreateInstance<MortgageCard>());
+        //cards.Add(ScriptableObject.CreateInstance<ManaPauseCard>());
         ////cards.Add(ScriptableObject.CreateInstance<ToTheBankCard>());
         ////cards.Add(ScriptableObject.CreateInstance<ResetDrawCostCard>());
 
@@ -45,7 +45,8 @@ public class CardsList : MonoBehaviour
             artwork = null;
             startingLevel = 1;
             baseCardManaCost = 10;
-            rarity = 50;
+            rarity = 1;
+            stars = 1;
 
             CardCost = new ManaCardCost(
                 (cardInstance) => {
@@ -74,6 +75,7 @@ public class CardsList : MonoBehaviour
             startingLevel = 1;
             baseCardManaCost = 40;
             rarity = 1;
+            stars = 1;
 
             CardCost = new ManaCardCost(
                 (cardInstance) => {
@@ -88,7 +90,7 @@ public class CardsList : MonoBehaviour
                     GameManager gameManager = FindObjectOfType<GameManager>();
                     int startScore = gameManager.fieldScore;
                     float approachInf = (float)Math.Pow(1f + cardInstance.level / 100f, 3);
-                    float rarityAdd = 1 + (cardInstance.rarity) / 25;
+                    float rarityAdd = 1 + (cardInstance.rarity) / 100;
                     return startScore * approachInf * rarityAdd;
                 }
             );
@@ -105,6 +107,7 @@ public class CardsList : MonoBehaviour
             startingLevel = 1;
             baseCardManaCost = 0;
             rarity = 1;
+            stars = 1;
 
             CardCost = new ScoreCardCost(
                 (cardInstance) => {
@@ -136,6 +139,7 @@ public class CardsList : MonoBehaviour
             startingLevel = 1;
             baseCardManaCost = 30;
             rarity = 1;
+            stars = 2;
 
             CardCost = new ManaCardCost(
                 (cardInstance) => {
@@ -164,6 +168,7 @@ public class CardsList : MonoBehaviour
             startingLevel = 1;
             baseCardManaCost = 10;
             rarity = 1;
+            stars = 2;
 
             CardCost = new ManaCardCost(
                 (cardInstance) => {
@@ -195,6 +200,7 @@ public class CardsList : MonoBehaviour
             startingLevel = 1;
             baseCardManaCost = 10;
             rarity = 1;
+            stars = 2;
 
             CardCost = new ManaCardCost(
                 (cardInstance) =>
@@ -229,6 +235,7 @@ public class CardsList : MonoBehaviour
             startingLevel = 1;
             baseCardManaCost = 10;
             rarity = 1;
+            stars = 3;
 
             CardCost = new BankCardCost(
                 (cardInstance) => {
@@ -261,6 +268,7 @@ public class CardsList : MonoBehaviour
             startingLevel = 1;
             baseCardManaCost = 10;
             rarity = 1;
+            stars = 2;
 
             CardCost = new ManaCardCost(
                 (cardInstance) => {
@@ -293,6 +301,7 @@ public class CardsList : MonoBehaviour
             startingLevel = 1;
             baseCardManaCost = 10;
             rarity = 1;
+            stars = 2;
 
             CardCost = new ScoreCardCost(
                 (cardInstance) => {
@@ -332,6 +341,7 @@ public class CardsList : MonoBehaviour
             startingLevel = 1;
             baseCardManaCost = 10;
             rarity = 1;
+            stars = 3;
 
             CardCost = new ManaCardCost(
                 (cardInstance) => {
@@ -357,8 +367,9 @@ public class CardsList : MonoBehaviour
             description = "Get a copy of the next card played into your hand";
             artwork = null;
             startingLevel = 1;
-            baseCardManaCost = 10;
+            baseCardManaCost = 20;
             rarity = 1;
+            stars = 3;
 
             CardCost = new ManaCardCost(
                 (cardInstance) => {
@@ -391,6 +402,7 @@ public class CardsList : MonoBehaviour
             startingLevel = 1;
             baseCardManaCost = 0;
             rarity = 1;
+            stars = 2;
 
             CardCost = new ScoreCardCost(
                 (cardInstance) => {

@@ -66,13 +66,13 @@ public class updatescore : MonoBehaviour
     private void UpdateUserLevelText()
     {
         float level = gameManager.LevelMultiplier = gameManager.CalculateLevel();
-        userLevel.text = $"{level:F1}"; // Display level with 1 decimal place
+        userLevel.text = $"{level:F2}"; // Display level with 1 decimal place
     }
 
     private void UpdateUserMultiplierText()
     {
         float multiplier = gameManager.CurrentMultiplier;
-        currentMultiplier.text = $"{multiplier:F1}"; // Display level with 1 decimal place
+        currentMultiplier.text = $"{multiplier:F2}"; // Display level with 1 decimal place
     }
 
 }
