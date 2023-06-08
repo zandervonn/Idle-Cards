@@ -29,7 +29,7 @@ public class RetireButton : MonoBehaviour
 
         if (gameManager.CalculateLevel() < 0.01)
         {
-            popup.OpenDialog("Level must be over 0.01 to reset. \n Do you like this game?");
+            popup.OpenDialog("Level must be over 0.01 to reset. \nDo you like this game?");
             popup.OnYes += () =>
             {
                 gameManager.IncreaseBank(1);

@@ -41,7 +41,7 @@ public class CardsList : MonoBehaviour
         public BasicCard()
         {
             cardName = "The Basic";
-            description = "Increase score by fixed \n costs % of mana";
+            description = "Increase score by fixed \ncosts % of mana";
             artwork = null;
             startingLevel = 1;
             baseCardManaCost = 10;
@@ -58,8 +58,8 @@ public class CardsList : MonoBehaviour
 
             CardReward = new ScoreCardReward(
                 (cardInstance) => {
-                    float rarityAdd = cardInstance.rarity / 10;
-                    return 10f + (cardInstance.level * (5f + rarityAdd));
+                    float rarityAdd = cardInstance.rarity / 20;
+                    return 4f + (cardInstance.level * (5f + rarityAdd));
                 }
             );
         }
@@ -70,12 +70,12 @@ public class CardsList : MonoBehaviour
         public DoubleCard()
         {
             cardName = "Multiply";
-            description = "Multiply your score \n Fixed mana cost";
+            description = "Multiply your score \nFixed mana cost";
             artwork = null;
             startingLevel = 1;
             baseCardManaCost = 40;
             rarity = 1;
-            stars = 1;
+            stars = 2;
 
             CardCost = new ManaCardCost(
                 (cardInstance) => {
@@ -91,7 +91,7 @@ public class CardsList : MonoBehaviour
                     int startScore = gameManager.fieldScore;
                     float approachInf = (float)Math.Pow(1f + cardInstance.level / 100f, 3);
                     float rarityAdd = 1 + (cardInstance.rarity) / 100;
-                    return startScore * approachInf * rarityAdd;
+                    return (startScore * approachInf * rarityAdd) - 1;
                 }
             );
         }
@@ -102,12 +102,12 @@ public class CardsList : MonoBehaviour
         public ManaResetCard()
         {
             cardName = "Add Mana";
-            description = "Increase mana by % \n Costs fixed coins";
+            description = "Increase mana by % \nCosts fixed coins";
             artwork = null;
             startingLevel = 1;
             baseCardManaCost = 0;
             rarity = 1;
-            stars = 1;
+            stars = 2;
 
             CardCost = new ScoreCardCost(
                 (cardInstance) => {
@@ -134,12 +134,12 @@ public class CardsList : MonoBehaviour
         public DrawCardsCard()
         {
             cardName = "Draw Cards";
-            description = "Draw fixed cards \n Costs fixed mana";
+            description = "Draw fixed cards \nCosts fixed mana";
             artwork = null;
             startingLevel = 1;
             baseCardManaCost = 30;
             rarity = 1;
-            stars = 2;
+            stars = 3;
 
             CardCost = new ManaCardCost(
                 (cardInstance) => {
@@ -163,7 +163,7 @@ public class CardsList : MonoBehaviour
         public ManaLeftCard()
         {
             cardName = "Mana Left";
-            description = "Increase score exponential to mana \n Costs % of mana ";
+            description = "Increase score exponential to mana \nCosts % of mana ";
             artwork = null;
             startingLevel = 1;
             baseCardManaCost = 10;
@@ -195,12 +195,12 @@ public class CardsList : MonoBehaviour
         public ToTheBankCard()
         {
             cardName = "To the Bank";
-            description = "Add % of current score to bank \n Costs fixed mana ";
+            description = "Add % of current score to bank \nCosts fixed mana ";
             artwork = null;
             startingLevel = 1;
             baseCardManaCost = 10;
             rarity = 1;
-            stars = 2;
+            stars = 3;
 
             CardCost = new ManaCardCost(
                 (cardInstance) =>
@@ -230,12 +230,12 @@ public class CardsList : MonoBehaviour
         public MortgageCard()
         {
             cardName = "Mortgage";
-            description = "Add % of bank to hand \n Costs % of mana";
+            description = "Add % of bank to hand \nCosts % of mana";
             artwork = null;
             startingLevel = 1;
             baseCardManaCost = 10;
             rarity = 1;
-            stars = 3;
+            stars = 4;
 
             CardCost = new BankCardCost(
                 (cardInstance) => {
@@ -263,12 +263,12 @@ public class CardsList : MonoBehaviour
         public PanicModeCard()
         {
             cardName = "Panic Mode";
-            description = "The closer to 0 mana, the more score \n Costs % of mana";
+            description = "The closer to 0 mana, the more score \nCosts % of mana";
             artwork = null;
             startingLevel = 1;
             baseCardManaCost = 10;
             rarity = 1;
-            stars = 2;
+            stars = 3;
 
             CardCost = new ManaCardCost(
                 (cardInstance) => {
@@ -296,12 +296,12 @@ public class CardsList : MonoBehaviour
         public LottoCard()
         {
             cardName = "The gambler";
-            description = "High chance to increase coins by % \n Low chance to lose all coins";
+            description = "High chance to increase coins by % \nLow chance to lose all coins";
             artwork = null;
             startingLevel = 1;
             baseCardManaCost = 10;
             rarity = 1;
-            stars = 2;
+            stars = 3;
 
             CardCost = new ScoreCardCost(
                 (cardInstance) => {
@@ -336,12 +336,12 @@ public class CardsList : MonoBehaviour
         public ResetDrawCostCard()
         {
             cardName = "Reset Draw Cost";
-            description = "Draw card cost = 0 \n Costs % of mana";
+            description = "Draw card cost = 0 \nCosts % of mana";
             artwork = null;
             startingLevel = 1;
             baseCardManaCost = 10;
             rarity = 1;
-            stars = 3;
+            stars = 4;
 
             CardCost = new ManaCardCost(
                 (cardInstance) => {
@@ -369,7 +369,7 @@ public class CardsList : MonoBehaviour
             startingLevel = 1;
             baseCardManaCost = 20;
             rarity = 1;
-            stars = 3;
+            stars = 4;
 
             CardCost = new ManaCardCost(
                 (cardInstance) => {
@@ -397,12 +397,12 @@ public class CardsList : MonoBehaviour
         public ManaPauseCard()
         {
             cardName = "Pause mana";
-            description = "Pause mana decrease for time % \n Costs fixed coins";
+            description = "Pause mana decrease for time % \nCosts fixed coins";
             artwork = null;
             startingLevel = 1;
             baseCardManaCost = 0;
             rarity = 1;
-            stars = 2;
+            stars = 3;
 
             CardCost = new ScoreCardCost(
                 (cardInstance) => {

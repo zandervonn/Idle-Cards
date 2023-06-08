@@ -3032,8 +3032,9 @@ MonoBehaviour:
     multiplier. You can adjust max mana to balance play time and earning rate.\n\n-
     MULTIPLIER: Your multiplier can be increased by locking in your current level,
     resetting your game. \n\n-RESET: locks in your score, and resets mana bar, does
-    not pay out idle earnings\n\n-WEBSITE: \nAdditional information, contact details,
-    bug submission, Idea submissions, road map, buy me a coffee."
+    not pay out idle earnings\n\n-WEBSITE: \nhttps://sites.google.com/view/idledeckbuilder\nAdditional
+    information, contact details, bug submission, Idea submissions, road map, buy
+    me a coffee."
 --- !u!222 &901579519
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3633,12 +3634,6 @@ MonoBehaviour:
   dialogText: {fileID: 1394600706}
   yesButton: {fileID: 1370292788}
   noButton: {fileID: 733911100}
-  OnYes:
-    m_PersistentCalls:
-      m_Calls: []
-  OnNo:
-    m_PersistentCalls:
-      m_Calls: []
   result: 0
 --- !u!4 &1042335951
 Transform:
@@ -4053,7 +4048,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0.0
+  m_Text: 0.00
 --- !u!222 &1090615104
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4402,7 +4397,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0.1
+  m_Text: 0.10
 --- !u!222 &1179114602
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6798,7 +6793,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1736404590}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -220}
+  m_LocalPosition: {x: 0, y: 0, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6808,7 +6803,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 217.0907, y: -27.465937}
+  m_AnchoredPosition: {x: 192, y: -27.000002}
   m_SizeDelta: {x: 153.735, y: 54.9327}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1736404592
