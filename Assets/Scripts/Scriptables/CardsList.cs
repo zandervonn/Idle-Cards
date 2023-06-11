@@ -89,9 +89,9 @@ public class CardsList : MonoBehaviour
                 (cardInstance) => {
                     GameManager gameManager = FindObjectOfType<GameManager>();
                     int startScore = gameManager.fieldScore;
-                    float approachInf = (float)Math.Pow(1f + cardInstance.level / 100f, 3);
-                    float rarityAdd = 1 + (cardInstance.rarity) / 100;
-                    return (startScore * approachInf * rarityAdd) - 1;
+                    float approachInf = (float)Math.Pow(1f + cardInstance.level / 100f, 3) -1;
+                    float rarityAdd = cardInstance.rarity / 100;
+                    return startScore * approachInf * rarityAdd;
                 }
             );
         }

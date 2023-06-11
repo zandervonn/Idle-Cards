@@ -336,7 +336,7 @@ public class GameManager : MonoBehaviour {
         // Add the idle earnings to the score
         IncreaseBank(totalIdleEarnings);
 
-        ModalDialog.instance.OpenDialog("Your Idle earnings were $" + totalIdleEarnings + ", click yes (or no) to continue.");
+        ModalDialog.instance.OpenOKDialog("Your Idle earnings were $" + totalIdleEarnings + ", click yes (or no) to continue.");
 
         // Print the time away
         //Debug.Log("Time away: " + timeDifference + " seconds, Time per tick:" + timeToDepleteMana  + " Ticks: " + numberOfEarnings + ", idle earnings: " + totalIdleEarnings);

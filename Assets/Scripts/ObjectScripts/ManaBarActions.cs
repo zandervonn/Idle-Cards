@@ -9,7 +9,6 @@ public class ManaBarActions : MonoBehaviour
     public Text manaValueText;
     private float pauseEndTime = -1f;
     public Image manaBarImage;
-    public Outline manaBarOutline;
     public Color defaultColor;
     public Color pauseColor;
 
@@ -39,7 +38,6 @@ public class ManaBarActions : MonoBehaviour
 
             // Restore the color and outline
             manaBarImage.color = defaultColor;
-            manaBarOutline.enabled = true;
         }
     }
 
@@ -77,7 +75,6 @@ public class ManaBarActions : MonoBehaviour
 
         // Change the color and disable the outline
         manaBarImage.color = pauseColor;
-        manaBarOutline.enabled = false;
     }
 
 

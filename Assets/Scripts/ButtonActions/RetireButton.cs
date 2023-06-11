@@ -29,7 +29,7 @@ public class RetireButton : MonoBehaviour
 
         if (gameManager.CalculateLevel() < 0.01)
         {
-            popup.OpenDialog("Level must be over 0.01 to reset. \nDo you like this game?");
+            popup.OpenOKDialog("Level must be over 0.01 to reset");
             popup.OnYes += () =>
             {
                 gameManager.IncreaseBank(1);
@@ -38,7 +38,7 @@ public class RetireButton : MonoBehaviour
         }
         else
         {
-            popup.OpenDialog("Are you sure you want to lock in your multiplier of " + removeCost + " and reset all other progress?");
+            popup.OpenYesNoDialog("Are you sure you want to lock in your multiplier of " + removeCost + " and reset all other progress?");
             popup.OnYes += () =>
             {
                 gameManager.retire();

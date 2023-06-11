@@ -35,7 +35,7 @@ public class RemoveCardButton : MonoBehaviour, IPointerDownHandler
 
         popup.ClearListeners();
 
-        popup.OpenDialog("Are you sure you want to remove this card for $" + removeCost + "?");
+        popup.OpenYesNoDialog("Are you sure you want to remove this card for $" + removeCost + "?");
         popup.OnYes += () =>
         {
             if (gameManager.SpendBank(gameManager.RemoveCost))

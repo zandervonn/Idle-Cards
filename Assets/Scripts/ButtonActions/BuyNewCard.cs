@@ -37,27 +37,37 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
     public void BuyCard()
     {
         cardsList = FindObjectOfType<CardsList>();
+        ModalDialog popup = ModalDialog.instance;
 
-        if (gameManager.SpendBank(gameManager.BuyCost))
-            {
-            // Get a random card from the list of card types (cardsList.cards)
-            int cardIndex = GetRandomCardIndexWithWeight();
-            Card card = cardsList.cards[cardIndex];
+        popup.ClearListeners();
 
-            // Add the random card to the ownedCards list
-            gameManager.cardManager.AddNewOwnedCard(card);
-            gameManager.UpdateBuyCost();
-
-            // Update the deck display
-            DeckManager deckManager = FindObjectOfType<DeckManager>();
-            if (deckManager != null && deckManager.isDeckVisible)
-            {
-                deckManager.DisplayCards();
-            }
+        if(gameManager.BuyCost > gameManager.BankValue)
+        {
+            popup.OpenOKDialog("You cannot afford to buy a new card");
         }
         else
         {
-            Debug.LogWarning("Not enough bank value to buy a card.");
+            popup.OpenYesNoDialog("Are you sure you want to buy a card for $" + gameManager.BuyCost + "?");
+            popup.OnYes += () =>
+            {
+                if (gameManager.SpendBank(gameManager.BuyCost))
+                {
+                    // Get a random card from the list of card types (cardsList.cards)
+                    int cardIndex = GetRandomCardIndexWithWeight();
+                    Card card = cardsList.cards[cardIndex];
+
+                    // Add the random card to the ownedCards list
+                    gameManager.cardManager.AddNewOwnedCard(card);
+                    gameManager.UpdateBuyCost();
+
+                    // Update the deck display
+                    DeckManager deckManager = FindObjectOfType<DeckManager>();
+                    if (deckManager != null && deckManager.isDeckVisible)
+                    {
+                        deckManager.DisplayCards();
+                    }
+                }
+            };
         }
     }
 

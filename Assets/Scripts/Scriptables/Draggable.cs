@@ -96,8 +96,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         Vector3 direction = currentPosition - previousPosition;
         float speed = direction.magnitude / Time.deltaTime;
 
-        float velocityThreshold = 1f; // Adjust this value to control the minimum speed for tilt
-        float maxSpeed = 80f; // Adjust this value to control how fast the card needs to be dragged to reach maximum tilt
+        float velocityThreshold = 10f; // Adjust this value to control the minimum speed for tilt
+        float maxSpeed = 500f; // Adjust this value to control how fast the card needs to be dragged to reach maximum tilt
         float maxTiltAngle = 20f; // Adjust this value to control the maximum tilt angle
 
         if (speed < velocityThreshold)

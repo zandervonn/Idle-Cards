@@ -1,12 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
+//using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
 
 public class ModalDialog : MonoBehaviour
 {
     public GameObject dialogBox;
     public Text dialogText;
+    public GameObject yesButtonObj;
+    public GameObject noButtonObj;
+    public GameObject OKButtonObj;
     public Button yesButton;
     public Button noButton;
+    public Button OKButton;
     public bool result;
     public static ModalDialog instance;
 
@@ -14,6 +20,7 @@ public class ModalDialog : MonoBehaviour
     public delegate void DialogResponse();
     public event DialogResponse OnYes;
     public event DialogResponse OnNo;
+    public event DialogResponse OnOK;
 
     private void Awake()
     {
@@ -24,16 +31,25 @@ public class ModalDialog : MonoBehaviour
         }
 
         instance = this;
+
+        dialogBox.SetActive(false);
+        OKButtonObj.SetActive(false);
+        yesButtonObj.SetActive(false);
+        noButtonObj.SetActive(false);
     }
 
-    public void OpenDialog(string text)
+    public void OpenYesNoDialog(string text)
     {
         dialogText.text = text;
         dialogBox.SetActive(true);
+        yesButtonObj.SetActive(true);
+        noButtonObj.SetActive(true);
+        OKButtonObj.SetActive(false);
 
         // Clear previous listeners
         yesButton.onClick.RemoveAllListeners();
         noButton.onClick.RemoveAllListeners();
+        OKButton.onClick.RemoveAllListeners();
 
         yesButton.onClick.AddListener(() =>
         {
@@ -46,11 +62,33 @@ public class ModalDialog : MonoBehaviour
             OnNo?.Invoke();
             dialogBox.SetActive(false);
         });
+
+    }
+
+    public void OpenOKDialog(string text)
+    {
+        dialogText.text = text;
+        dialogBox.SetActive(true);
+        yesButtonObj.SetActive(false);
+        noButtonObj.SetActive(false);
+        OKButtonObj.SetActive(true);
+
+        // Clear previous listeners
+        yesButton.onClick.RemoveAllListeners();
+        noButton.onClick.RemoveAllListeners();
+        OKButton.onClick.RemoveAllListeners();
+
+        OKButton.onClick.AddListener(() =>
+        {
+            OnOK?.Invoke();
+            dialogBox.SetActive(false);
+        });
     }
 
     public void ClearListeners()
     {
         OnYes = null;
         OnNo = null;
+        OnOK = null;
     }
 }
