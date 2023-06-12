@@ -112,9 +112,9 @@ public class CardManager
         availableCards.Add(cardInstance);
     }
 
-    public void BuyNewOwnedCard(Card card)
+    public void BuyNewOwnedCard(Card card, float min, float max)
     {
-        int rarity = GetRandomRarityBetweenSliders();
+        int rarity = GetRandomRarityBetweenBounds((int)min, (int)max);
         CardInstance cardInstance = new CardInstance(card, this, 1, rarity);
         ownedCards.Add(cardInstance);
         availableCards.Add(cardInstance);
@@ -142,13 +142,10 @@ public class CardManager
         return (int)result;
     }
 
-    private int GetRandomRarityBetweenSliders()
+    private int GetRandomRarityBetweenBounds(int min, int max)
     {
-
         var randomizer = new System.Random();
         var randomDouble = randomizer.NextDouble();
-        int min = (int) sliderController.GetLowerBound();
-        int max = (int)sliderController.GetUpperBound();
         double probabilityPower = 3;
 
         var result = Math.Floor(min + (max + 1 - min) * (Math.Pow(randomDouble, probabilityPower)));

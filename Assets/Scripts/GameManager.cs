@@ -87,7 +87,6 @@ public class GameManager : MonoBehaviour {
         MaxManaChangeCost = 1.0f;
         TotalMoneyEarned = 0;
         ResetCost = 1;
-        DuplicateCard = false;
     }
 
     public void resetCards()
@@ -240,6 +239,7 @@ public class GameManager : MonoBehaviour {
         ResetScore();
         ResetMana();
         ResetDrawCost();
+        ResetCardEffects();
         manaBarActions.UpdateSliderMaxValue();
         manaBarActions.UpdateSlider();
     }
@@ -247,6 +247,11 @@ public class GameManager : MonoBehaviour {
     public void ResetScore()
     {
         fieldScore = 1; //something to multiply
+    }
+
+    public void ResetCardEffects()
+    {
+        DuplicateCard = false;
     }
 
     public void ResetDrawCost()

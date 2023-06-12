@@ -63,7 +63,8 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
                     Card card = cardsList.cards[cardIndex];
 
                     // Add the random card to the ownedCards list
-                    gameManager.cardManager.AddNewOwnedCard(card);
+                    SliderController sliderController = FindObjectOfType<SliderController>();
+                    gameManager.cardManager.BuyNewOwnedCard(card, sliderController.GetLowerBound(), sliderController.GetUpperBound());
                     gameManager.UpdateBuyCost();
 
                     // Update the deck display
