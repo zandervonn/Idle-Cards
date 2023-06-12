@@ -3,6 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class CardManager
 {
@@ -10,6 +14,7 @@ public class CardManager
     public List<CardInstance> availableCards;
     public List<CardInstance> ownedCards;
     private int startingCards = 4;
+    SliderController sliderController;
 
     // A dictionary to map card Name/type to card instances.
     private Dictionary<string, Card> cardIdToCardMap;
@@ -107,6 +112,14 @@ public class CardManager
         availableCards.Add(cardInstance);
     }
 
+    public void BuyNewOwnedCard(Card card)
+    {
+        int rarity = GetRandomRarityBetweenSliders();
+        CardInstance cardInstance = new CardInstance(card, this, 1, rarity);
+        ownedCards.Add(cardInstance);
+        availableCards.Add(cardInstance);
+    }
+
     public void ResetAvailableCards()
     {
         availableCards = new List<CardInstance>(ownedCards);
@@ -123,6 +136,19 @@ public class CardManager
         var randomDouble = randomizer.NextDouble();
         int min = 1;
         int max = 100;
+        double probabilityPower = 3;
+
+        var result = Math.Floor(min + (max + 1 - min) * (Math.Pow(randomDouble, probabilityPower)));
+        return (int)result;
+    }
+
+    private int GetRandomRarityBetweenSliders()
+    {
+
+        var randomizer = new System.Random();
+        var randomDouble = randomizer.NextDouble();
+        int min = (int) sliderController.GetLowerBound();
+        int max = (int)sliderController.GetUpperBound();
         double probabilityPower = 3;
 
         var result = Math.Floor(min + (max + 1 - min) * (Math.Pow(randomDouble, probabilityPower)));

@@ -143,15 +143,15 @@ public class CardDisplay : MonoBehaviour
         float rarityPercentage = (float)rarity / 100f;
         Color borderColor;
 
-        if (rarityPercentage < 0.3f)
+        if (rarityPercentage < 0.40f)
         {
             borderColor = Color.gray;
         }
-        else if (rarityPercentage < 0.5f)
+        else if (rarityPercentage < 0.67f)
         {
             borderColor = Color.green;
         }
-        else if (rarityPercentage < 0.80f)
+        else if (rarityPercentage < 0.87f)
         {
             borderColor = Color.blue;
         }

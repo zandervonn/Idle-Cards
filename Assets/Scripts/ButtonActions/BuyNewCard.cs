@@ -11,7 +11,8 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
 {
 
     private CardsList cardsList;
-    
+    private SliderController sliderController;
+
     public Text cardCostText;
     private GameManager gameManager;
 
@@ -19,14 +20,15 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
     {
         cardsList = FindObjectOfType<CardsList>();
         gameManager = GameManager.Instance;
-        cardCostText.text = "$" + gameManager.BuyCost;
+        sliderController = FindObjectOfType<SliderController>();
     }
 
 
     private void Update()
     {
         gameManager = GameManager.Instance;
-        cardCostText.text = "$" + gameManager.BuyCost;
+        int cost = (int)sliderController.costMultiplier * gameManager.BuyCost;
+        cardCostText.text = "$" + cost;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -37,20 +39,24 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
     public void BuyCard()
     {
         cardsList = FindObjectOfType<CardsList>();
+        
         ModalDialog popup = ModalDialog.instance;
+
+        sliderController = FindObjectOfType<SliderController>();
+        int cost = (int) sliderController.costMultiplier * gameManager.BuyCost;
 
         popup.ClearListeners();
 
-        if(gameManager.BuyCost > gameManager.BankValue)
+        if(cost > gameManager.BankValue)
         {
             popup.OpenOKDialog("You cannot afford to buy a new card");
         }
         else
         {
-            popup.OpenYesNoDialog("Are you sure you want to buy a card for $" + gameManager.BuyCost + "?");
+            popup.OpenYesNoDialog("Are you sure you want to buy a card for $" + cost + "?");
             popup.OnYes += () =>
             {
-                if (gameManager.SpendBank(gameManager.BuyCost))
+                if (gameManager.SpendBank(cost))
                 {
                     // Get a random card from the list of card types (cardsList.cards)
                     int cardIndex = GetRandomCardIndexWithWeight();

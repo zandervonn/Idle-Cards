@@ -66,11 +66,7 @@ public class RemoveCardButton : MonoBehaviour, IPointerDownHandler
                     }
                 }
             };
-
         }
-
-
-
     }
     private void UpdateAllRemoveCardPrices()
     {

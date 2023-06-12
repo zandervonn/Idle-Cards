@@ -10,6 +10,7 @@ public class DeckManager : MonoBehaviour, IPointerClickHandler
     public Transform cardGrid;
     public bool isDeckVisible { get; private set; }
     private GameManager gameManager;
+    private BuyNewCard buyNewCard;
 
     private void Start()
     {
@@ -18,7 +19,8 @@ public class DeckManager : MonoBehaviour, IPointerClickHandler
         {
             Debug.LogError("GameManager not found in the scene.");
         }
-        cardCollectionCanvas.SetActive(false);
+        isDeckVisible = false;
+        cardCollectionCanvas.SetActive(isDeckVisible);
     }
 
     public void OnPointerClick(PointerEventData eventData)

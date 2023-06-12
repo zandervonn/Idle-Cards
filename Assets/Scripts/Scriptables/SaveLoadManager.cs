@@ -81,7 +81,6 @@ public class SaveLoadManager : MonoBehaviour
         gameState.CurrentMana = gameManager.mana;
         gameState.Multiplier = gameManager.CurrentMultiplier;
 
-
         string json = JsonUtility.ToJson(gameState);
 
         //Debug.Log("Saved JSON: " + json);
@@ -144,8 +143,6 @@ public class SaveLoadManager : MonoBehaviour
             gameManager.MaxManaChangeCost = gameState.MaxManaChangeCost;
             gameManager.mana = gameState.CurrentMana;
             gameManager.CurrentMultiplier = gameState.Multiplier;
-
-
 
             gameManager.CalculateIdleEarnings();
         }
