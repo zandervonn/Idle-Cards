@@ -35,27 +35,41 @@ public class RemoveCardButton : MonoBehaviour, IPointerDownHandler
 
         popup.ClearListeners();
 
-        popup.OpenYesNoDialog("Are you sure you want to remove this card for $" + removeCost + "?");
-        popup.OnYes += () =>
+        if (gameManager.RemoveCost > gameManager.BankValue)
         {
-            if (gameManager.SpendBank(gameManager.RemoveCost))
+            popup.OpenOKDialog("You cannot afford to remove this card");
+        }
+        else if (gameManager.cardManager.availableCards.Count < 5)
+        {
+            popup.OpenOKDialog("You cannot remove anymore cards");
+        }
+        else {
+
+            popup.OpenYesNoDialog("Are you sure you want to remove this card for $" + removeCost + "?");
+            popup.OnYes += () =>
             {
-                cardDisplay.cardInstance.Remove();
-
-                // Update the remove card cost
-                gameManager.UpdateRemoveCost();
-
-                // Update remove card prices for all card instances
-                UpdateAllRemoveCardPrices();
-
-                // Update the deck display
-                DeckManager deckManager = FindObjectOfType<DeckManager>();
-                if (deckManager != null && deckManager.isDeckVisible)
+                if (gameManager.SpendBank(gameManager.RemoveCost))
                 {
-                    deckManager.DisplayCards();
+                    cardDisplay.cardInstance.Remove();
+
+                    // Update the remove card cost
+                    gameManager.UpdateRemoveCost();
+
+                    // Update remove card prices for all card instances
+                    UpdateAllRemoveCardPrices();
+
+                    // Update the deck display
+                    DeckManager deckManager = FindObjectOfType<DeckManager>();
+                    if (deckManager != null && deckManager.isDeckVisible)
+                    {
+                        deckManager.DisplayCards();
+                    }
                 }
-            }
-        };
+            };
+
+        }
+
+
 
     }
     private void UpdateAllRemoveCardPrices()

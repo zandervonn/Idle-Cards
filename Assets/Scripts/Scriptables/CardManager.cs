@@ -28,7 +28,7 @@ public class CardManager
         Card multiplyCard = GetCardByName("Multiply");
         AddNewOwnedCard(multiplyCard);
         Card addManaCard = GetCardByName("Add Mana");
-        AddNewOwnedCard(multiplyCard);
+        AddNewOwnedCard(addManaCard);
 
         // Initialize the ownedCards and availableCards lists with 4 random unique cards
         for (int i = 0; i <= startingCards - ownedCards.Count; i++)

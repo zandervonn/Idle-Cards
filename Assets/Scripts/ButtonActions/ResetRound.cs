@@ -8,6 +8,11 @@ public class ResetRound : MonoBehaviour, IPointerDownHandler {
     public Text resetCostText;
     public DrawCardButton drawCardButton;
 
+    public void Start()
+    {
+        UpdateResetPriceText();
+    }
+
     public void OnPointerDown(PointerEventData eventData) {
         GameManager gameManager = GameManager.Instance;
         if (gameManager.SpendBank((int)gameManager.ResetCost))
