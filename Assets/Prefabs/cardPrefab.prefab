@@ -729,7 +729,7 @@ MonoBehaviour:
   manaColor: {r: 0, g: 0.9960785, b: 0.9960785, a: 0}
   bankColor: {r: 0.8528302, g: 0.98080397, b: 1, a: 0}
   cardBorder: {fileID: 388642652525443443}
-  scoreSprite: {fileID: 21300000, guid: 9e7880b4e3c292d4fa1b63ae173b17ab, type: 3}
+  scoreSprite: {fileID: 21300000, guid: 22e08f7f934519a4291c875f1cf04772, type: 3}
   manaSprite: {fileID: 21300000, guid: 112d8d3d5d28f554ab5f9f5b3beee5b4, type: 3}
   bankSprite: {fileID: 21300000, guid: 49b636e421192bd42bc905cf39bf9867, type: 3}
   timeSprite: {fileID: 21300000, guid: aa0402f0e3c7a6d4797301ce578b8c1f, type: 3}

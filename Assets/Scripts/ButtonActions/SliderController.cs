@@ -37,7 +37,7 @@ public class SliderController : MonoBehaviour
 
     private float CalculateCostMultiplier(float x, float y)
     {
-        return (((2 * x + y) * (2 * x + y)) / 100) + 10; //(((2x + y) ^2)/100) + 10
+        return (((2 * x + y) * (2 * x + y)) / 1000) + 10; //(((2x + y) ^2)/100) + 10 // 100 > 1000
     }
 
     public float GetLowerBound()

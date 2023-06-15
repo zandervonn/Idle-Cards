@@ -45,6 +45,8 @@ public class CardManager
             }
         }
 
+        //AddTestingCards(); 
+
 
 
         // Initialize the dictionary.
@@ -110,6 +112,25 @@ public class CardManager
         CardInstance cardInstance = new CardInstance(card, this, 1, rarity);
         ownedCards.Add(cardInstance);
         availableCards.Add(cardInstance);
+    }
+
+    // for checking all card values
+    public void AddTestingCards()
+    {
+        for (int i = 0; i < cardTypes.Count; i++)
+        {
+            ownedCards.Add(new CardInstance(cardTypes[i], this, 1, 1));
+            ownedCards.Add(new CardInstance(cardTypes[i], this, 1, 30));
+            ownedCards.Add(new CardInstance(cardTypes[i], this, 1, 100));
+
+            ownedCards.Add(new CardInstance(cardTypes[i], this, 10, 1));
+            ownedCards.Add(new CardInstance(cardTypes[i], this, 10, 50));
+            ownedCards.Add(new CardInstance(cardTypes[i], this, 10, 100));
+
+            ownedCards.Add(new CardInstance(cardTypes[i], this, 100, 1));
+            ownedCards.Add(new CardInstance(cardTypes[i], this, 100, 80));
+            ownedCards.Add(new CardInstance(cardTypes[i], this, 100, 100));
+        }
     }
 
     public void BuyNewOwnedCard(Card card, float min, float max)

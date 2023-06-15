@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
     public float LevelMultiplier { get; set; }
     public int RemoveCost { get; set; }
     public int ResetCost { get; set; }
-    private int CardCostMultiplier = 2;
+    private float CardCostMultiplier = 1.6f; //4>3>2>1.6
     public int TotalMoneyEarned { get; set; }
     public float ManaLossRate { get; set; }
     public float MaxManaChangeCost { get; set; }
@@ -274,12 +274,12 @@ public class GameManager : MonoBehaviour {
 
     public void UpdateRemoveCost()
     {
-        RemoveCost *= CardCostMultiplier;
+        RemoveCost = (int) (RemoveCost * CardCostMultiplier);
     }
 
     public void UpdateBuyCost()
     {
-        BuyCost *= CardCostMultiplier;
+        BuyCost = (int)(BuyCost * CardCostMultiplier);
     }
 
     public void ChangeMaxMana(float amount)
@@ -339,7 +339,7 @@ public class GameManager : MonoBehaviour {
         // Add the idle earnings to the score
         IncreaseBank(totalIdleEarnings);
 
-        ModalDialog.instance.OpenOKDialog("Your Idle earnings were $" + totalIdleEarnings + ", click yes (or no) to continue.");
+        ModalDialog.instance.OpenOKDialog("Your idle earnings while away were $" + totalIdleEarnings );
 
         // Print the time away
         //Debug.Log("Time away: " + timeDifference + " seconds, Time per tick:" + timeToDepleteMana  + " Ticks: " + numberOfEarnings + ", idle earnings: " + totalIdleEarnings);

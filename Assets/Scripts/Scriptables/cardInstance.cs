@@ -45,9 +45,9 @@ public class CardInstance
 
     public void Upgrade()
     {
-        UpgradeCost = (int)(UpgradeCost * 1.5f * nextUpgradeExtra);
+        UpgradeCost = (int)(UpgradeCost * 1.2f * nextUpgradeExtra); //TODO, not being applied //1.5 > 1.2
         float tp =  timesPlayed / 20; // usage wear, the more times plyed the more expensive to upgrade
-        float rar = 1 - (rarity / 100);
+        float rar = 1 - (rarity / 100); //the more rare, the cheaper playing it is
         nextUpgradeExtra = 1 + (tp * rar);
 
         Debug.Log("____________________________");

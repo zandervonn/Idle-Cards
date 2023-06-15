@@ -39,7 +39,7 @@ public class RemoveCardButton : MonoBehaviour, IPointerDownHandler
         {
             popup.OpenOKDialog("You cannot afford to remove this card");
         }
-        else if (gameManager.cardManager.availableCards.Count < 5)
+        else if (gameManager.cardManager.ownedCards.Count < 5)
         {
             popup.OpenOKDialog("You cannot remove anymore cards");
         }
