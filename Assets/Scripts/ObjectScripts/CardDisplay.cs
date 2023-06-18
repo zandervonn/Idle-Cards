@@ -99,6 +99,10 @@ public class CardDisplay : MonoBehaviour
         Card card = cardInstance.card;
         float currentManaCost = card.CostFormula(cardInstance);
         manaCostText.text = $"{currentManaCost:F2}";
+        if (!card.IsAffordable(cardInstance, GameManager.Instance))
+        {
+            manaCostText.color = Color.red;
+        }
     }
 
     private void UpdateGainValue()

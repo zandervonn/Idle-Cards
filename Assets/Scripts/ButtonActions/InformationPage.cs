@@ -6,7 +6,7 @@ public class InformationPage : MonoBehaviour
     public GameObject informationPage;
     private Button myButton;
 
-    public bool isDeckVisible = false;
+    public bool isInformationVisible = false;
 
     private void Start()
     {
@@ -17,7 +17,7 @@ public class InformationPage : MonoBehaviour
 
     public void ToggleInformationPage() 
     {
-        isDeckVisible = !isDeckVisible;
-        informationPage.SetActive(isDeckVisible);
+        isInformationVisible = !isInformationVisible;
+        informationPage.SetActive(isInformationVisible);
     }
 }

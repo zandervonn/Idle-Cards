@@ -89,8 +89,8 @@ public class CardsList : MonoBehaviour
                 (cardInstance) => {
                     GameManager gameManager = FindObjectOfType<GameManager>();
                     int startScore = gameManager.fieldScore;
-                    float approachInf = (float)Math.Pow(1f + cardInstance.level / 60f, 2); //100 > 60 // 3>2
-                    float rarityAdd = 1 + cardInstance.rarity / 60; //100 > 60
+                    float approachInf = (float)Math.Pow(1f + (cardInstance.level / 130f), 2); //100 > 130 // 3>2
+                    float rarityAdd = 1 + (cardInstance.rarity / 60f); //100 > 60
                     return 0.5f * (startScore * approachInf * rarityAdd);
                 }
             );
@@ -114,8 +114,9 @@ public class CardsList : MonoBehaviour
                     GameManager gameManager = FindObjectOfType<GameManager>();
                     int startScore = gameManager.fieldScore;
                     float baseCost = 30f;
-                    float approachZero = 1f / (float)Math.Pow(1f + cardInstance.rarity / 100f, 3);
-                    return (float)(startScore * ((1f / 100f) * baseCost * approachZero));
+                    float approachZeroLvl = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, 3);
+                    float approachZeroRar = 1f / (float)Math.Pow(1f + cardInstance.rarity / 100f, 3);
+                    return (float)(startScore * baseCost * approachZeroRar * approachZeroLvl)/100f;
                 }
             );
 
@@ -323,7 +324,7 @@ public class CardsList : MonoBehaviour
                 (cardInstance) => {
                     GameManager gameManager = FindObjectOfType<GameManager>();
                     int startScore = gameManager.fieldScore;
-                    float approachInf = (float)Math.Pow(1f + cardInstance.level / 60f, 3);
+                    float approachInf = (float)Math.Pow(1f + cardInstance.level / 60f, 2); //3>2
                     //float rarityAdd = 1 + (cardInstance.rarity) / 30; //10>20>30
                     return startScore * approachInf; //* rarityAdd;
                 }

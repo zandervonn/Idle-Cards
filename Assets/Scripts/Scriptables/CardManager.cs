@@ -48,7 +48,6 @@ public class CardManager
         //AddTestingCards(); 
 
 
-
         // Initialize the dictionary.
         cardIdToCardMap = new Dictionary<string, Card>();
         foreach (Card card in cardTypes)
@@ -108,7 +107,14 @@ public class CardManager
 
     public void AddNewOwnedCard(Card card)
     {      
-        int rarity = GetRandomRarity();
+        CardInstance cardInstance = new CardInstance(card, this, 1, 1);
+        ownedCards.Add(cardInstance);
+        availableCards.Add(cardInstance);
+    }
+
+    public void BuyNewOwnedCard(Card card, float min, float max)
+    {
+        int rarity = GetRandomRarityBetweenBounds((int)min, (int)max);
         CardInstance cardInstance = new CardInstance(card, this, 1, rarity);
         ownedCards.Add(cardInstance);
         availableCards.Add(cardInstance);
@@ -131,14 +137,6 @@ public class CardManager
             ownedCards.Add(new CardInstance(cardTypes[i], this, 100, 80));
             ownedCards.Add(new CardInstance(cardTypes[i], this, 100, 100));
         }
-    }
-
-    public void BuyNewOwnedCard(Card card, float min, float max)
-    {
-        int rarity = GetRandomRarityBetweenBounds((int)min, (int)max);
-        CardInstance cardInstance = new CardInstance(card, this, 1, rarity);
-        ownedCards.Add(cardInstance);
-        availableCards.Add(cardInstance);
     }
 
     public void ResetAvailableCards()

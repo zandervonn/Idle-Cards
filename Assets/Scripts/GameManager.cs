@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour {
     public CardManager cardManager;
     public DrawCardButton drawCardButton;
     public SaveLoadManager saveLoadManager;
+    public InformationPage informationPage;
 
 
     private void Awake()
@@ -69,6 +70,8 @@ public class GameManager : MonoBehaviour {
         else
         {
             saveLoadManager.SaveGameState();
+            informationPage = FindObjectOfType<InformationPage>();
+            informationPage.ToggleInformationPage();
         }
         DrawCard drawCardComponent = FindObjectOfType<DrawCard>();
         drawCardComponent.DrawCards(3);

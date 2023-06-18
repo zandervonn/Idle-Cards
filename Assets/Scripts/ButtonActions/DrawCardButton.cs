@@ -39,6 +39,6 @@ public class DrawCardButton : MonoBehaviour, IPointerDownHandler {
 
     public void UpdateDeckRemaining()
     {
-        deckSizeText.text = GameManager.Instance.cardManager.availableCards.Count.ToString();
+        deckSizeText.text = GameManager.Instance.cardManager.availableCards.Count.ToString() + "/" + GameManager.Instance.cardManager.ownedCards.Count.ToString();
     }
 }
