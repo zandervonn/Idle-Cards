@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour {
     public int HighScore { get; set; }
     public int LastScore { get; set; }
     public long BankValue { get; set; }
-    public int BuyCost { get; set; }
+    public float BuyCost { get; set; }
     public int DrawCost { get; set; }
     public float CurrentMultiplier { get; set; }
     public float LevelMultiplier { get; set; }
@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour {
         fieldScore = 1;
         LastScore = 0;
         BankValue = 0;
-        BuyCost = 1;
+        BuyCost = 10;
         RemoveCost = 10;
         maxMana = 100;
         ManaLossRate = 2.5f;

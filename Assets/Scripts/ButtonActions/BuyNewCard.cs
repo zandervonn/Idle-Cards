@@ -1,11 +1,7 @@
 //15
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
-using UnityEngine.Events;
 
 public class BuyNewCard : MonoBehaviour, IPointerDownHandler
 {
@@ -27,7 +23,7 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
     private void Update()
     {
         gameManager = GameManager.Instance;
-        int cost = (int)sliderController.costMultiplier * gameManager.BuyCost;
+        int cost = (int)(sliderController.costMultiplier * gameManager.BuyCost);
         cardCostText.text = "$" + cost;
     }
 
@@ -43,7 +39,7 @@ public class BuyNewCard : MonoBehaviour, IPointerDownHandler
         ModalDialog popup = ModalDialog.instance;
 
         sliderController = FindObjectOfType<SliderController>();
-        int cost = (int) sliderController.costMultiplier * gameManager.BuyCost;
+        int cost = (int)(sliderController.costMultiplier * gameManager.BuyCost);
 
         popup.ClearListeners();
 

@@ -91,7 +91,9 @@ public class CardsList : MonoBehaviour
                     int startScore = gameManager.fieldScore;
                     float approachInf = (float)Math.Pow(1f + (cardInstance.level / 130f), 2); //100 > 130 // 3>2
                     float rarityAdd = 1 + (cardInstance.rarity / 60f); //100 > 60
-                    return 0.5f * (startScore * approachInf * rarityAdd);
+                    float val = 0.5f * (startScore * approachInf * rarityAdd);
+                    if (val < 1) val = 1;
+                    return val;
                 }
             );
         }
@@ -274,7 +276,6 @@ public class CardsList : MonoBehaviour
             CardCost = new ManaCardCost(
                 (cardInstance) => {
                     float baseCost = GameManager.Instance.mana * 0.5f;
-                    //float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, 3);
                     return (float)(baseCost);
                 }
             );
@@ -284,6 +285,7 @@ public class CardsList : MonoBehaviour
                 {
                     GameManager gameManager = FindObjectOfType<GameManager>();
                     float mana = gameManager.mana;
+                    if(mana < 1 ) mana = 1;
                     float approachInf = (float)Math.Pow(1f + cardInstance.level / 100f, 3);
                     float rarityAdd = 1 + (cardInstance.rarity) / 33; //25 > 33
                     return (int)(Math.Pow((10 / (mana + 1)), 2) * approachInf * rarityAdd) + 1;
@@ -325,7 +327,6 @@ public class CardsList : MonoBehaviour
                     GameManager gameManager = FindObjectOfType<GameManager>();
                     int startScore = gameManager.fieldScore;
                     float approachInf = (float)Math.Pow(1f + cardInstance.level / 60f, 2); //3>2
-                    //float rarityAdd = 1 + (cardInstance.rarity) / 30; //10>20>30
                     return startScore * approachInf; //* rarityAdd;
                 }
             );

@@ -26,6 +26,7 @@ public class CardDisplay : MonoBehaviour
     public Color scoreColor;
     public Color manaColor;
     public Color bankColor;
+    public Color gold;
 
     public Image cardBorder;
 
@@ -102,6 +103,9 @@ public class CardDisplay : MonoBehaviour
         if (!card.IsAffordable(cardInstance, GameManager.Instance))
         {
             manaCostText.color = Color.red;
+        } else
+        {
+            manaCostText.color = gold;
         }
     }
 

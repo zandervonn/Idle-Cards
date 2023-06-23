@@ -27,7 +27,13 @@ public class UpgradeCardButton : MonoBehaviour, IPointerDownHandler
         {
             cardDisplay.cardInstance.Upgrade();
             UpdateUpgradeCardPrice();
+        }else
+        {
+            ModalDialog popup = ModalDialog.instance;
+            popup.ClearListeners();
+            popup.OpenOKDialog("You cannot afford to upgrade this card");
         }
+
 
         // Update the deck display
         DeckManager deckManager = FindObjectOfType<DeckManager>();

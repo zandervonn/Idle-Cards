@@ -11,7 +11,7 @@ public class GameState
     public float maxMana;
     public int TotalMoneyEarned;
     public int RemoveCost;
-    public int BuyCost;
+    public float BuyCost;
     public int DrawCost;
     public int ResetCost;
     public long BankValue;

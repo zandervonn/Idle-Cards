@@ -11,13 +11,9 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     private DrawCard drawCard;
     private Card _cardComponent;
 
-    //public GameObject cardShadow;
-    private Vector2 _lastPosition;
     private Vector3 dragStartPosition;
     private Quaternion dragStartRotation;
-    private float _dragSpeed;
     private Vector3 previousPosition;
-    private Quaternion currentTiltRotation;
     private Quaternion targetTiltRotation;
     private int originalIndex;
 
@@ -77,7 +73,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         rectTransform.pivot = new Vector2(0.5f, 0f);
         rectTransform.localScale = new Vector3(scaleOnPickup, scaleOnPickup, 1f);
 
-
         dragStartPosition = eventData.position;
         dragStartRotation = transform.localRotation;
 
@@ -98,7 +93,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         float velocityThreshold = 10f; // Adjust this value to control the minimum speed for tilt
         float maxSpeed = 500f; // Adjust this value to control how fast the card needs to be dragged to reach maximum tilt
-        float maxTiltAngle = 20f; // Adjust this value to control the maximum tilt angle
+        float maxTiltAngle = 30f; // Adjust this value to control the maximum tilt angle
 
         if (speed < velocityThreshold)
         {
@@ -172,7 +167,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             this.transform.SetSiblingIndex(originalIndex);
             Debug.Log("Card not playable");
         }
-        //}
 
         GetComponent<CanvasGroup>().blocksRaycasts = true;
 
