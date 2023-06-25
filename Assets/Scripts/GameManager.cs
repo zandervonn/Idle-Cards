@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour {
 
     public float CalculateLevel()
     {
-        float level = Mathf.Pow(2, Mathf.Log(TotalMoneyEarned) / Mathf.Log(5)) / 100000;
+        float level = Mathf.Pow(2, Mathf.Log(TotalMoneyEarned) / Mathf.Log(5)) / 30000; //100,000 > 30,000
         if (level > 1)
         {
             return 1;
@@ -216,8 +216,6 @@ public class GameManager : MonoBehaviour {
             return false;
         }
     }
-
-    private float lastDepletionTime;
 
     public void OnManaDepleted()
     {
@@ -343,9 +341,6 @@ public class GameManager : MonoBehaviour {
         IncreaseBank(totalIdleEarnings);
 
         ModalDialog.instance.OpenOKDialog("Your idle earnings while away were $" + totalIdleEarnings );
-
-        // Print the time away
-        //Debug.Log("Time away: " + timeDifference + " seconds, Time per tick:" + timeToDepleteMana  + " Ticks: " + numberOfEarnings + ", idle earnings: " + totalIdleEarnings);
     }
     public void retire()
     {

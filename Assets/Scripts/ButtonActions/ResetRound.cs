@@ -25,7 +25,7 @@ public class ResetRound : MonoBehaviour, IPointerDownHandler {
     public void UpdateResetPriceText()
     {
         GameManager gameManager = GameManager.Instance;
-        gameManager.ResetCost = (int) ((gameManager.TotalMoneyEarned * 0.05f) + 1f);
+        gameManager.ResetCost = (int) ((gameManager.TotalMoneyEarned * 0.025f) + 1f);
         resetCostText.text = "$" +  (gameManager.ResetCost).ToString("F0");
     }
 }

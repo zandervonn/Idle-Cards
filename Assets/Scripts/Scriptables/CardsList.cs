@@ -51,7 +51,7 @@ public class CardsList : MonoBehaviour
             CardCost = new ManaCardCost(
                 (cardInstance) => {
                     float baseCost = 10f + (GameManager.Instance.mana * 0.4f);
-                    float approachZero = 1f / (float)Math.Pow(1f + cardInstance.level / 100f, 3);
+                    float approachZero = 1f / (float)Math.Pow(1f + (cardInstance.level + (cardInstance.rarity/3)) / 100f, 3);
                     return (float)(baseCost * approachZero);
                 }
             );
@@ -104,7 +104,7 @@ public class CardsList : MonoBehaviour
         public ManaResetCard()
         {
             cardName = "Add Mana";
-            description = "Increase mana by % \nCosts fixed coins";
+            description = "Increase mana by fixed amount \nCosts % of coins";
             artwork = null;
             startingLevel = 1;
             baseCardManaCost = 0;
@@ -299,7 +299,7 @@ public class CardsList : MonoBehaviour
         public LottoCard()
         {
             cardName = "The gambler";
-            description = "High chance to increase coins by % \nLow chance to lose all coins";
+            description = "High chance to increase coins by % \nLow chance to lose all coins (as seen by rate of cost flickering)";
             artwork = null;
             startingLevel = 1;
             baseCardManaCost = 10;

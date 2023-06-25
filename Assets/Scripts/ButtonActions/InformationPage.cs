@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI;  // Required for Button
+using UnityEngine.UI;
 
 public class InformationPage : MonoBehaviour
 {

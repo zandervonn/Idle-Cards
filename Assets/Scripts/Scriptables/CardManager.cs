@@ -1,12 +1,6 @@
 //12
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
-using UnityEngine.Events;
 
 public class CardManager
 {
@@ -25,28 +19,27 @@ public class CardManager
         ownedCards = new List<CardInstance>();
         availableCards = new List<CardInstance>();
 
-        // Create a temporary copy of the cardTypes list for pulling out unique cards
-        List<Card> tempCardTypes = new List<Card>(cardTypes);
+        //// Create a temporary copy of the cardTypes list for pulling out unique cards
+        //List<Card> tempCardTypes = new List<Card>(cardTypes);
 
-        Card basicCard = GetCardByName("The Basic");
-        AddNewOwnedCard(basicCard);
-        Card multiplyCard = GetCardByName("Multiply");
-        AddNewOwnedCard(multiplyCard);
-        Card addManaCard = GetCardByName("Add Mana");
-        AddNewOwnedCard(addManaCard);
+        //Card basicCard = GetCardByName("The Basic");
+        //AddNewOwnedCard(basicCard);
+        //Card multiplyCard = GetCardByName("Multiply");
+        //AddNewOwnedCard(multiplyCard);
+        //Card addManaCard = GetCardByName("Add Mana");
+        //AddNewOwnedCard(addManaCard);
 
-        // Initialize the ownedCards and availableCards lists with 4 random unique cards
-        for (int i = 0; i <= startingCards - ownedCards.Count; i++)
-        {
-            Card randomCard = GetRandomCard(tempCardTypes);
-            if (randomCard != null)
-            {
-                AddNewOwnedCard(randomCard);
-            }
-        }
+        //// Initialize the ownedCards and availableCards lists with 4 random unique cards
+        //for (int i = 0; i <= startingCards - ownedCards.Count; i++)
+        //{
+        //    Card randomCard = GetRandomCard(tempCardTypes);
+        //    if (randomCard != null)
+        //    {
+        //        AddNewOwnedCard(randomCard);
+        //    }
+        //}
 
-        //AddTestingCards(); 
-
+        AddTestingCards(); 
 
         // Initialize the dictionary.
         cardIdToCardMap = new Dictionary<string, Card>();

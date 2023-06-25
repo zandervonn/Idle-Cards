@@ -1,6 +1,5 @@
 //9
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class DeckManager : MonoBehaviour, IPointerClickHandler
