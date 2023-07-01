@@ -43,8 +43,9 @@ public class CardDisplay : MonoBehaviour
             return;
         }
 
+
         cardName.text = card.cardName;
-        cardDescription.text = card.description;
+        cardDescription.text = card.descriptionFunc(cardInstance);
         cardLevel.text = cardInstance.level.ToString("F0");
 
         // Disable or enable Raycast Targets based on the visibility of the upgrade panel
@@ -89,6 +90,10 @@ public class CardDisplay : MonoBehaviour
             UpdateManaCost();
             UpdateGainValue();
         }
+        if (updateTimer >= updateInterval*100)
+        {
+            UpdateDescription();
+        }
     }
 
     private void UpdateManaCost()
@@ -103,6 +108,12 @@ public class CardDisplay : MonoBehaviour
         {
             manaCostText.color = gold;
         }
+    }
+
+    private void UpdateDescription()
+    {
+        Card card = cardInstance.card;
+        cardDescription.text = card.descriptionFunc(cardInstance);
     }
 
     private void UpdateGainValue()

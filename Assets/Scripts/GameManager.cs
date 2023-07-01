@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
     public float LevelMultiplier { get; set; }
     public int RemoveCost { get; set; }
     public int ResetCost { get; set; }
-    private float CardCostMultiplier = 1.6f; //4>3>2>1.6
+    private float CardCostMultiplier = 1.75f; //4>3>2>1.6>1.75
     public int TotalMoneyEarned { get; set; }
     public float ManaLossRate { get; set; }
     public float MaxManaChangeCost { get; set; }

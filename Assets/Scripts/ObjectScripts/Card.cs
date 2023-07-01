@@ -1,4 +1,5 @@
 //2
+using System;
 using UnityEngine;
 
 public abstract class Card : ScriptableObject
@@ -10,6 +11,8 @@ public abstract class Card : ScriptableObject
     public int baseCardManaCost;
     public int rarity;
     public int stars;
+
+    public Func<CardInstance, string> descriptionFunc;
 
     public ICardCost CardCost { get; set; }
     public ICardReward CardReward { get; set; }

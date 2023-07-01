@@ -19,14 +19,13 @@ public class CardManager
         ownedCards = new List<CardInstance>();
         availableCards = new List<CardInstance>();
 
-        //// Create a temporary copy of the cardTypes list for pulling out unique cards
+        // Create a temporary copy of the cardTypes list for pulling out unique cards
         //List<Card> tempCardTypes = new List<Card>(cardTypes);
 
-        //Card basicCard = GetCardByName("The Basic");
-        //AddNewOwnedCard(basicCard);
-        //Card multiplyCard = GetCardByName("Multiply");
-        //AddNewOwnedCard(multiplyCard);
-        //Card addManaCard = GetCardByName("Add Mana");
+        //Card addManaCard = GetCardByName("The Gambler");
+        //AddNewOwnedCard(addManaCard);
+        //AddNewOwnedCard(addManaCard);
+        //AddNewOwnedCard(addManaCard);
         //AddNewOwnedCard(addManaCard);
 
         //// Initialize the ownedCards and availableCards lists with 4 random unique cards
@@ -39,7 +38,7 @@ public class CardManager
         //    }
         //}
 
-        AddTestingCards(); 
+        AddTestingCards();
 
         // Initialize the dictionary.
         cardIdToCardMap = new Dictionary<string, Card>();
