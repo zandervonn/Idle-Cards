@@ -53,6 +53,10 @@ public class CardsList : MonoBehaviour
                 string manaCostString = manaCost.ToString("F2");
                 string rewardString = reward.ToString("F0");
 
+                string color = "00C6D9";
+                string coloredManaCost = $"<color={color}>{manaCostString}</color>";
+                string coloredReward = $"<color={color}>{rewardString}</color>";
+
                 return $"Add fixed {rewardString} coins\nCosts {manaCostString}% of mana";
             };
 
@@ -247,11 +251,11 @@ public class CardsList : MonoBehaviour
 
             descriptionFunc = (cardInstance) => {
                 float manaCost = ManaLeftCostFormula(cardInstance.level, 100);
-                float reward = ManaLeftRewardFormula(cardInstance.level, cardInstance.rarity, 100);
+                float reward = ManaLeftRewardFormula(cardInstance.level, cardInstance.rarity, GameManager.Instance.maxMana);
                 string manaCostString = manaCost.ToString("F2");
                 string rewardString = reward.ToString("F0");
 
-                return $"Increase score exponential to mana (100 mana = {rewardString} coins)\nCosts {manaCostString}% of mana";
+                return $"Increase score exponential to mana, up to {rewardString} coins)\nCosts {manaCostString}% of mana";
             };
 
             CardCost = new ManaCardCost(
