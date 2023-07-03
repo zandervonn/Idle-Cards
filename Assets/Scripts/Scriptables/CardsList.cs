@@ -33,7 +33,6 @@ public class CardsList : MonoBehaviour
         //cards.Add(ScriptableObject.CreateInstance<ManaPauseCard>());
         ////cards.Add(ScriptableObject.CreateInstance<ToTheBankCard>());
         ////cards.Add(ScriptableObject.CreateInstance<ResetDrawCostCard>());
-
     }
 
     public class BasicCard : Card
@@ -99,7 +98,7 @@ public class CardsList : MonoBehaviour
 
             descriptionFunc = (cardInstance) => {
                 float manaCost = MultiplyCostFormula(cardInstance.level);
-                float reward = MultiplyRewardFormula(cardInstance.level, cardInstance.rarity, 1);
+                float reward = 1 + MultiplyRewardFormula(cardInstance.level, cardInstance.rarity, 1);
                 string manaCostString = manaCost.ToString("F2");
                 string rewardString = reward.ToString("F2");
 
@@ -125,7 +124,6 @@ public class CardsList : MonoBehaviour
             float approachInf = (float)Math.Pow(1f + (level / 130f), 2); //100 > 130 // 3>2
             float rarityAdd = 1 + (rarity / 80f); //100 > 60 > 80
             float val = 0.5f * (score * approachInf * rarityAdd);
-            if (val < 1) val = 1;
             return val;
         }
 
@@ -155,7 +153,7 @@ public class CardsList : MonoBehaviour
                 string manaCostString = manaCost.ToString("F0");
                 string rewardString = reward.ToString("F2");
 
-                return $"Get {rewardString} mana\n Costs {manaCostString}% of coins";
+                return $"Get {rewardString} mana\nCosts {manaCostString}% of coins";
             };
 
             CardCost = new ScoreCardCost(
@@ -253,7 +251,7 @@ public class CardsList : MonoBehaviour
                 string manaCostString = manaCost.ToString("F2");
                 string rewardString = reward.ToString("F0");
 
-                return $"Increase score exponential to mana (100 mana = {rewardString} coins)\n Costs {manaCostString}% of mana";
+                return $"Increase score exponential to mana (100 mana = {rewardString} coins)\nCosts {manaCostString}% of mana";
             };
 
             CardCost = new ManaCardCost(

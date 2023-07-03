@@ -22,11 +22,13 @@ public class CardManager
         //Create a temporary copy of the cardTypes list for pulling out unique cards
         List < Card > tempCardTypes = new List<Card>(cardTypes);
 
-        Card addManaCard = GetCardByName("The Gambler");
+        Card basicCard = GetCardByName("The Basic");
+        AddNewOwnedCard(basicCard);
+        Card multiplyCard = GetCardByName("Multiply");
+        AddNewOwnedCard(multiplyCard);
+        Card addManaCard = GetCardByName("Add Mana");
         AddNewOwnedCard(addManaCard);
-        AddNewOwnedCard(addManaCard);
-        AddNewOwnedCard(addManaCard);
-        AddNewOwnedCard(addManaCard);
+
 
         // Initialize the ownedCards and availableCards lists with 4 random unique cards
         for (int i = 0; i <= startingCards - ownedCards.Count; i++)
