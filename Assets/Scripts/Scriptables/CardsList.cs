@@ -53,10 +53,6 @@ public class CardsList : MonoBehaviour
                 string manaCostString = manaCost.ToString("F2");
                 string rewardString = reward.ToString("F0");
 
-                string color = "00C6D9";
-                string coloredManaCost = $"<color={color}>{manaCostString}</color>";
-                string coloredReward = $"<color={color}>{rewardString}</color>";
-
                 return $"Add fixed {rewardString} coins\nCosts {manaCostString}% of mana";
             };
 
