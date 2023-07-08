@@ -13,7 +13,7 @@ public class GameState
     public int RemoveCost;
     public float BuyCost;
     public int DrawCost;
-    public int ResetCost;
+    public float ResetCost;
     public long BankValue;
     public long LastPauseTimeTicks;
     public float MaxManaChangeCost;

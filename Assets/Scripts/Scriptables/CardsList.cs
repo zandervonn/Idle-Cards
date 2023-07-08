@@ -411,7 +411,7 @@ public class CardsList : MonoBehaviour
             startingLevel = 1;
             baseCardManaCost = 10;
             rarity = 1;
-            stars = 3;
+            stars = 4;
 
             descriptionFunc = (cardInstance) => {
                 float manaCost = LottoOddsFormula(cardInstance.level, cardInstance.rarity);

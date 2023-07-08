@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
     public float CurrentMultiplier { get; set; }
     public float LevelMultiplier { get; set; }
     public int RemoveCost { get; set; }
-    public int ResetCost { get; set; }
+    public float ResetCost { get; set; }
     private float CardCostMultiplier = 1.75f; //4>3>2>1.6>1.75
     public int TotalMoneyEarned { get; set; }
     public float ManaLossRate { get; set; }
@@ -79,16 +79,16 @@ public class GameManager : MonoBehaviour {
     }
     public void resetValues()
     {
-        HighScore = 0;
+        HighScore = 12566;
         fieldScore = 1;
-        LastScore = 0;
-        BankValue = 0;
+        LastScore = 1020;
+        BankValue = 1000000;
         BuyCost = 10;
         RemoveCost = 10;
         maxMana = 100;
         ManaLossRate = 2.5f;
         MaxManaChangeCost = 1.0f;
-        TotalMoneyEarned = 0;
+        TotalMoneyEarned = 1000000;
         ResetCost = 1;
     }
 
