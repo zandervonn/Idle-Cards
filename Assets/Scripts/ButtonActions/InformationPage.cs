@@ -20,4 +20,10 @@ public class InformationPage : MonoBehaviour
         isInformationVisible = !isInformationVisible;
         informationPage.SetActive(isInformationVisible);
     }
+
+    public void CloseInformationPage()
+    {
+        isInformationVisible = !isInformationVisible;
+        informationPage.SetActive(false);
+    }
 }

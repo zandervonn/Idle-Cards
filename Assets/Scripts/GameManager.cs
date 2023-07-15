@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour {
     public DrawCardButton drawCardButton;
     public SaveLoadManager saveLoadManager;
     public InformationPage informationPage;
+    public TutorialManager tutorialManager;
 
 
     private void Awake()
@@ -67,11 +68,13 @@ public class GameManager : MonoBehaviour {
         {
             saveLoadManager.LoadGameState();
         }
-        else
+        else //if its the first time running the game
         {
             saveLoadManager.SaveGameState();
             informationPage = FindObjectOfType<InformationPage>();
             informationPage.ToggleInformationPage();
+            tutorialManager = FindObjectOfType<TutorialManager>();
+            tutorialManager.runTutorial();
         }
         DrawCard drawCardComponent = FindObjectOfType<DrawCard>();
         drawCardComponent.DrawCards(3);

@@ -598,12 +598,10 @@ GameObject:
   - component: {fileID: 3415695175769684102}
   - component: {fileID: 3415695175769684122}
   - component: {fileID: 811202336770231476}
-  - component: {fileID: 8380057377948268414}
-  - component: {fileID: -3462345475206245205}
   - component: {fileID: 7258577248056027286}
   - component: {fileID: 7606087622785760654}
   m_Layer: 0
-  m_Name: cardPrefab
+  m_Name: cardPrefabTut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -651,67 +649,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &8380057377948268414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3415695175769684101}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3eb4a2b50e41a7f40861a4a8e039cc50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cardImage: {fileID: 0}
-  cardName: {fileID: 3415695175515158998}
-  cardDescription: {fileID: 3415695176328340484}
-  cardMana: {fileID: 8590545865293543122}
-  upgradePanel: {fileID: 5420766707594526969}
-  mainCardBits: {fileID: 5028286913320921835}
-  cardInstance:
-    card: {fileID: 0}
-    level: 0
-    timesPlayed: 0
-    nextUpgradeExtra: 0
-    rarity: 0
-  cardLevel: {fileID: 1000573014491711905}
-  manaCostText: {fileID: 8590545865293543122}
-  gainValueText: {fileID: 8528852934636591993}
-  costImage: {fileID: 7307801898231791647}
-  rewardImage: {fileID: 5594134350998300478}
-  scoreColor: {r: 1, g: 0.9074214, b: 0.30566037, a: 0}
-  manaColor: {r: 0, g: 0.9960785, b: 0.9960785, a: 0}
-  bankColor: {r: 0.8528302, g: 0.98080397, b: 1, a: 0}
-  gold: {r: 0.96470594, g: 0.8745099, b: 0.5411765, a: 1}
-  cardBorder: {fileID: 388642652525443443}
-  scoreSprite: {fileID: 21300000, guid: 22e08f7f934519a4291c875f1cf04772, type: 3}
-  manaSprite: {fileID: 21300000, guid: 112d8d3d5d28f554ab5f9f5b3beee5b4, type: 3}
-  bankSprite: {fileID: 21300000, guid: 49b636e421192bd42bc905cf39bf9867, type: 3}
-  timeSprite: {fileID: 21300000, guid: aa0402f0e3c7a6d4797301ce578b8c1f, type: 3}
-  cardSprite: {fileID: 21300000, guid: 6ec3377e2a3b2f54bba392112b45e209, type: 3}
---- !u!114 &-3462345475206245205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3415695175769684101}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8374cbc214b64498027d5fea9d1816, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentToReturnTo: {fileID: 3415695175769684102}
-  playable: 0
-  cardDie: {fileID: 5643904532950758453, guid: 432c80bc57b1b1f43b788c3fba962759, type: 3}
-  cardDisplay: {fileID: 0}
-  cardInstance:
-    card: {fileID: 0}
-    level: 0
-    timesPlayed: 0
-    nextUpgradeExtra: 0
-    rarity: 0
 --- !u!23 &7258577248056027286
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1582,7 +1519,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2264378757439827674
 RectTransform:
   m_ObjectHideFlags: 0

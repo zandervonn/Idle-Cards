@@ -1,6 +1,8 @@
 ﻿//4
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -70,12 +72,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
 
         // Scale the card up and set the pivot to the bottom-middle
         RectTransform rectTransform = GetComponent<RectTransform>();
-        rectTransform.pivot = new Vector2(0.5f, 0f);
         rectTransform.localScale = new Vector3(scaleOnPickup, scaleOnPickup, 1f);
+        rectTransform.pivot = new Vector2(0.5f, 0f);
 
         dragStartPosition = eventData.position;
         dragStartRotation = transform.localRotation;
-
         previousPosition = transform.position;
 
         DrawCard.Instance.UpdateHand();
@@ -87,12 +88,14 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         beingDragged = true;
         // Check if the deck is open before allowing the card to be dragged
         if (deckManager.isDeckVisible) { return; }
-        Vector3 currentPosition = eventData.position;
-        Vector3 direction = currentPosition - previousPosition;
-        float speed = direction.magnitude / Time.deltaTime;
 
-        float velocityThreshold = 10f; // Adjust this value to control the minimum speed for tilt
-        float maxSpeed = 500f; // Adjust this value to control how fast the card needs to be dragged to reach maximum tilt
+        Vector3 currentPosition = new Vector3(eventData.position.x, eventData.position.y, -100);
+
+        Vector3 direction = currentPosition - previousPosition;
+        float speed = (direction.magnitude / Time.deltaTime);
+
+        float velocityThreshold = 500f; // Adjust this value to control the minimum speed for tilt
+        float maxSpeed = 2000f; // Adjust this value to control how fast the card needs to be dragged to reach maximum tilt
         float maxTiltAngle = 30f; // Adjust this value to control the maximum tilt angle
 
         if (speed < velocityThreshold)
@@ -115,12 +118,11 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         }
 
         // Update the card position
-        this.transform.position = currentPosition;
+        this.transform.position = Camera.main.ScreenToWorldPoint(currentPosition);
 
         // Update the previous position for the next frame
         previousPosition = currentPosition;
     }
-
 
     public void OnEndDrag(PointerEventData eventData)
     {
